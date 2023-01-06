@@ -15,7 +15,7 @@
 				type="password"
 				name="user_pass"
 			/>
-			<div class="error-box">
+			<div class="error-box" data-key="user_pass">
 				<div class="error-msg"></div>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 				type="password"
 				name="user_pass2"
 			/>
-			<div class="error-box">
+			<div class="error-box" data-key="user_pass2">
 				<div class="error-msg"></div>
 			</div>
 		</div>

@@ -1,3 +1,7 @@
+const defaultMail = {
+    mail_title: '안녕하세요 에이테크입니다.',
+}
+
 let areaListTable = new CommonFrame({
     frame_position: $('.table_area'),
     frame_url: '/common/include/frame/areaTable.jsp',
@@ -32,11 +36,10 @@ let modal = new CommonFrame({
 });
 
 Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
-    let listTable;
-    let page = null;
     let to = '';
     let question_id = '';
     const $modal = modal.props.frame_position.find('.modal');
+    const eGridDiv = $('.table_area .grid-wrap .ag-theme-alpine');
     const $selected_solution = $modal.find('.selected-solution');
     const $form = $modal.find('form.form-box.form-box2');
     const $status_option = $('.status-option');
@@ -45,56 +48,33 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     const $btn_submit = $modal.find('.btn-modal-submit .mail-submit');
     const $btn_close = $modal.find('.btn-modal-submit .close');
 
-    listTable = new Tabulator ('.table_area .list_table', {
-        height:700,
-        layout:'fitColumns',
-        pagination: "remote",
-        paginationSize:25,
-        ajaxSorting: true,
-        placeholder:"조회된 데이터가 없습니다.",
-        index: "USER_ID",
-        cellHozAlign: 'center',
-
-        columns: [
-            { title: "소속", field:"belong", headerSort:false,filter: false},
-            { title: "성함", field: "name", headerSort:false,filter: false},
-            { title: "직책", field: "position", headerSort:false,filter: false},
-            { title: "전화번호", field: "tel", headerSort:false,filter: false},
-            { title: "신청 솔루션", field: "solution_name", headerSort:false,filter: false},
-            { title: "상태", field: "res_yn", headerSort:false,filter: false},
+    // grit 테이블 설정
+    const gridOptions = {
+        columnDefs: [
+            { field: "belong", headerName: "소속", flex: 1, filter: false },
+            { field: "name", headerName: "성함", flex: 1, filter: false },
+            { field: "position", headerName: "직책", flex: 1, filter: false },
+            { field: "tel", headerName: "전화번호", flex: 1, filter: false },
+            { field: "solution_name", headerName: "신청 솔루션", flex: 1, filter: false },
+            { field: "res_yn", headerName: "상태", flex: 1, filter: false },
+            // { field: "CREATE_DTM", headerName: "생성일", flex: 1, filter: false },
         ],
-
-        footerElement: makeTabulatorCounterElem(),
-
-        dataLoaded:function(data){
-            if(data.length == 0) return;
-
-            let s_seq, e_seq;
-            if(page.currentPageNo == page.finalPageNo){
-                s_seq = 1;
-                e_seq = page.startNumPerPage;
-            }else{
-                s_seq = page.startNumPerPage - page.recordsPerPage + 1;
-                e_seq = page.startNumPerPage;
-            }
-
-            $('#listTablePageCount').text(`${s_seq} ~ ${e_seq}`);
-            $('#listTableTotalCount').text(page.numberOfRecords);
-        },
-
-        rowDblClick: function(e, row){
-            e.preventDefault();
+        pagination:true,
+        paginationPageSize:25,
+        overlayNoRowsTemplate: "문의글이 없습니다.",
+        onCellClicked:(e) => {
+            const row = e.data;
 
             // 모달창 값 세팅
-            $selected_solution.text(row.getData().solution_name);
+            $selected_solution.text(row.solution_name);
             $form.find('input,textarea').each((idx,ele) => {
-                ele.value = row.getData()[ele.name];
+                ele.value = row[ele.name];
             })
 
-            to = row.getData()["email"];
-            question_id = row.getData()["question_id"];
+            to = row["email"];
+            question_id = row["question_id"];
 
-            if(row.getData()['res_yn'] !== 'NEW') {
+            if(row['res_yn'] !== '신규') {
                 $create_form.css('display','none');
                 $submit_wrap.css('display','none');
             } else {
@@ -104,10 +84,13 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
 
             openModal($modal);
         },
-    });
+    };
+
+    new agGrid.Grid(eGridDiv[0], gridOptions);
 
     // 라이선스 신청글 조회
     const getLicense = (value) => {
+        console.log(window.location.pathname)
         $.ajax({
             type : "POST",
             url  : window.location.pathname,
@@ -118,8 +101,6 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
                 res_yn: value
             }
         }).done(json => {
-            page = json.page;
-
             const dataFormat = json.data.map(ele => {
                 if(ele.solution_id === '-1') {
                     ele.solution_name = '기타';
@@ -127,7 +108,35 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
                 return ele;
             })
 
-            listTable.setData(dataFormat);
+            const tmpMap = dataFormat.map(ele => {
+                return {
+                    ...ele,
+                    res_yn  : ele.res_yn == 'SUCCESS' ? {txt:'완료', order: 2}
+                        : ele.res_yn == 'DELETE' ? {txt:'보류', order: 3}
+                            : {txt:'신규', order: 1}
+                }
+            });
+
+            tmpMap.sort((a,b) => {
+                if(a.res_yn.txt !== b.res_yn.txt) {
+                    return a.res_yn.order - b.res_yn.order
+                } else {
+                    const a_date = new Date(a.CREATE_DTM);
+                    const b_date = new Date(b.CREATE_DTM);
+
+                    if(a_date > b_date) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            });
+
+            const sortedMap = tmpMap.map(ele => {
+                return {...ele, res_yn: ele.res_yn.txt};
+            })
+
+            gridOptions.api.setRowData(sortedMap);
         })
     }
 
@@ -141,10 +150,21 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     // 메일 전송 이벤트
     $btn_submit.on('click', () => {
         const formData = $create_form.serializeObject();
-        const files = $create_form.find('.input.file input')[0].files;
-        const submitData = new FormData();
+
+        // 검증
+        if(!formData.mail_title) {
+            formData.mail_title = defaultMail.mail_title;
+        }
+
+        if(!formData.message) {
+            alert('메일 내용을 입력해주세요.');
+            return;
+        }
 
         // 메일 formData 설정
+        const submitData = new FormData();
+        const files = $create_form.find('.input.file input')[0].files;
+
         for(let name in formData) {
             submitData.append(name, formData[name]);
         }
@@ -157,8 +177,6 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
         submitData.append('mode','sendMail');
         submitData.append('to',to);
         submitData.append('question_id',question_id);
-
-        // 검증
 
         // 전송
         $.ajax({

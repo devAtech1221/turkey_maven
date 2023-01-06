@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<link href="/common/css/join.css" rel="stylesheet">
 
-<!-- Content Row -->
 <div class="join-contents">
 	<div class="container">
 		<h2>회원가입</h2>
@@ -156,9 +156,13 @@
 						인증 확인
 						</button>
 					</div>
+
 					<div class="agree">
 						<input type="checkbox" id="agree" name="agree" style="font-size: .875em;"/>
 						<label for="agree">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+					</div>
+					<div class="error-box" data-key="agree">
+						<div class="error-msg"></div>
 					</div>
 
 					<div class="btn-submit">
@@ -170,6 +174,5 @@
 	</div>
 </div>
 
-<link href="/common/css/join.css" rel="stylesheet">
 <script src="/view/join/join/js/join.js?version=${environment.release_version}"></script>
 <jsp:include page="/common/include/bottom.jsp" />

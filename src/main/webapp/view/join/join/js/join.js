@@ -7,6 +7,7 @@ const errors = [
     {id: 'position', msg: "직책을 입력해주세요.", success:false },
     {id: 'tel', msg: "전화번호를 입력해주세요.", success:false },
     {id: 'email', msg: "메일을 입력해주세요.", success:false },
+    {id: 'agree', msg: '개인정보 수집 및 이용에 동의해주세요.', success:false}
 ]
 
 const checkingColor = 'rgb(84, 180, 53)';
@@ -43,7 +44,7 @@ Promise.all([]).then(function(params) {
     }
 
     // input 값 변경 감지
-    $input.keyup(({target}) => {
+    $input.on('keyup change',({target}) => {
         const formData = $form.serializeObject();
 
         const msg_div = $(`.error-box[data-key="${target.name}"]`)
@@ -161,20 +162,7 @@ Promise.all([]).then(function(params) {
         const formData = $form.serializeObject();
 
         // 검증
-        let checkValue = true;
-
-        nullValid(formData, errors);
-
-        errors.forEach(ele => {
-            if(!ele.success) {
-                checkValue = false;
-                const msg_div = $(`.error-box[data-key="${ele.id}"]`)
-                    .find('.error-msg');
-                msg_div.text(ele.msg);
-            }
-        })
-
-        if(!checkValue) {
+        if(!nullValid(formData, errors)) {
             return;
         }
 

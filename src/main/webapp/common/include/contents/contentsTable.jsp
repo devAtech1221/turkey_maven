@@ -4,4 +4,6 @@
 	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 	response.setHeader("Expires", "0"); // Proxies.
 %>
-<div class="list_table table table-bordered"></div>
+<div class="grid-wrap">
+	<div class="ag-theme-alpine"  style="width: 100%; height: 700px;"></div>
+</div>

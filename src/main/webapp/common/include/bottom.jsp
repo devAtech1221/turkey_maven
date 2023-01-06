@@ -10,7 +10,7 @@
 	<footer class="footer">
 		<div class="container">
 			<div class="footer_logo">
-				<img src="/common/images/logo.png" />
+				<img src="/common/images/footer_logo_black.png" />
 				<span>에이테크</span>
 			</div>
 			<div class="footer_info">
@@ -28,7 +28,9 @@
 
 <script type="text/javascript">
 	// 로그아웃 이벤트
-	$('.logout').on('click',() => {
+	$('.logout').on('click',(e) => {
+		e.preventDefault();
+
 		$.ajax({
 			type : "POST",
 			url  : '/login/Login.do',

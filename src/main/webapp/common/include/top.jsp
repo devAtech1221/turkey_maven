@@ -38,9 +38,14 @@
 
 	<!-- CSS -->
 	<link href="/common/css/additional/tabulator_bootstrap.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="/common/images/favicon.ico">
+	<link rel="icon" href="/common/images/favicon.ico" type="image/x-icon">
 	<link href="/common/common.css" rel="stylesheet">
 	<link href="/common/font.css" rel="stylesheet">
 	<link href="/common/modal.css" rel="stylesheet">
+
+
+
 
 	<!-- JS -->
 	<script src="https://kit.fontawesome.com/7ee6b8223a.js" crossorigin="anonymous"></script>
@@ -80,10 +85,16 @@
 	<%-- slick --%>
 	<link rel="stylesheet" type="text/css" href="/common/slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="/common/slick/slick-theme.css"/>
-	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<%--	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>--%>
+<%--	<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>--%>
 	<script type="text/javascript" src="/common/slick/slick.min.js"></script>
 
+	<%-- ag-grid --%>
+	<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+	<link rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css"/>
+	<link rel="stylesheet"
+		  href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css"/>
 
 </head>
 
@@ -139,7 +150,7 @@
 						else {
 					%>
 						<li>
-							<span class="logout" style="cursor: pointer;">로그아웃</span>
+							<a class="logout" style="cursor: pointer;">로그아웃</a>
 						</li>
 					<%}%>
 				</ul>

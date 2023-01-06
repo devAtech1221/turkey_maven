@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<link href="/common/css/login.css" rel="stylesheet">
 
 <div class="login-contents">
 	<div class="login_wrap">
@@ -53,6 +54,5 @@
 	</div>
 </div>
 
-<link href="/common/css/login.css" rel="stylesheet">
 <script src="/view/login/login/js/login.js?version=${environment.release_version}"></script>
 <jsp:include page="/common/include/bottom.jsp" />

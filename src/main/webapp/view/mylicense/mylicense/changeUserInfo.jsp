@@ -15,7 +15,7 @@
 				type="text"
 				name="belong"
 			/>
-			<div class="error-box">
+			<div class="error-box" data-key="belong">
 				<div class="error-msg"></div>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 				type="text"
 				name="name"
 			/>
-			<div class="error-box">
+			<div class="error-box" data-key="name">
 				<div class="error-msg"></div>
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 				type="text"
 				name="position"
 			/>
-			<div class="error-box">
+			<div class="error-box" data-key="position">
 				<div class="error-msg"></div>
 			</div>
 		</div>
@@ -54,7 +54,7 @@
 				type="text"
 				name="tel"
 			/>
-			<div class="error-box">
+			<div class="error-box" data-key="tel">
 				<div class="error-msg"></div>
 			</div>
 		</div>

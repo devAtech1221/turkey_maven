@@ -75,9 +75,9 @@
 			type="text"
 			name="title"
 		/>
-	<%--	<div class="error-box">--%>
-	<%--		<div class="error-msg">{errors.title?.message}</div>--%>
-	<%--	</div>--%>
+		<div class="error-box" data-key="title">
+			<div class="error-msg"></div>
+		</div>
 	</div>
 
 	<div class="input_group">
@@ -88,6 +88,21 @@
 			type="text"
 			name="contents"
 		/>
-	<%--	{errors.contents && <div class="error-box">{errors.contents.message}</div>}--%>
+		<div class="error-box" data-key="contents">
+			<div class="error-msg"></div>
+		</div>
+	</div>
+
+	<div class="agree">
+		<input
+			id="agree"
+			type="checkbox"
+			name="agree"
+			value="on"
+		/>
+		<label for="agree" class="title">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+	</div>
+	<div class="error-box" data-key="agree">
+		<div class="error-msg"></div>
 	</div>
 </form>

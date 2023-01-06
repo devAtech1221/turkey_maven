@@ -1,3 +1,8 @@
+const defaultMail = {
+    mail_title: '안녕하세요 에이테크입니다.',
+    message: '신청하신 라이선스 계정정보입니다.'
+}
+
 let areaListTable = new CommonFrame({
     frame_position: $('.table_area'),
     frame_url: '/common/include/frame/areaTable.jsp',
@@ -32,9 +37,8 @@ let modal = new CommonFrame({
 });
 
 Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
-    let listTable;
-    let page = null;
     const submitInfo = {};
+    const eGridDiv = $('.table_area .grid-wrap .ag-theme-alpine');
     const $modal = modal.props.frame_position.find('.modal');
     const $selected_solution = $modal.find('.selected-solution');
     const $form = $modal.find('form.form-box.form-box2');
@@ -44,60 +48,37 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     const $btn_submit = $modal.find('.btn-modal-submit .license-submit');
     const $btn_close = $modal.find('.btn-modal-submit .close');
 
-    listTable = new Tabulator ('.table_area .list_table', {
-        height:700,
-        layout:'fitColumns',
-        pagination: "remote",
-        paginationSize:25,
-        ajaxSorting: true,
-        placeholder:"조회된 데이터가 없습니다.",
-        index: "USER_ID",
-        cellHozAlign: 'center',
-
-        columns: [
-            { title: "소속", field:"belong", headerSort:false,filter: false},
-            { title: "성함", field: "name", headerSort:false,filter: false},
-            { title: "직책", field: "position", headerSort:false,filter: false},
-            { title: "전화번호", field: "tel", headerSort:false,filter: false},
-            { title: "신청 솔루션", field: "solution_name", headerSort:false,filter: false},
-            { title: "신청 라이선스", field: "license_type", headerSort:false,filter: false},
-            { title: "상태", field: "res_yn", headerSort:false,filter: false},
+    // grit 테이블 설정
+    const gridOptions = {
+        columnDefs: [
+            { field: "belong", headerName: "소속", flex: 1, filter: false },
+            { field: "name", headerName: "성함", flex: 1, filter: false },
+            { field: "position", headerName: "직책", flex: 1, filter: false },
+            { field: "tel", headerName: "전화번호", flex: 1, filter: false },
+            { field: "solution_name", headerName: "신청 솔루션", flex: 1, filter: false },
+            { field: "license_type", headerName: "신청 라이선스", flex: 1, filter: false },
+            { field: "res_yn", headerName: "상태", flex: 1, filter: false },
+            // { field: "CREATE_DTM", headerName: "생성일", flex: 1, filter: false },
         ],
-
-        footerElement: makeTabulatorCounterElem(),
-
-        dataLoaded:function(data){
-            if(data.length == 0) return;
-
-            let s_seq, e_seq;
-            if(page.currentPageNo == page.finalPageNo){
-                s_seq = 1;
-                e_seq = page.startNumPerPage;
-            }else{
-                s_seq = page.startNumPerPage - page.recordsPerPage + 1;
-                e_seq = page.startNumPerPage;
-            }
-
-            $('#listTablePageCount').text(`${s_seq} ~ ${e_seq}`);
-            $('#listTableTotalCount').text(page.numberOfRecords);
-        },
-
-        rowDblClick: function(e, row){
-            e.preventDefault();
+        pagination:true,
+        paginationPageSize:25,
+        overlayNoRowsTemplate: "문의글이 없습니다.",
+        onCellClicked:(e) => {
+            const row = e.data;
 
             // 모달창 값 세팅
-            $selected_solution.text(row.getData().solution_name);
+            $selected_solution.text(row.solution_name);
             $form.find('input,textarea').each((idx,ele) => {
-                ele.value = row.getData()[ele.name];
+                ele.value = row[ele.name];
             })
 
-            submitInfo.to = row.getData()["email"];
-            submitInfo.license_question_id = row.getData()["license_question_id"];
-            submitInfo.solution_id = row.getData()["solution_id"];
-            submitInfo.user_id = row.getData()["user_id"];
-            submitInfo.license_type = row.getData()["license_type"];
+            submitInfo.to = row["email"];
+            submitInfo.license_question_id = row["license_question_id"];
+            submitInfo.solution_id = row["solution_id"];
+            submitInfo.user_id = row["user_id"];
+            submitInfo.license_type = row["license_type"];
 
-            if(row.getData()['res_yn'] !== 'NEW') {
+            if(row['res_yn'] !== '신규') {
                 $create_form.css('display','none');
                 $submit_wrap.css('display','none');
             } else {
@@ -106,7 +87,9 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             }
             openModal($modal);
         },
-    });
+    };
+
+    new agGrid.Grid(eGridDiv[0], gridOptions);
 
     // 라이선스 신청글 조회
     const getLicense = (value) => {
@@ -120,14 +103,41 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
                 res_yn: value
             }
         }).done(json => {
-            page = json.page;
             const dataFormat = json.data.map(ele => {
                 let tmpData = {...ele,...ele.user}
                 delete tmpData.user;
                 return tmpData;
             })
 
-            listTable.setData(dataFormat);
+            const tmpMap = dataFormat.map(ele => {
+                return {
+                    ...ele,
+                    res_yn  : ele.res_yn == 'SUCCESS' ? {txt:'완료', order: 2}
+                            : ele.res_yn == 'DELETE' ? {txt:'보류', order: 3}
+                            : {txt:'신규', order: 1}
+                }
+            });
+
+            tmpMap.sort((a,b) => {
+                if(a.res_yn.txt !== b.res_yn.txt) {
+                    return a.res_yn.order - b.res_yn.order
+                } else {
+                    const a_date = new Date(a.CREATE_DTM);
+                    const b_date = new Date(b.CREATE_DTM);
+
+                    if(a_date > b_date) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            });
+
+            const sortedMap = tmpMap.map(ele => {
+                return {...ele, res_yn: ele.res_yn.txt};
+            })
+
+            gridOptions.api.setRowData(sortedMap);
         })
     }
 
@@ -141,10 +151,27 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     // 라이선스 지급 이벤트
     $btn_submit.on('click', () => {
         const formData = $create_form.serializeObject();
+
+        // 검증
+        if(!formData.site_id) {
+            alert('아이디는 필수 입력입니다.');
+            return;
+        }
+
+        if(!formData.site_pass) {
+            alert('비밀번호는 필수 입력입니다.');
+            return;
+        }
+
+        if(!formData.site_url) {
+            alert('주소는 필수 입력입니다.');
+            return;
+        }
+
+        // 메일/라이선스 formData 설정
         const files = $create_form.find('.input.file input')[0].files;
         const submitData = new FormData();
 
-        // 메일/라이선스 formData 설정
         [...files].forEach(file => {
             submitData.append('attach_file_list', file);
         })
@@ -165,8 +192,6 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
         submitData.append('mail_title',formData["mail_title"]);
         submitData.append('message',formData["message"]);
         submitData.append('mylicense_json',JSON.stringify(mylicense_json));
-
-        // 검증
 
         // 전송
         $.ajax({

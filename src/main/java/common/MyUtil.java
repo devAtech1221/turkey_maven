@@ -1,8 +1,12 @@
 package common;
 
+import model.system.user.user.User;
+import model.system.user.user.UserDao;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.commons.validator.routines.UrlValidator;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -204,6 +208,32 @@ public class MyUtil {
 		SimpleDateFormat MM = new SimpleDateFormat("yyyy/MM/dd");
 		Date parse = MM.parse(str);
 		return parse;
+	}
+
+	/* 유저권한 체크 */
+	public static boolean authorization(HttpServletRequest request, String... role) {
+		HttpSession session = request.getSession();
+
+		if (session == null) {
+			return false;
+		} else {
+			boolean success = false;
+			String uid = (String) session.getAttribute("U_ID");
+
+			if(uid == null) {
+				return false;
+			}
+
+			User user = UserDao.getInstance().selectDoc(uid);
+			String user_role = user.getRole_id();
+			for (String r : role) {
+				if(user_role.equals(r)) {
+					success = true;
+				}
+			}
+
+			return success;
+		}
 	}
 	
 	/* 인코딩 확인 */

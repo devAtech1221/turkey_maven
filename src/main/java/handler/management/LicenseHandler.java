@@ -2,6 +2,7 @@ package handler.management;
 
 import common.Config;
 import common.Message;
+import common.MyUtil;
 import common.Paging;
 import common.mail.SendMail;
 import control.CommonHandler;
@@ -12,6 +13,7 @@ import model.management.license.LicenseDao;
 import model.management.question.Question;
 import model.mylicense.Mylicense;
 import model.mylicense.MylicenseDao;
+import model.system.user.auth.Auth;
 import model.system.user.user.User;
 import model.system.user.user.UserDao;
 import org.apache.commons.fileupload.FileItem;
@@ -39,6 +41,12 @@ public class LicenseHandler extends CommonHandler{
 
 		if (task.equals(Config.sTask)) {
 			if(mode.equals("list")){
+				if (!MyUtil.authorization(request, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 				Paging paging = new Paging(request);
 				paging.setSear(myUtil.null2Blank(request.getParameter("res_yn")).trim());
 
@@ -72,6 +80,12 @@ public class LicenseHandler extends CommonHandler{
 
 		} else if (task.equals(Config.pTask)) {
 			if(mode.equals("insert")){
+				if (!MyUtil.authorization(request, Auth.NORMAL,Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 				License license = new License(request, "data");
 				logger.info("license {} :",license);
 				boolean success = DAO.insert(license);
@@ -87,6 +101,12 @@ public class LicenseHandler extends CommonHandler{
 				return "/common/util/retAjax.jsp";
 
 			} else if(mode.equals("createLicense")){
+				if (!MyUtil.authorization(request, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 
 				// 메일 전송
 				SendMail sendMail = SendMail.getInstance();

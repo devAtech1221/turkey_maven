@@ -7,6 +7,7 @@ import control.CommonHandler;
 import model.management.license.License;
 import model.mylicense.Mylicense;
 import model.mylicense.MylicenseDao;
+import model.system.user.auth.Auth;
 import model.system.user.user.User;
 import model.system.user.user.UserDao;
 
@@ -25,6 +26,12 @@ public class MylicenseHandler extends CommonHandler{
 			MylicenseDao DAO = MylicenseDao.getInstance();
 
 			if(mode.equals("list")) {
+				if (!MyUtil.authorization(request, Auth.NORMAL, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 				User user = new User(request,"data");
 				List<Mylicense> mylicenseList = DAO.selectMylicenseList(user)
 						.stream()
@@ -57,6 +64,12 @@ public class MylicenseHandler extends CommonHandler{
 			MylicenseDao DAO = MylicenseDao.getInstance();
 
 			if(mode.equals("editInfo")){
+				if (!MyUtil.authorization(request, Auth.NORMAL, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 				User user = new User(request, "data");
 				boolean success = DAO.editInfo(user);
 
@@ -72,6 +85,12 @@ public class MylicenseHandler extends CommonHandler{
 				return "/common/util/retAjax.jsp";
 
 			} else if (mode.equals("editPass")) {
+				if (!MyUtil.authorization(request, Auth.NORMAL, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 				User user = new User(request, "data");
 				boolean success = DAO.editPass(user);
 

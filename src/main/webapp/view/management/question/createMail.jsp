@@ -17,6 +17,7 @@
 				type="text"
 				name="mail_title"
 				autoComplete="off"
+				placeholder="기본 : 안녕하세요 에이테크입니다."
 			/>
 		</div>
 		<div class="input">

@@ -1,3 +1,15 @@
+const errors = [
+    {id: 'belong', msg: "회사명을 입력해주세요.", success:false },
+    {id: 'name', msg: "이름을 입력해주세요.", success:false },
+    {id: 'title', msg: "칙책을 입력해주세요.", success:false },
+    {id: 'position', msg: "비밀번호가 일치하지 않습니다.", success:false },
+    {id: 'tel', msg: "전화번호를 입력해주세요.", success:false },
+    {id: 'email', msg: "이메일을 입력해주세요.", success:false },
+    {id: 'title', msg: "제목을 입력해주세요.", success:false },
+    {id: 'contents', msg: "내용을 입력해주세요.", success:false },
+    {id: 'agree', msg: '개인정보 수집 및 이용에 동의해주세요.', success:false}
+]
+
 // DB에 솔루션 정보 조회
 const solutionInit = () => {
     const promise = $.ajax({
@@ -28,15 +40,9 @@ Promise.all([solutionInit(),areaform.init()]).then(function(params) {
     const $category_inner_input = $('.input-box.category .inner-input');
     const $btn_submit = $('.btn-group button');
     const $form = $('form');
+    const $input = $form.find('input,textarea');
 
-    // 문의하기 버튼 이벤트
-    $btn_submit.on('click',({target}) => {
-        const formData = $form.serializeObject();
-        console.log(formData)
-
-        // 값 검증
-
-        // 문의하기
+    const submit = (formData) => {
         $.ajax({
             type : "POST",
             url  : '/management/Question.do',
@@ -54,6 +60,32 @@ Promise.all([solutionInit(),areaform.init()]).then(function(params) {
                 console.log(data)
             }
         })
+    }
+
+    // input 값 변경 감지
+    $input.on('keyup change',({target}) => {
+        const formData = $form.serializeObject();
+
+        const msg_div = $(`.error-box[data-key="${target.name}"]`)
+            .find('.error-msg');
+
+        if(target.value) {
+            msg_div.text('');
+        }
+    })
+
+    // 문의하기 버튼 이벤트
+    $btn_submit.on('click',({target}) => {
+        const formData = $form.serializeObject();
+        console.log(formData)
+
+        // 검증
+        if(!nullValid(formData, errors)) {
+            return;
+        }
+
+        // 문의하기
+        submit(formData);
     })
 
     // solutions init
@@ -88,5 +120,14 @@ Promise.all([solutionInit(),areaform.init()]).then(function(params) {
             );
         }
     })
+
+    // input default value init
+    if(LOGIN_USER) {
+        $form.find('input').each((idx,ele) => {
+            if(LOGIN_USER[ele.name]) {
+                ele.value = LOGIN_USER[ele.name];
+            }
+        })
+    }
 
 });

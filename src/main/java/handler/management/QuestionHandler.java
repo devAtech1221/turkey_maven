@@ -2,6 +2,7 @@ package handler.management;
 
 import common.Config;
 import common.Message;
+import common.MyUtil;
 import common.Paging;
 import common.mail.CustomFile;
 import common.mail.MailDto;
@@ -9,6 +10,7 @@ import common.mail.SendMail;
 import control.CommonHandler;
 import model.management.question.Question;
 import model.management.question.QuestionDao;
+import model.system.user.auth.Auth;
 import model.system.user.user.UserDao;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -29,6 +31,12 @@ public class QuestionHandler extends CommonHandler{
 
 		if (task.equals(Config.sTask)) {
 			if(mode.equals("list")){
+				if (!MyUtil.authorization(request, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
+
 				Paging paging = new Paging(request);
 				paging.setSear(myUtil.null2Blank(request.getParameter("res_yn")).trim());
 
@@ -70,6 +78,11 @@ public class QuestionHandler extends CommonHandler{
 				return "/common/util/retAjax.jsp";
 
 			} else if(mode.equals("sendMail")){
+				if (!MyUtil.authorization(request, Auth.ADMIN)) {
+					resultMap.put("resultCode", Message.ERROR_AUTH.getCode());
+					resultMap.put("resultMessage", Message.ERROR_AUTH.getMsg());
+					return retResult(request, resultMap);
+				}
 
 				// 메일 전송
 				SendMail sendMail = SendMail.getInstance();

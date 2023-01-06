@@ -8,7 +8,7 @@
 <form class="form-box form-box2">
 	<div></div>
 	<div class="input-box category">
-		<div class="title">선택 제품</div>
+		<div class="title">관심 제품</div>
 
 		<div class="inner-input">
 			<div class="selected-solution"></div>

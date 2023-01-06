@@ -1,3 +1,15 @@
+const errors_info = [
+    {id: 'belong', msg: "회사명을 입력해주세요.", success:false },
+    {id: 'name', msg: "이름을 입력해주세요.", success:false },
+    {id: 'position', msg: "직책을 입력해주세요.", success:false },
+    {id: 'tel', msg: "전화번호를 입력해주세요.", success:false },
+]
+
+const errors_pass = [
+    {id: 'user_pass', msg: "비밀번호는 필수 입력입니다.", success:false },
+    {id: 'user_pass2', msg: "비밀번호가 일치하지 않습니다.", success:false },
+]
+
 // DB에 내 라이선스 정보 조회
 const mylicenseListInit = () => {
     const promise = $.ajax({
@@ -50,7 +62,9 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
     let selectedMenu = 'info';
     const $edit_form_menu = $modal.find('.edit-form-menu');
     const $user_info_form = $modal.find('.form-box.user-info-form');
+    const $user_info_input = $user_info_form.find('input');;
     const $user_pass_form = $modal.find('.form-box.user-pass-form');
+    const $user_pass_input = $user_pass_form.find('input');;
     const $btn_submit = $modal.find('.btn-modal-submit .info-submit');
     const $btn_close = $modal.find('.btn-modal-submit .close');
 
@@ -67,7 +81,7 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
             }
         }).done(json => {
             if(json.resultCode == '00') {
-                alert('성공적으로 전송했습니다.');
+                alert('정보가 성공적으로 수정되었습니다.');
                 window.location.reload();
             }
         }).error(error => console.log(error))
@@ -86,11 +100,41 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
             }
         }).done(json => {
             if(json.resultCode == '00') {
-                alert('성공적으로 전송했습니다.');
+                alert('정보가 성공적으로 수정되었습니다.');
                 window.location.reload();
             }
         }).error(error => console.log(error))
     }
+
+    // input 값 변경 감지 (info)
+    $user_info_input.on('keyup change',({target}) => {
+        const formData = $user_info_form.serializeObject();
+
+        const msg_div = $(`.error-box[data-key="${target.name}"]`)
+            .find('.error-msg');
+
+        if(target.value) {
+            msg_div.text('');
+        }
+    })
+
+    // input 값 변경 감지 (pass)
+    $user_pass_input.on('keyup change',({target}) => {
+        const formData = $user_pass_form.serializeObject();
+
+        const msg_div = $(`.error-box[data-key="${target.name}"]`)
+            .find('.error-msg');
+
+        if(target.name === 'user_pass2') {
+            if(formData.user_pass === formData.user_pass2) {
+                msg_div.text('');
+            }
+
+        } else if(target.value) {
+            msg_div.text('');
+        }
+
+    })
 
     // 내 정보 변경 클릭 이벤트
     $edit_info.on('click',({target}) => {
@@ -126,18 +170,23 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
     $btn_submit.on('click', () => {
         if(selectedMenu === 'info') {
             const formData = $user_info_form.serializeObject();
-            console.log(formData)
 
             // 검증
+            if(!nullValid(formData, errors_info)) {
+                return;
+            }
 
             // 전송
             editInfo(formData);
         }
+
         if(selectedMenu === 'pass') {
             const formData = $user_pass_form.serializeObject();
-            console.log(formData)
 
             // 검증
+            if(!nullValid(formData, errors_pass)) {
+                return;
+            }
 
             // 전송
             editPass(formData);

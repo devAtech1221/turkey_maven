@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<link href="/common/css/management.css" rel="stylesheet">
 
-<!-- Content Row -->
 <div id="route-contents">
     <div class="container">
         <h2>문의글 관리</h2>
@@ -19,6 +19,5 @@
 
 <div class="area_modal"></div>
 
-<link href="/common/css/management.css" rel="stylesheet">
 <script src="/view/management/question/js/question.js?version=${environment.release_version}"></script>
 <jsp:include page="/common/include/bottom.jsp"/>

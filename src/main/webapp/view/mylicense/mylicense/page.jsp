@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<link href="/common/css/my-license.css" rel="stylesheet">
 
 <!-- Content Row -->
 <div id="route-contents">
@@ -33,6 +34,5 @@
 
 <div class="area_modal"></div>
 
-<link href="/common/css/my-license.css" rel="stylesheet">
 <script src="/view/mylicense/mylicense/js/mylicense.js?version=${environment.release_version}"></script>
 <jsp:include page="/common/include/bottom.jsp"/>

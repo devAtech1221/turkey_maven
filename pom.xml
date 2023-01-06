@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.atech1221</groupId>
-  <artifactId>bizatech</artifactId>
+  <artifactId>turkey</artifactId>
   <version>${release_version}</version><!-- Config.java 내 version 에 사용됩니다. -->
   <packaging>war</packaging>
-  <name>bizatech</name>
+  <name>turkey</name>
 
   <!-- FIXME change it to the project's website -->
   <!--<url>http://www.example.com</url>-->
@@ -276,7 +276,7 @@
   </dependencies>
 
   <build>
-    <finalName>bizatech</finalName>
+    <finalName>turkey</finalName>
     <resources>
       <resource>
         <directory>src/main/resources</directory>

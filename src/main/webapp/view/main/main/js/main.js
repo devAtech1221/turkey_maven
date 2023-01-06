@@ -1,3 +1,9 @@
+const errors = [
+    {id: 'title', msg: "제목을 입력해주세요.", success:false },
+    {id: 'contents', msg: "내용을 입력해주세요.", success:false },
+    {id: 'agree', msg: "개인정보 수집 및 이용에 동의해주세요.", success:false },
+]
+
 const licenseInfo = [
     {id: "trial", name: "체험 상품", desc: "서비스를 체험해\n보고 싶은 고객", btn: "체험 신청", license: {}},
     {id: "basic", name: "Basic", desc: "합리적인 비용으로\n사용하고 싶은 고객", btn: "도입 문의", license: {}},
@@ -60,18 +66,42 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
     let solutions = [];
     let selectedSolution = {};
     const $modal = modal.props.frame_position.find('.modal');
+    const $form = $modal.find('form');
+    const $input = $form.find('input,textarea');
+    const $imageModal = $('.image_modal .modal');
     const $submit_btn = $modal.find('.btn');
     const $top_nav = $('.top-nav');
-    const $custom_slider = $('.custom-slider');
+    const $solution_contents = $('.solution-contents');
     const $sec_title = $('.sec_title');
     const $solution_detail = $('.solution-detail');
     const $license_info = $('.license-info');
+
+    const submit = (formData) => {
+        $.ajax({
+            type : "POST",
+            url  : "/management/License.do",
+            dataType: "json",
+            data : {
+                task: "proc",
+                mode: "insert",
+                data: {...formData, user_id: LOGIN_USER.user_id, solution_id:selectedSolution.solution_id}
+            }
+        }).done(data => {
+            if(data.resultCode === '00') {
+                alert('답변은 이메일로 보내드립니다.');
+                window.location.reload();
+            }
+        })
+    }
 
     // 기존 페이지 리셋
     const pageReset = () => {
         $sec_title.children().remove();
         $solution_detail.children().remove();
         $license_info.children().remove();
+        if($('.custom-slider').length > 0) {
+            $('.custom-slider').remove();
+        }
     }
 
     // 페이지 변경 함수 (솔루션 선택)
@@ -115,7 +145,36 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
                     </div>
                 </li>`
             )
+
         });
+
+        // 솔루션 이미지 변경
+        const imageList = getSolutionImage(selectedSolution.solution_id);
+
+        const html = imageList.map(ele => {
+            return (`<div class="img-box">
+                        <div class="title">${ele.tag}</div>
+                        <img src="${ele.path}" data-name="${ele.tag}"/>
+                    </div>`);
+        })
+
+        $solution_contents.prepend(
+            `<div class="custom-slider">${html.join('')}</div>`
+        )
+
+        $('.custom-slider').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            adaptiveHeight: true
+        });
+
+        // 솔루션 이미지 확대
+        $('.custom-slider').on('click','.img-box',(ele) => {
+            $imageModal.find('main img').attr('src',ele.target.src);
+            openModal($imageModal)
+        })
 
         // 모달창 라이선스 변경 이벤트
         const changeLicenseInput = (target,selectedLicenseInfo) => {
@@ -131,6 +190,18 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
                     </dd>`
             )
         }
+
+        // input 값 변경 감지
+        $input.on('keyup change',({target}) => {
+            const formData = $form.serializeObject();
+
+            const msg_div = $(`.error-box[data-key="${target.name}"]`)
+                .find('.error-msg');
+
+            if(target.value) {
+                msg_div.text('');
+            }
+        })
 
         // 라이선스 모달 오픈 이벤트
        $license_info.find('.question-wrap button').on('click',({target}) => {
@@ -170,27 +241,15 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
 
     // 라이선스 신청 이벤트
     $submit_btn.on('click',(e) => {
-        const $form = $modal.find('form');
         const formData = $form.serializeObject();
 
         // 검증
+        if(!nullValid(formData, errors)) {
+            return;
+        }
 
         // 전송
-        $.ajax({
-            type : "POST",
-            url  : "/management/License.do",
-            dataType: "json",
-            data : {
-                task: "proc",
-                mode: "insert",
-                data: {...formData, user_id: LOGIN_USER.user_id, solution_id:selectedSolution.solution_id}
-            }
-        }).done(data => {
-            if(data.resultCode === '00') {
-                alert('답변은 이메일로 보내드립니다.');
-                window.location.reload();
-            }
-        })
+        submit(formData);
     })
 
     // top nav 클릭 이벤트
@@ -220,15 +279,6 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
              >${ele.solution_name}</li>`
         )
     })
-
-    // 슬라이더 init
-    $('.custom-slider').slick({
-        dots: true,
-        infinite: true,
-        speed: 300,
-        slidesToShow: 1,
-        adaptiveHeight: true
-    });
 
     // top nav 기본 클릭
     $top_nav.children('li:eq(0)').trigger('click');

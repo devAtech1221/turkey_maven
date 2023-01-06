@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<link href="/common/css/solution.css" rel="stylesheet">
 
-<!-- Content Row -->
 <div id="route-contents">
     <div class="container">
         <h2>솔루션 소개</h2>
@@ -11,11 +11,7 @@
         <div class="section-header">솔루션 주요기능</div>
         <div class="solution-contents">
 
-            <div class="custom-slider">
-                <div>your content</div>
-                <div>your content</div>
-                <div>your content</div>
-            </div>
+<%--            <div class="custom-slider"></div>--%>
 
             <div class="section2">
                 <h4 class="sec_title"></h4>
@@ -31,7 +27,20 @@
 </div>
 
 <div class="area_modal"></div>
+<div class="image_modal">
+    <div class="modal">
+        <section class="modal-xxl image-modal">
+            <header>
+                <button class="close" onclick="closeModalHtml(event)">
+                    &times;
+                </button>
+            </header>
+            <main style="padding-bottom: 1.5em;" data-content-body>
+                <img style="width:100%;height:100%;"/>
+            </main>
+        </section>
+    </div>
+</div>
 
-<link href="/common/css/solution.css" rel="stylesheet">
 <script src="/view/main/main/js/main.js?version=${environment.release_version}"></script>
 <jsp:include page="/common/include/bottom.jsp"/>

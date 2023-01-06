@@ -18,7 +18,7 @@ import java.util.Properties;
  */
 public class Config {
 	public static String environment, appName, version, PATH_BASE;
-    public static String strSiteName = "Turkey - Solution";
+    public static String strSiteName = "ATECH Solution Promotion";
     public static String sTask = "select";
     public static String pTask = "proc";
     public static String viewPath = "/view";
