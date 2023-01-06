@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.atech1221</groupId>
+  <artifactId>bizatech</artifactId>
+  <version>${release_version}</version><!-- Config.java 내 version 에 사용됩니다. -->
+  <packaging>war</packaging>
+  <name>bizatech</name>
+
+  <!-- FIXME change it to the project's website -->
+  <!--<url>http://www.example.com</url>-->
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+    <!--<tomcat.version>8.5.31</tomcat.version>-->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <profiles>
+    <!-- local -->
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <env>dev</env>
+        <environment.release_version>dev</environment.release_version>
+      </properties>
+    </profile>
+    <profile>
+      <id>test</id>
+      <properties>
+        <env>test</env>
+        <environment.release_version>${project.version}</environment.release_version><!-- js, css version param에 사용됩니다. -->
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <env>prod</env>
+        <environment.release_version>${project.version}</environment.release_version><!-- js, css version param에 사용됩니다. -->
+      </properties>
+    </profile>
+    <profile>
+      <id>prototype</id>
+      <properties>
+        <env>prototype</env>
+        <environment.release_version>${project.version}</environment.release_version><!-- js, css version param에 사용됩니다. -->
+      </properties>
+    </profile>
+  </profiles>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20180813</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>1.2</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.5</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.11</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+      <version>1.6</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <!-- db -->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.0.2</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.46</version>
+      <!--<version>8.0.26</version>-->
+       <!--<scope>provided</scope>-->
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.17</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-excelant</artifactId>
+      <version>3.17</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.17</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+ 
+
+	<dependency> 
+		<groupId>org.projectlombok</groupId> 
+		<artifactId>lombok</artifactId> 
+		<version>1.18.20</version>
+		<scope>provided</scope> 
+	</dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml-schemas</artifactId>
+      <version>3.17</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-scratchpad</artifactId>
+      <version>3.17</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox -->
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>fontbox</artifactId>
+      <version>1.8.16</version>
+    </dependency>
+
+
+    <!-- <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.13.1</version>
+    </dependency> -->
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.7.30</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.13</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.websocket</groupId>
+      <artifactId>javax.websocket-api</artifactId>
+      <version>1.1</version>
+      <!-- <scope>provided</scope> -->
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>1.8.16</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz-jobs</artifactId>
+      <version>2.3.2</version>
+    </dependency>
+
+    <!--<dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>javax.mail-api</artifactId>
+      <version>1.6.2</version>
+    </dependency>-->
+
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.8</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-typehandlers-jsr310</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>bizatech</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>*.xml</include>
+          <include>**</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources-${env}</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.22.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <source>8</source>
+            <target>8</target>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>com.samaxes.maven</groupId>
+        <artifactId>minify-maven-plugin</artifactId>
+        <version>1.7.6</version>
+        <executions>
+          <execution>
+            <id>minify</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>minify</goal>
+            </goals>
+            <configuration>
+              <charset>utf-8</charset>
+              <skipMerge>true</skipMerge>
+              <nosuffix>true</nosuffix>
+              <closureLanguageIn>ECMASCRIPT6</closureLanguageIn>
+              <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir>
+              <webappTargetDir>${project.build.directory}/minify</webappTargetDir>
+              <jsEngine>CLOSURE</jsEngine>
+              <jsSourceDir>/</jsSourceDir>
+              <!--<jsTargetDir>/viewMin</jsTargetDir>-->
+              <jsSourceIncludes>
+                <jsSourceInclude>view/**/*.js</jsSourceInclude>
+                <jsSourceInclude>common/js/atech/**/*.js</jsSourceInclude>
+                <!--<packagingExcludes>**/*.js</packagingExcludes>-->
+              </jsSourceIncludes>
+              <!--<jsSourceExcludes>
+                <jsSourceExclude>common/js/atech/commonBizOutput.js</jsSourceExclude>
+              </jsSourceExcludes>-->
+              <!--<jsSourceExcludes>
+                <jsSourceExclude>**/*.min.js</jsSourceExclude>
+                <jsSourceExclude>/common/**/*.js</jsSourceExclude>
+                <jsSourceExclude>common/**/*.js</jsSourceExclude>
+                <jsSourceExclude>minify/**/*.js</jsSourceExclude>
+              </jsSourceExcludes>-->
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.2</version>
+        <configuration>
+          <webXml>${basedir}/src/main/resources-${env}/web.xml</webXml>
+          <webResources>
+            <resource>
+              <directory>${project.build.directory}/minify</directory>
+              <!-- 목적지가 없으므로 build target의 root에 풀립니다(build의 root == src의 webapp) -->
+            </resource>
+            <resource>
+              <!-- jsp 내 release_version=${environment.release_version} 값을 필터링해줍니다. -->
+              <directory>${basedir}/src/main/webapp/common/include</directory>
+              <targetPath>common/include</targetPath>
+              <filtering>true</filtering>
+              <includes>
+                <include>**/*.jsp</include>
+              </includes>
+            </resource>
+            <resource>
+              <!-- jsp 내 release_version=${environment.release_version} 값을 필터링해줍니다. -->
+              <directory>${basedir}/src/main/webapp/view</directory>
+              <targetPath>view</targetPath>
+              <filtering>true</filtering>
+              <includes>
+                <include>**/*.jsp</include>
+                <exclude>**/*.js</exclude>
+              </includes>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

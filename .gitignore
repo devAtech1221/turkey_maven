@@ -1,0 +1,10 @@
+.project
+.settings
+.settings/**/*
+.idea
+*.iml
+.target
+target
+.out
+out
+/bin/

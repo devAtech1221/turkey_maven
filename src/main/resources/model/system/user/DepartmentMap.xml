@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="model.system.user.department.DepartmentMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+	
+	<select id="selectList" resultType="model.system.master.master.Master" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			* 
+		FROM 
+			DIM_MST
+		<where>
+			MST1_CD = 'DEPT'
+			AND MST_SEQ = 2
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND MST_NM like CONCAT('%',#{sear},'%')
+			</if>
+			AND USE_YN = "Y"
+		</where>
+		ORDER BY 
+			SORT_SEQ
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id = "selectListByUser" resultType="model.system.master.master.Master" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			* 
+		FROM 
+			DIM_MST T1
+		LEFT JOIN DIM_USER T2 ON (T1.MST2_CD = T2.DEPT_CD)
+		<where> 
+			MST1_CD = 'DEPT'
+			AND MST_SEQ = 2
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND T2.USER_ID = #{ sear }
+			</if>
+		</where>
+		ORDER BY
+			SORT_SEQ
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectDoc" resultType="model.system.master.master.Master" parameterType="String">
+		SELECT *
+		FROM 
+			DIM_MST
+		WHERE
+			MST1_CD = 'DEPT'
+			AND MST2_CD = #{value}
+			AND MST_SEQ = 2
+	</select>
+	
+	<insert id="insertDoc" parameterType="model.system.master.master.Master">
+		INSERT INTO DIM_MST
+		SET
+			MST1_CD='DEPT'
+			, MST2_CD=#{MST2_CD}
+			, MST3_CD=#{MST3_CD}
+			, MST_SEQ=2
+			, MST_NM=#{MST_NM}
+			, SORT_SEQ=#{SORT_SEQ}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+	</insert>
+
+	<update id="updateDoc" parameterType="model.system.master.master.Master">
+        UPDATE DIM_MST 
+        SET
+			MST2_CD=#{MST2_CD}
+			, MST3_CD=#{MST3_CD}
+			, MST_NM=#{MST_NM}
+			, SORT_SEQ=#{SORT_SEQ}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		WHERE 
+			MST1_CD='DEPT'
+	        AND MST2_CD=#{MST2_CD}
+    </update>
+    
+    <delete id="deleteDoc" parameterType="model.system.master.master.Master">
+        DELETE FROM DIM_MST
+        WHERE
+	        MST1_CD='DEPT'
+	        AND MST2_CD=#{MST2_CD}
+    </delete>
+</mapper>

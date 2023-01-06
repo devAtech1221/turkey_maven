@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="model.system.master.master.MasterMapper">
+<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+	
+	<select id="selectList" resultType="model.system.master.master.Master" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			* 
+		FROM 
+			DIM_MST M1
+		<where>
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND MST1_CD = #{sear}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear2 )">
+				AND MST2_CD = #{sear2}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear3 )">
+				AND MST3_CD = #{sear3}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear4 )">
+				AND MST_SEQ = #{sear4}
+
+				-- 마스터레벨 검색
+				<if test="sear4 == 1">
+
+					-- 검색어가 있다면?
+					<if test='@common.MyUtil@notEmpty( sear5 )'>
+						AND 0 &lt; (SELECT count(*) FROM DIM_MST M2
+									WHERE M1.MST1_CD = M2.MST1_CD AND
+										  M2.MST_NM like CONCAT('%',#{sear5},'%') AND
+										  USE_YN like CONCAT('%',#{sear6},'%'))
+					</if>
+
+		   			-- 미사용 검색
+					<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("N")'>
+
+
+						AND 0 &lt; (SELECT count(*) FROM DIM_MST M2
+									WHERE M1.MST1_CD = M2.MST1_CD AND
+								          M2.USE_YN = 'N')
+					</if>
+				</if>
+
+				-- 2레벨 검색
+				<if test="sear4 == 2">
+
+		  			-- 검색어가 있다면?
+					<if test='@common.MyUtil@notEmpty( sear5 )'>
+						AND 0 &lt; (SELECT count(*) FROM DIM_MST M2
+									WHERE M2.MST1_CD = #{sear} AND
+								          M2.MST2_CD = M1.MST2_CD AND
+										  M2.MST_NM like CONCAT('%',#{sear5},'%') AND
+		                                  USE_YN like CONCAT('%',#{sear6},'%'))
+					</if>
+
+					-- 미사용 검색
+					<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("N")'>
+						AND 0 &lt; (SELECT count(*) FROM DIM_MST M2
+									WHERE M2.MST1_CD = #{sear} AND
+		                                  M2.MST2_CD = M1.MST2_CD AND
+		                                  M2.USE_YN = 'N')
+					</if>
+				</if>
+
+				-- 3레벨 검색
+				<if test="sear4 == 3">
+
+					-- 검색어가 있다면?
+					<if test='@common.MyUtil@notEmpty( sear5 )'>
+						AND MST_NM like CONCAT('%',#{sear5},'%')
+					</if>
+
+					-- 미사용 검색
+					<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("N")'>
+						AND USE_YN = 'N'
+					</if>
+				</if>
+
+				-- 사용 검색
+				<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("Y")'>
+					AND USE_YN = 'Y'
+				</if>
+			</if>
+
+		</where>
+		ORDER BY 
+			SORT_SEQ AND MST2_CD
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectListByUser" resultType="model.system.master.master.Master" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS *
+		FROM DIM_MST T1
+		LEFT JOIN DIM_USER T2 ON (T1.MST2_CD = T2.RANK_CD)
+		<where>
+			AND T1.MST1_CD = 'RANK'
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND T2.USER_ID = #{sear}
+			</if>
+		</where>
+		ORDER BY 
+			SORT_SEQ
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectDoc" resultType="model.system.master.master.Master" parameterType="model.system.master.master.Master">
+		SELECT *
+		FROM 
+			DIM_MST
+		<where>
+			<if test="@common.MyUtil@notEmpty( MST1_CD )">
+				AND MST1_CD = #{MST1_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MST2_CD )">
+				AND MST2_CD = #{MST2_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MST3_CD )">
+				AND MST3_CD = #{MST3_CD}
+			</if>
+			AND MST_SEQ = #{MST_SEQ}
+		</where>
+	</select>
+	
+	<insert id="insertDoc" parameterType="model.system.master.master.Master">
+		INSERT INTO DIM_MST
+		SET
+			MST1_CD=#{MST1_CD}
+			, MST2_CD=#{MST2_CD}
+			, MST3_CD=#{MST3_CD}
+			, MST_SEQ=#{MST_SEQ}
+			, MST_NM=#{MST_NM}
+			, SORT_SEQ=#{SORT_SEQ}
+			, USE_YN=#{USE_YN}
+			, DEFAULT_YN="N"
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+	</insert>
+
+	<update id="updateDoc" parameterType="model.system.master.master.Master">
+        UPDATE DIM_MST 
+        SET
+			MST_NM=#{MST_NM}
+			, SORT_SEQ=#{SORT_SEQ}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		<where>
+			<if test="@common.MyUtil@notEmpty( MST1_CD )">
+				AND MST1_CD = #{MST1_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MST2_CD )">
+				AND MST2_CD = #{MST2_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MST3_CD )">
+				AND MST3_CD = #{MST3_CD}
+			</if>
+			AND MST_SEQ = #{MST_SEQ}
+		</where>
+    </update>
+    
+    <delete id="deleteDoc" parameterType="model.system.master.master.Master">
+        DELETE FROM DIM_MST
+        <where>
+			<if test="@common.MyUtil@notEmpty( MST1_CD )">
+				AND MST1_CD = #{MST1_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MST2_CD )">
+				AND MST2_CD = #{MST2_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MST3_CD )">
+				AND MST3_CD = #{MST3_CD}
+			</if>
+			AND MST_SEQ = #{MST_SEQ}
+		</where>
+    </delete>
+</mapper>

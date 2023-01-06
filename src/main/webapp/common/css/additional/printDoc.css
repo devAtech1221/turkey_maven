@@ -1,0 +1,251 @@
+@CHARSET "UTF-8";
+
+
+.modal .modal-content {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.31) !important;
+    border: none;
+    text-align: left;
+    border-radius: 5px;}
+   
+.stamp {position: absolute; width: 85px; height: 85px; right: 50px; top: 290px; display: none;}
+.stamp img {width: 100%; }
+
+.form-control.form_theme { width: 100%; }
+.input_group { padding-top: 4px; }
+
+.custom_nm { width: 100%; }
+.regi_area { margin: 1px; }
+
+.estiInfo { width: 50% !important; }
+.minutesInfo { width: 50% !important;}
+.estiInfo div { padding: 1px; }
+.minutesInfo div { padding: 1px; }
+.main
+.etcInfo { padding: 1.5em; }
+.left { float: left !important; }
+
+.cmtBox {border: 1px solid black; padding: 1.5em; margin: 22px; min-height: 90px; max-height: 120px; overflow-y: auto;}
+.doc_cmt .minutesInfo { margin-left: 18px; }
+.doc_cmt { border: 1px solid black; }
+.full { width: 100% !important; }
+.m_15 { margin-bottom: 15px !important; }
+
+
+.doc_info { page-break-inside: avoid; page-break-after: auto; }
+#writeTbl tr { page-break-inside: avoid; page-break-after: auto; }
+
+@media print { 
+	html, body {width: 210mm; height: 297mm; background-color: white;}
+	/*body, page[size="A4"] { margin: 0; box-shadow: 0; }*/
+	/*.paging {page-break-before:always;}
+	.scroll {max-height:auto !important; overflow-y:none !important;}
+	.viewD { border-bottom:1px solid #bbb;}
+	*/
+}
+
+@page {
+	size: A4;
+	margin: 0;
+}
+
+
+
+.prtDsp {
+	display: block !important;
+}
+
+.prtDsp.inline_block{
+	display: inline-block !important;
+}
+
+/* 견적서 */
+.estLogo {position: relative; left: 0; bottom: 0; width: 80px;}
+.estLogo img {width: 100%;}
+.estHeader {position: relative;}
+.estCpnInfo {position: absolute; right: 0; bottom: 0; font-size: 11px;}
+.estiList {border: 1px solid black; float: left;}
+.estiInfo div label { font-weight: bold; }
+#COMMENT { white-space: pre-line; }
+.stamp { display: block; }
+
+.custom_nm {display: inline-block; border-bottom: 2px double #333; padding: 0 0 2px 0; color: #333; font-size: 16px; font-weight: bold;}
+.prtTxt {display: inline-block; padding: 5px 0 10px;}
+
+.printWrap {
+	display: block;
+	width: 100%;
+	background-color: #fff ;
+	border: 2px solid #333;
+	min-height: 290mm;
+	padding: 0 10px;
+	margin-top: 5px;
+	font-size: 12px;
+}
+.notPrint { display: none; }
+.prtTxt {display:block;}
+
+.prtLabel { width: 35% !important; }
+
+.cmtBox {max-height: fit-content; overflow-y: hidden;}
+
+.prt_input_group { width: 65% !important; }
+
+.doc_title { text-align: center; font-size: 32px !important; margin: 15px 10px 50px !important; border: 1px double #333; padding: 5px;}
+
+.table_info h6 {
+	color: black;
+	font-size: 13px;
+}
+
+.table_info h6 .material-icons {
+	display: none;
+}
+
+
+.doc_info2 .ul-normal {
+	background-color: #fff;
+}
+
+.doc_info2 .regi_form {
+	margin: 15px 25px 0 !important;
+}
+
+.table_info .regi_form {
+	border: 1px solid black;
+	margin: 15px 25px 0 !important;
+}
+
+.form-control {
+	border: 0;
+	background: #fff !important;
+}
+
+.input.form-control.form_theme {
+	width: 100%;
+}
+
+/* tabulator */
+
+.table_wrap {
+	display : none;
+}
+
+.table_wrap_prt {
+	display: block;
+	padding: 5px;
+}
+
+.table_info table thead th { text-align: center;}
+
+#writeTbl { width: 100%; }
+
+#writeTbl thead tr th { border:1px solid black; padding: 3px; background: #eee; color: black; text-align: center;}
+
+#writeTbl tfoot tr td { border:1px solid black; padding:3px !important; background: #eee; color: black; text-align: center;}
+
+#writeTbl td {
+	text-align: center;
+	padding: 1.5em;
+	border: 1px solid black;
+}
+
+.document_form {
+	border: 1px solid black;
+}
+
+/* 회의록 */
+.meetingNote #writeTbl td:not(:first-child) { text-align: left !important; }
+.meetingNote #writeTbl td:first-child { width: 80px; }
+.etc_table { width: 100% !important; margin-left: 18px; }
+.etc_table div { padding: 1px; display: flex; }
+.etc_table div label { font-weight: bold; }
+.etc_table div .input_group { margin-left: 1em; display:inline-block; word-break:break-all; }
+
+.regi_form:after {display: block; content: ""; clear: both;}
+
+.tabulator-footer {
+	display: none;
+}
+
+.companyInfo {
+	width: 100%;
+	margin-top: 3em;
+}
+
+.companyInfo tr td {
+	border: 1px solid black;
+	padding: 0.5em;
+}
+
+.companyInfo tr td:first-child {
+	font-weight: bold;
+}
+
+.writerInfo {
+	width: 100%;
+}
+
+.writerInfo tr td {
+	border: 1px solid black;
+	padding: 0.5em;
+}
+
+.writerInfo tr td:first-child {
+	font-weight: bold;
+}
+
+.input_group.dropzone {
+	border: 0 !important;
+}
+
+#ETC{
+	white-space: pre-line;
+}
+
+.etc_title{
+	vertical-align:top;
+	padding-top:4px !important;
+	white-space: nowrap;
+}
+
+/* ckeditor */
+.ck-toolbar {
+	display: none;
+}
+
+.ck-icon {
+	display: none;
+}
+
+.ck-widget__type-around__button {
+	display: none;
+}
+
+.ck-editor label {
+	display: none;
+}
+
+/* timepicker */
+#MINUTES_START_TIME .tui-timepicker-row{
+	padding-right: 5px !important;
+}
+#MINUTES_END_TIME .tui-timepicker-row{
+	padding-left: 5px !important;
+}
+.input_group .tui-timepicker-select{
+	width: 42px !important;
+	padding: 3px 0px 5px 12px !important;
+}
+
+[type="checkbox"].filled-in:checked + label:after {
+	background-color: black;
+	border: 2px solid black;
+}
+
+.notice_tbl { width:100%; }
+.notice_tbl td {border: 1px solid black; padding: 1em;}
+.notice_tbl tr td:first-child { font-weight: bold; width: 10%; }

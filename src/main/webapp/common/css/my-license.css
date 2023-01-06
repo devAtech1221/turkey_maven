@@ -1,0 +1,128 @@
+/*.my-license-contents * {*/
+/*    outline: 1px solid red;*/
+/*}*/
+.my-license-contents {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
+}
+.my-license-contents .title {
+    text-align: start;
+    font-size: 24px;
+    font-weight: bold;
+}
+.my-license-contents .user {
+    display: flex; margin-bottom: 2em;
+}
+.my-license-contents .user .edit-info{
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    /*font-size: 24px;*/ font-size: 1.5em; color: rgba(85, 83, 83, 0.5);
+    /*margin: 12px;*/
+    width: 2em; height: 2em; border: 1px solid #ccc; border-radius: 50%; margin-left: 1em;
+    transition: all 0.3s;
+}
+.my-license-contents .user .edit-info:hover {
+    color: rgba(85, 83, 83, 1);
+}   
+.my-license-contents .user .user-info{
+    display: flex;
+    flex-direction: column;
+    /*padding: 18px 0;*/
+}
+.my-license-contents .user .user-info .name{
+    font-weight: bold;
+    /*font-size: 20px;*/ font-size: 2em;
+}
+.my-license-contents .user .user-info .belong{
+    text-align: start;
+    padding: 1px;
+    /*font-size: 10px;*/
+    /*color: rgba(57, 59, 65, 0.85);*/
+    font-size: 1.25em; color: #888;
+}
+
+.my-license-table {
+    /*font-size: 16px;*/ font-size: 1.125em; font-weight: 400;
+    border-collapse: collapse; border-top: 2px solid #53575a;
+}
+.my-license-table th {border: 0; background: #f7f7f7; border-bottom: 1px solid #ccc; padding: .8em 8px; }
+.my-license-table td {border-bottom: 1px solid #ddd; font-weight: 300; text-align: center;}
+
+
+.my-license-table thead {
+    /*background-color: var(--main-bg-color);*/
+    /*color: white;*/
+}
+.btn-solution-link {
+    cursor: pointer;
+    color: white;
+    background-color: rgba(11, 19, 66, 0.68);
+    /*padding: 6px;*/
+    border: none;
+    font-family: 'Pretendard'; font-size: .875em; padding: .65em 1.25em .5em; border-radius: 2em;
+}
+
+/* 모달 */
+.edit-form-menu {
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    /*justify-content: flex-start;*/
+    /*padding: 12px;*/
+    max-width: 500px; margin: 2em auto 1em;
+}
+.edit-form-menu li{
+    /*padding: 12px;*/ padding: 0 2em; padding-bottom: .5em; font-size: 1.125em; font-weight: 400;
+}
+#route-contents .edit-form-menu li.selected {
+    position: relative; background: #fff !important; border: 0 !important;
+    font-weight: 700; color: var(--main-bg-color) !important;
+}
+.edit-form-menu li.selected:before {display: block; content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: var(--main-bg-color); }
+
+/* 비밀번호 변경 */
+.form-box.pass .input-box{
+    justify-content: center;
+}
+.form-box.pass .title {
+    flex: none;
+    width: 20%;
+}
+.form-box.pass .input {
+    flex: none;
+    width: 40%;
+}
+
+/* 모달창 */
+.edit-form-menu {
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    /*justify-content: flex-start;*/
+    /*padding: 12px;*/
+    max-width: 500px; margin: 2em auto 1em;
+}
+.edit-form-menu li{
+    /*padding: 12px;*/ padding: 0 2em; padding-bottom: .5em; font-size: 1.125em; font-weight: 400;
+}
+.edit-form-menu li.selected {
+    position: relative; background: #fff !important; border: 0 !important;
+    font-weight: 700; color: var(--main-bg-color) !important;
+}
+.edit-form-menu li.selected:before {display: block; content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: var(--main-bg-color); }
+
+/* 비밀번호 변경 */
+.form-box.pass .input-box{
+    justify-content: center;
+}
+.form-box.pass .title {
+    flex: none;
+    width: 20%;
+}
+.form-box.pass .input {
+    flex: none;
+    width: 40%;
+}
+
+
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="model.system.user.user.UserMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
+	<insert id="join" parameterType="model.system.user.user.User">
+		INSERT INTO user (user_id,user_pass,belong,name,position,tel,email,create_dtm)
+		VALUES (
+			#{user_id}
+		   , PASSWORD(#{user_pass})
+		   , #{belong}
+		   , #{name}
+		   , #{position}
+		   , #{tel}
+		   , #{email}
+		   , NOW()
+		)
+	</insert>
+
+	<select id="idDulpChk" parameterType="model.system.user.user.User" resultType="model.system.user.user.User">
+		SELECT * FROM user
+		WHERE user_id = #{user_id}
+	</select>
+
+	<select id="emailDuplChk" parameterType="model.system.user.user.User" resultType="model.system.user.user.User">
+		SELECT * FROM user
+		WHERE email = #{email}
+	</select>
+
+	<select id="selectAllowedUser" parameterType="model.system.user.user.User" resultType="model.system.user.user.User">
+		SELECT *
+		FROM
+			user
+		WHERE
+			user_id=#{user_id} AND user_pass=PASSWORD(#{user_pass})
+	</select>
+
+	<select id="selectDoc" resultType="model.system.user.user.User" parameterType="String">
+		SELECT
+		    *
+		FROM
+			user
+		WHERE
+			user_id = #{value}
+	</select>
+
+</mapper>

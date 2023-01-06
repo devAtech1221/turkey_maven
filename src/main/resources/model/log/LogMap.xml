@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="model.log.LogMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
+	<!-- SELECT : LOG LOGIN -->
+	<select id="selectLogLogin" resultType="model.log.LogLogin" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS * FROM SYS_LOG_LOGIN
+		<where>
+			<if test="@common.MyUtil@notEmpty( sStartDate )">
+				AND CREATE_DTM <![CDATA[>=]]> #{sStartDate}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sEndDate )">
+				AND CREATE_DTM <![CDATA[<=]]> #{sEndDate}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND (
+					USER_ID like CONCAT('%',#{sear},'%')
+					OR REMOTE_IP like CONCAT('%',#{sear},'%')
+				)
+			</if>
+		</where>
+		ORDER BY CREATE_DTM DESC
+		LIMIT #{offSet}, #{recordsPerPage}
+	</select>
+
+	<!-- SELECT : LOG ACCESS -->
+	<select id="getLogAccess" resultType="model.log.LogAccess">
+		SELECT * FROM SYS_LOG_ACCESS WHERE SESSION_KEY=#{SESSION_KEY} AND CURDATE()=DATE_FORMAT(CREATE_DTM, '%Y-%m-%d')
+	</select>
+	
+	<!-- SELECT : AUTO ACCESS -->
+	<select id="getAutoAccess" resultType="model.log.AutoAccess" parameterType="model.log.AutoAccess">
+        SELECT * FROM SYS_AUTO_ACCESS
+        WHERE 
+	        ACCESS_TOKEN = #{ACCESS_TOKEN} 
+	        AND ACCESS_USER = #{ACCESS_USER} 
+	        AND (
+	            ACCESS_IP=#{ACCESS_IP}
+				<if test = 'IS_MOBILE == "Y"'>
+					OR USER_AGENT = #{USER_AGENT}
+				</if>
+			)
+    </select>
+    
+    <!-- SELECT : EXIST AUTO ACCESS -->
+    <select id="isExistAutoAccess" resultType="int" parameterType="model.log.AutoAccess">
+        SELECT COUNT(*) FROM SYS_AUTO_ACCESS
+        WHERE
+	        ACCESS_USER=#{ACCESS_USER}
+	        AND (
+	            ACCESS_IP=#{ACCESS_IP}
+				<if test= 'IS_MOBILE == "Y"'>
+					OR USER_AGENT = #{USER_AGENT}
+				</if>
+			)
+    </select>
+
+	<!-- INSERT : LOG ACCESS -->
+	<insert id="insertLogAccess" parameterType="model.log.LogAccess">
+		INSERT INTO SYS_LOG_ACCESS
+		SET
+			SESSION_KEY=#{SESSION_KEY}
+			, REF_URL=#{REF_URL}
+			, USER_IP=#{USER_IP}
+			, USER_AGENT=#{USER_AGENT}
+			, USER_STATUS=#{USER_STATUS}
+			, IS_AUTO=#{IS_AUTO}
+			, CREATE_DTM=now()
+	</insert>
+
+	<!-- INSERT : LOG LOGIN -->
+	<insert id="insertLogLogin" parameterType="model.log.LogLogin">
+		INSERT INTO SYS_LOG_LOGIN
+		SET
+			USER_ID=#{USER_ID}
+			, USER_IP=#{USER_IP}
+			, CREATE_DTM=now()
+	</insert>
+	
+	<!-- INSERT : AUTO ACCESS -->
+	<insert id="insertAutoAccess" parameterType="model.log.AutoAccess">
+        INSERT INTO SYS_AUTO_ACCESS
+        SET
+	        ACCESS_TOKEN=#{ACCESS_TOKEN}
+	        , ACCESS_IP=#{ACCESS_IP}
+	       	, ACCESS_USER=#{ACCESS_USER}
+          	, USER_AGENT=#{USER_AGENT}
+	        , LAST_ACCESS_DATE=now()
+    </insert>
+    
+    <!-- DELETE : AUTO ACCESS -->
+    <delete id="deleteAutoAccess" parameterType="model.log.AutoAccess">
+        DELETE FROM SYS_AUTO_ACCESS
+        WHERE
+	        ACCESS_USER=#{ACCESS_USER}
+	        AND (
+	            ACCESS_IP=#{ACCESS_IP}
+				<if test = 'IS_MOBILE == "Y"'>
+					OR USER_AGENT = #{USER_AGENT}
+				</if>
+			)
+    </delete>
+	
+	<!-- UPDATE : AUTO ACCESS DATE-->
+	<update id="updateLastCheckedDateAutoAccess" parameterType="model.log.AutoAccess">
+        UPDATE SYS_AUTO_ACCESS 
+        SET LAST_ACCESS_DATE=now()
+        <if test = 'IS_MOBILE == "Y"'>
+			, ACCESS_IP = #{ACCESS_IP}
+		</if>
+		WHERE
+	        ACCESS_USER=#{ACCESS_USER}
+	        AND (
+	        	ACCESS_IP=#{ACCESS_IP}
+				<if test = 'IS_MOBILE == "Y"'>
+					OR USER_AGENT = #{USER_AGENT}
+				</if>
+			)
+    </update>
+
+</mapper>

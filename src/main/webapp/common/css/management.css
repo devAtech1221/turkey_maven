@@ -1,0 +1,95 @@
+.management-contents {
+    /*width: 60%;*/
+    /*margin: 56px auto;*/ margin: 0 auto; width: 80%;
+}
+.grid-wrap {
+    width: 100%;
+    height: 700px;
+    margin: 28px auto;
+}
+.management-contents .status-option {
+    display: flex; justify-content: center;
+    /*margin: 4px;*/
+    font-size: 1em;
+}
+.management-contents .status-option li {
+    cursor: pointer;
+    /*padding: 8px; */ padding: .5em 1em; margin: 0 1em; border-radius:.25em; font-size: 1.0625em;
+}
+#route-contents .management-contents .status-option li.selected {background: #eee; border: 1px solid #eee; color: #000 !important;  }
+
+/* management modal */
+.create-form {
+    /*width: 60%;*/
+    /*margin: 22px auto;*/
+    position: relative; max-width: calc(100% - 5em); margin: 2em auto;
+}
+/*.user-form:before {display: block; content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 3px; border-bottom: 1px dashed #ddd;  }*/
+
+.create-form input {
+    /*padding: 8px;*/
+    width: 100%;
+    /*border-radius: 12px;*/
+    /*border: 1px solid rgba(93, 97, 105, 0.38);*/
+    /*display: inline-block;*/
+}
+.create-form textarea {
+    /*border: 1px solid black;*/
+    width: 100%;
+    height: 120px;
+    /*border-radius: 12px;*/
+    border: 1px solid #e3e3e3;
+    /*padding: 8px*/
+}
+.create-form input[type='file'] {
+    /*border: none;*/
+    /*padding-top: 2px;*/
+    /*padding-bottom: 0;*/
+}
+.create-form input:focus {
+    outline: none;
+}
+.create-form .form-header {
+    margin: 12px 0;
+    display: flex; justify-content: flex-start;
+    font-size: 1.25em;
+    position: relative; padding-top: 1em;
+}
+.create-form .form-header:before {display: block; content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 1px; border-bottom: 1px dashed #ddd; }
+
+.create-form .form-header .form-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: bolder;
+}
+.create-form .form-main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 12px auto;
+}
+.create-form .form-main .input {
+    display: flex;
+    justify-content: flex-start;
+    /*width: 80%;*/
+    margin: .5em 0;
+}
+.create-form .form-main label {
+    display: inline-block;
+    width: 80px;
+    /*margin: 0 12px;*/ margin-top: .65em;
+    color: #5d6169;
+    text-align: start;
+}
+.create-form .form-main label.essential {margin-top: .25em; }
+.create-form .form-main label.essential:after {
+    content: "*";
+    color: var(--main-bg-color);
+    font-size: 1.4em;
+}
+
+.status-option {
+    margin: 24px;
+}
+

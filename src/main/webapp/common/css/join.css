@@ -1,0 +1,54 @@
+.join-contents {
+    /*width: 100%;*/
+    /*height: 700px;*/
+    /*margin: 0 auto;*/
+    /*display: flex; justify-content: center;*/
+    padding: 6em 0;
+}
+.join-contents h2 {font-size: 2.5em; margin-bottom: 1em; }
+/*.join_wrap {width: 500px; margin: 0 auto; margin-top: 8.5em; margin-bottom: 8.5em; padding: 3em 2em; border: 1px solid #ddd; box-shadow: 10px 10px 10px rgb(225 231 255 / 25%); border-radius: 1.25em; }*/
+.join_wrap { }
+.join_wrap .title { font-size: 2em; width: auto;}
+.join_wrap .logo img {width: 25%; }
+.join_wrap .form_control {display: flex; width: 100%; font-size: 1.125em; }
+.join_wrap .btn {font-size: 1.125em; }
+.join_wrap .join-input {margin-top: 2em; }
+.join_wrap .input_group {margin-top: 1em; text-align: left; }
+.join_wrap .input_group label {font-size: 1.125em; font-weight: 400; color: #333; }
+.join_wrap .btn-submit {margin-top: 1.5em; }
+.join_wrap .btn-submit button {width: 100%; background: var(--main-bg-color); color: #fff; font-weight: 700; }
+.join_wrap .id-header {display: flex; margin: 8px 0;}
+
+.section1 .join-input {
+    width: 70%;
+    margin: 0 auto;
+}
+.section1 .join-input > div {
+    padding: 12px;
+}
+.section1 .join-input .input {
+    display: flex;
+    width: 100%;
+}
+.section1 .join-input .input label {
+    display: inline-block;
+    width: 20%;
+    min-width: 80px;
+    color: rgba(0, 0, 0, 0.43);
+}
+.section1 .join-input .input input {
+    display: inline-block;
+    width: 80%;
+    padding: 6px;
+    border: 1px solid rgba(93, 97, 105, 0.15);
+}
+.section1 .join-input .input input:focus {
+    outline: none;
+}
+.section2 {
+    flex: 3;
+}
+.section2 img {
+    width: 100%;
+    height: 100%;
+}

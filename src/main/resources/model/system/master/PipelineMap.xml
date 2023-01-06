@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="model.system.master.pipeline.PipelineMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+	
+	<select id="selectList" resultType="model.system.master.pipeline.Pipeline" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			T1.*
+			, T2.USER_NM AS UPDATE_NM
+		FROM 
+			DIM_PIPELINE T1
+		
+			LEFT JOIN DIM_USER T2
+				ON(T1.UPDATE_ID = T2.USER_ID)
+		<where>
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND T1.PIPELINE_NM LIKE CONCAT('%', #{sear}, '%')
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear2 )">
+				AND T1.USE_YN = #{sear2}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear3 )">
+				AND T1.PIPELINE_CD IN (
+					SELECT PIPELINE_CD
+					FROM DIM_PIPELINE_DTL
+					WHERE PROCESS_CD = #{sear3}
+				)
+			</if>
+		</where>
+		ORDER BY 
+		<choose>
+			<when test="@common.MyUtil@empty( s_order_field ) or @common.MyUtil@empty( s_order_method )">
+			T1.PIPELINE_CD DESC
+			</when>
+			<otherwise>
+			${s_order_field} ${s_order_method}
+			</otherwise>
+		</choose>
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectDetailList" resultType="model.system.master.pipeline.Pipeline" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			T1.*
+			, T2.PROCESS_NM
+		FROM 
+			DIM_PIPELINE_DTL T1
+			
+			LEFT JOIN DIM_PROCESS T2
+				ON(T1.PROCESS_CD = T2.PROCESS_CD)
+		WHERE
+			T1.PIPELINE_CD= #{sear}
+		ORDER BY 
+		<choose>
+			<when test="@common.MyUtil@empty( s_order_field ) or @common.MyUtil@empty( s_order_method )">
+			T1.PIPELINE_CD DESC
+			</when>
+			<otherwise>
+			${s_order_field} ${s_order_method}
+			</otherwise>
+		</choose>
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectDoc" resultType="model.system.master.pipeline.Pipeline" parameterType="model.system.master.pipeline.Pipeline">
+		SELECT *
+		FROM DIM_PIPELINE
+		<where>
+			<if test="@common.MyUtil@notEmpty( PIPELINE_CD )">
+				AND PIPELINE_CD = #{PIPELINE_CD}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectProcessList" resultType="model.system.master.standardProcess.StandardProcess" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			T1.*
+			, T2.USER_NM AS UPDATE_NM
+		FROM 
+			DIM_PROCESS T1
+			
+			LEFT JOIN DIM_USER T2
+				ON(T1.UPDATE_ID = T2.USER_ID)
+		<where>
+			T1.USE_YN = "Y" 
+		</where>
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<insert id="insertDoc" parameterType="model.system.master.pipeline.Pipeline" keyProperty="PIPELINE_CD" >
+		INSERT INTO DIM_PIPELINE
+		SET
+			PIPELINE_NM=#{PIPELINE_NM}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		<selectKey resultType="string" keyProperty="PIPELINE_CD" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id="updateDoc" parameterType="model.system.master.pipeline.Pipeline">
+        UPDATE DIM_PIPELINE
+		SET
+			PIPELINE_NM=#{PIPELINE_NM}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		WHERE
+			PIPELINE_CD=#{PIPELINE_CD}
+    </update>
+	
+	<insert id="insertDetail" parameterType="java.util.List">
+		INSERT INTO DIM_PIPELINE_DTL(
+			PIPELINE_CD
+			, PIPELINE_DTL_CD
+			, PROCESS_CD
+			, COMMENT
+			, CREATE_ID
+			, CREATE_DTM
+			, UPDATE_ID
+			, UPDATE_DTM
+			)
+		VALUES
+		<foreach collection="list" item="item" index="index" open="(" separator="),(" close=")">
+			#{item.PIPELINE_CD}
+			, #{item.PIPELINE_DTL_CD}
+			, #{item.PROCESS_CD}
+			, #{item.COMMENT}
+			, #{item.CREATE_ID}
+			, NOW()
+			, #{item.UPDATE_ID}
+			, NOW()
+		</foreach>
+	</insert>
+	
+	<delete id="deleteDetail" parameterType="model.system.master.pipeline.Pipeline">
+        DELETE FROM DIM_PIPELINE_DTL
+        WHERE
+        	PIPELINE_CD = #{PIPELINE_CD}
+    </delete>
+</mapper>

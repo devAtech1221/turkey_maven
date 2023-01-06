@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app
+        id="WebApp_9"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+        version="3.0"
+>
+  <display-name>Archetype Created Web Application</display-name>
+
+  <welcome-file-list>
+    <welcome-file>Index.do</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <servlet>
+    <servlet-name>Controller</servlet-name>
+    <servlet-class>control.Controller</servlet-class>
+    <init-param>
+      <param-name>ContextName</param-name>
+      <param-value></param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Controller</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+  <!-- quartz(scheduler) -->
+  <servlet>
+    <servlet-name> QuartzInitializer </servlet-name>
+    <display-name> Quartz Initializer Servlet </display-name>
+    <servlet-class> org.quartz.ee.servlet.QuartzInitializerServlet </servlet-class>
+    <init-param>
+      <param-name>config-file</param-name>
+      <param-value>/scheduler/quartz.properties</param-value>
+    </init-param>
+    <init-param>
+      <param-name>shutdown-on-unload</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>wait-on-shutdown</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <init-param>
+      <param-name>start-scheduler-on-load</param-name>
+      <param-value>true</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>NotificationScheduler</servlet-name>
+    <servlet-class>common.notification.scheduler.NotificationScheduler</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+  <session-config>
+    <session-timeout>240</session-timeout>
+  </session-config>
+
+  <!-- exception page -->
+  <error-page>
+    <error-code>400</error-code>
+    <location>/common/error/400.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>403</error-code>
+    <location>/common/error/403.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/common/error/404.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/common/error/400.jsp</location>
+  </error-page>
+</web-app>

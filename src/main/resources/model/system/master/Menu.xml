@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="model.system.master.menu.MenuMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+
+	<select id="selectList" resultType="model.system.master.menu.Menu">
+		SELECT SQL_CALC_FOUND_ROWS *
+		FROM SYS_MENU M1
+		<where>
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND MENU1_CD = #{sear}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear2 )">
+				AND MENU2_CD = #{sear2}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear3 )">
+				AND MENU3_CD = #{sear3}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear4 )">
+				AND MENU_SEQ = #{sear4}
+
+				-- 마스터레벨 검색
+				<if test="sear4 == 1">
+
+					-- 검색어가 있다면?
+					<if test='@common.MyUtil@notEmpty( sear5 )'>
+						AND 0 &lt; (SELECT count(*) FROM SYS_MENU M2
+						WHERE M1.MENU1_CD = M2.MENU1_CD AND
+						M2.MENU_NM like CONCAT('%',#{sear5},'%') AND
+						USE_YN like CONCAT('%',#{sear6},'%'))
+					</if>
+
+					-- 미사용 검색
+					<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("N")'>
+						AND 0 &lt; (SELECT count(*) FROM SYS_MENU M2
+						WHERE M1.MENU1_CD = M2.MENU1_CD AND
+						M2.USE_YN = 'N')
+					</if>
+				</if>
+
+				-- 2레벨 검색
+				<if test="sear4 == 2">
+
+					-- 검색어가 있다면?
+					<if test='@common.MyUtil@notEmpty( sear5 )'>
+						AND 0 &lt; (SELECT count(*) FROM SYS_MENU M2
+						WHERE M2.MENU1_CD = #{sear} AND
+						M2.MENU2_CD = M1.MENU2_CD AND
+						M2.MENU_NM like CONCAT('%',#{sear5},'%') AND
+						USE_YN like CONCAT('%',#{sear6},'%'))
+					</if>
+
+					-- 미사용 검색
+					<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("N")'>
+						AND 0 &lt; (SELECT count(*) FROM SYS_MENU M2
+						WHERE M2.MENU1_CD = #{sear} AND
+						M2.MENU2_CD = M1.MENU2_CD AND
+						M2.USE_YN = 'N')
+					</if>
+				</if>
+
+				-- 3레벨 검색
+				<if test="sear4 == 3">
+
+					-- 검색어가 있다면?
+					<if test='@common.MyUtil@notEmpty( sear5 )'>
+						AND MENU_NM like CONCAT('%',#{sear5},'%')
+					</if>
+
+					-- 미사용 검색
+					<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("N")'>
+						AND USE_YN = 'N'
+					</if>
+				</if>
+
+				-- 사용 검색
+				<if test='@common.MyUtil@notEmpty( sear6 ) and sear6.equals("Y")'>
+					AND USE_YN = 'Y'
+				</if>
+			</if>
+
+		</where>
+		ORDER BY 
+			MENU1_CD
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT #{offSet}, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectObj" resultType="model.system.master.menu.Menu" parameterType="model.system.master.menu.Menu">
+		SELECT *
+		FROM SYS_MENU
+		<where>
+			<if test="@common.MyUtil@notEmpty( MENU1_CD )">
+				AND MENU1_CD = #{MENU1_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MENU2_CD )">
+				AND MENU2_CD = #{MENU2_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MENU3_CD )">
+				AND MENU3_CD = #{MENU3_CD}
+			</if>
+			AND MENU_SEQ = #{MENU_SEQ}
+		</where>
+	</select>
+	
+	<insert id="insertDoc" parameterType="model.system.master.menu.Menu">
+		INSERT INTO SYS_MENU
+		SET
+			MENU1_CD=#{MENU1_CD}
+			, MENU2_CD=#{MENU2_CD}
+			, MENU3_CD=#{MENU3_CD}
+			, MENU_SEQ=#{MENU_SEQ}
+			, MENU_NM=#{MENU_NM}
+			, MENU_URL=#{MENU_URL}
+			, MENU_ICON=#{MENU_ICON}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+	</insert>
+	
+	<update id="updateDoc" parameterType="model.system.master.menu.Menu">
+        UPDATE SYS_MENU 
+        SET
+        	MENU_SEQ=#{MENU_SEQ}
+			, MENU_NM=#{MENU_NM}
+			, MENU_URL=#{MENU_URL}
+			, MENU_ICON=#{MENU_ICON}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		<where>
+			<if test="@common.MyUtil@notEmpty( MENU1_CD )">
+				AND MENU1_CD = #{MENU1_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MENU2_CD )">
+				AND MENU2_CD = #{MENU2_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MENU3_CD )">
+				AND MENU3_CD = #{MENU3_CD}
+			</if>
+			AND MENU_SEQ = #{MENU_SEQ}
+		</where>
+    </update>
+    
+    <delete id="deleteDoc" parameterType="model.system.master.menu.Menu">
+        DELETE FROM SYS_MENU
+        <where>
+			<if test="@common.MyUtil@notEmpty( MENU1_CD )">
+				AND MENU1_CD = #{MENU1_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MENU2_CD )">
+				AND MENU2_CD = #{MENU2_CD}
+			</if>
+			<if test="@common.MyUtil@notEmpty( MENU3_CD )">
+				AND MENU3_CD = #{MENU3_CD}
+			</if>
+			AND MENU_SEQ = #{MENU_SEQ}
+		</where>
+    </delete>
+	
+	<!-- #SELECT MENU -->
+	<select id="selectMenuList" resultType="model.system.master.menu.Menu">
+		SELECT SQL_CALC_FOUND_ROWS * FROM SYS_MENU WHERE USE_YN="Y" ORDER BY MENU1_CD, MENU2_CD, MENU3_CD
+	</select>
+	<select id="selectMenu1List" resultType="model.system.master.menu.Menu">
+		SELECT SQL_CALC_FOUND_ROWS * FROM SYS_MENU WHERE MENU_SEQ='1' AND USE_YN="Y" ORDER BY MENU1_CD, MENU2_CD, MENU3_CD
+	</select>
+	<select id="selectMenu2List" resultType="model.system.master.menu.Menu" parameterType="int">
+		SELECT SQL_CALC_FOUND_ROWS * FROM SYS_MENU WHERE MENU_SEQ='2' AND MENU1_CD=#{value} AND USE_YN="Y" ORDER BY MENU1_CD, MENU2_CD, MENU3_CD
+	</select>
+	<select id="selectMenu3List" resultType="model.system.master.menu.Menu" parameterType="int">
+		SELECT SQL_CALC_FOUND_ROWS * FROM SYS_MENU WHERE MENU_SEQ='3' AND MENU2_CD=#{value} AND USE_YN="Y" ORDER BY MENU1_CD, MENU2_CD, MENU3_CD
+	</select>
+
+	<!-- #SELECT AUTH MENT -->
+	<select id="selectAuthMenuList" resultType="model.system.master.menu.Menu" parameterType="String">
+		SELECT 
+			TARGET.*
+		FROM SYS_MENU TARGET
+			INNER JOIN (
+				SELECT *
+				FROM DIM_AUTH_DTL
+				WHERE AUTH_CD = #{auth_cd}
+			) A ON (TARGET.MENU1_CD = A.MENU1_CD AND TARGET.MENU2_CD = A.MENU2_CD AND TARGET.MENU3_CD = A.MENU3_CD)
+		WHERE TARGET.USE_YN = 'Y'
+		ORDER BY TARGET.MENU1_CD, TARGET.MENU2_CD, TARGET.MENU3_CD
+	</select>
+
+	<!-- #GET MENU INFO -->
+	<select id="getMenu1ByInfo" resultType="model.system.master.menu.Menu" parameterType="model.system.master.menu.Menu">
+		SELECT * FROM SYS_MENU WHERE MENU_SEQ='1' AND MENU1_CD=#{MENU1_CD}
+	</select>
+	<select id="getMenu2ByInfo" resultType="model.system.master.menu.Menu" parameterType="model.system.master.menu.Menu">
+		SELECT * FROM SYS_MENU WHERE MENU_SEQ='2' AND MENU1_CD=#{MENU1_CD} AND MENU2_CD=#{MENU2_CD} AND USE_YN="Y"
+	</select>
+	<select id="getMenu3ByInfo" resultType="model.system.master.menu.Menu" parameterType="model.system.master.menu.Menu">
+		SELECT * FROM SYS_MENU WHERE MENU_SEQ='3' AND MENU1_CD=#{MENU1_CD} AND MENU2_CD=#{MENU2_CD} AND MENU3_CD=#{MENU3_CD} AND USE_YN="Y"
+	</select>
+
+	<!-- #GET MENU URL -->
+	<select id="getMenu1ByURL" resultType="model.system.master.menu.Menu" parameterType="String">
+		SELECT * FROM SYS_MENU WHERE MENU_SEQ='1' AND MENU_URL=#{MENU_URL}LIMIT 1
+	</select>
+	<select id="getMenu2ByURL" resultType="model.system.master.menu.Menu" parameterType="String">
+		SELECT * FROM SYS_MENU WHERE MENU_SEQ='2' AND MENU_URL=#{MENU_URL} AND USE_YN="Y" LIMIT 1
+	</select>
+	<select id="getMenu3ByURL" resultType="model.system.master.menu.Menu" parameterType="String">
+		SELECT * FROM SYS_MENU WHERE MENU_SEQ='3' AND MENU_URL=#{MENU_URL} AND USE_YN="Y" LIMIT 1
+	</select>
+
+	<!-- #GET COUNT MENU -->
+	<select id="getCntMenu2" resultType="int" parameterType="model.system.master.menu.Menu">
+		SELECT ifnull(COUNT(*), 0) AS CNT FROM SYS_MENU WHERE MENU_SEQ='2' AND MENU1_CD=#{MENU1_CD} AND USE_YN="Y"
+	</select>
+	<select id="getCntMenu3" resultType="int" parameterType="model.system.master.menu.Menu">
+		SELECT ifnull(COUNT(*), 0) AS CNT FROM SYS_MENU WHERE MENU_SEQ='3' AND MENU2_CD=#{MENU2_CD} AND USE_YN="Y"
+	</select>
+
+	<!-- #GET MAX MENU -->
+	<select id="getMaxMENU1_CD" resultType="int">
+		SELECT ifnull(MAX(MENU1_CD), 0) AS MAX FROM SYS_MENU WHERE MENU_SEQ='1'
+	</select>
+	<select id="getMaxMENU2_CD" resultType="int" parameterType="int">
+		SELECT ifnull(MAX(MENU2_CD), 0) AS MAX FROM SYS_MENU WHERE MENU_SEQ='2' AND MENU1_CD=#{MENU1_CD} AND USE_YN="Y"
+	</select>
+	<select id="getMaxMENU3_CD" resultType="int" parameterType="int">
+		SELECT ifnull(MAX(MENU3_CD), 0) AS MAX FROM SYS_MENU WHERE MENU_SEQ='3' AND MENU2_CD=#{MENU2_CD} AND USE_YN="Y"
+	</select>
+
+	<!-- #GET MAX ORDER -->
+	<select id="getMaxORDER1" resultType="int">
+		SELECT ifnull(MAX(ORDERS), 0) AS MAX FROM SYS_MENU WHERE MENU_SEQ='1'
+	</select>
+	<select id="getMaxORDER2" resultType="int" parameterType="int">
+		SELECT ifnull(MAX(ORDERS), 0) AS MAX FROM SYS_MENU WHERE MENU_SEQ='2' AND MENU1_CD=#{MENU1_CD} AND USE_YN="Y"
+	</select>
+	<select id="getMaxORDER3" resultType="int" parameterType="int">
+		SELECT ifnull(MAX(ORDERS), 0) AS MAX FROM SYS_MENU WHERE MENU_SEQ='3' AND MENU2_CD=#{MENU2_CD} AND USE_YN="Y"
+	</select>
+
+	<!-- #UPDATE MENU ORDER -->
+	<update id="updateMenuOrder" parameterType="model.system.master.menu.Menu">
+		UPDATE MENU
+		SET
+			MENU_SEQ=#{MENU_SEQ}
+			,MENU_NM=#{MENU_NM}
+			,MENU_URL=#{MENU_URL}
+			,MENU_ICON=#{MENU_ICON}
+		WHERE
+			MENU1_CD=#{MENU1_CD}
+			AND MENU2_CD=#{MENU2_CD}
+			AND MENU3_CD=#{MENU3_CD}
+			AND MENU_SEQ=#{MENU_SEQ}
+	</update>
+</mapper>

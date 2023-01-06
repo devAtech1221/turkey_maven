@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="model.system.customer.outsourcing.OutsourcingMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+	
+	<select id="selectList" resultType="model.system.customer.outsourcing.Outsourcing" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			T1.* 
+			, T2.USER_NM AS UPDATE_NM
+		FROM 
+			DIM_CUST T1
+			
+			LEFT JOIN DIM_USER T2
+				ON(T1.UPDATE_ID = T2.USER_ID)
+		WHERE
+			T1.CUST_TYPE = "03"
+			<if test="@common.MyUtil@notEmpty( sear )">
+				AND T1.CUST_NM LIKE CONCAT('%', #{sear}, '%')
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear2 )">
+				AND T1.CEO LIKE CONCAT('%',#{sear2},'%')
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear3 )">
+				AND T1.REGI_NO LIKE CONCAT('%',#{sear3},'%')
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear4 )">
+				AND T1.USE_YN = #{sear4}
+			</if>
+			<if test="@common.MyUtil@notEmpty( sear5 )">
+				AND T1.CUST_CD IN (SELECT CUST_CD FROM DIM_CUST_MANAGER WHERE MANAGER_NM LIKE CONCAT('%', #{sear5}, '%'))
+			</if>
+		ORDER BY 
+			<choose>
+			<when test="@common.MyUtil@empty( s_order_field ) or @common.MyUtil@empty( s_order_method )">
+			T1.SORT_SEQ
+			</when>
+			<otherwise>
+			${s_order_field} ${s_order_method}
+			</otherwise>
+			</choose>
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+	
+	<select id="selectDoc" resultType="model.system.customer.outsourcing.Outsourcing" parameterType="String">
+		SELECT *
+		FROM 
+			DIM_CUST
+		WHERE
+			CUST_CD = #{value}
+	</select>
+	
+	<insert id="insertDoc" parameterType="model.system.customer.outsourcing.Outsourcing" keyProperty="CUST_CD" >
+		INSERT INTO DIM_CUST
+		SET
+			CUST_TYPE=#{CUST_TYPE}
+			, CUST_NM=#{CUST_NM}
+			, REGI_NO=#{REGI_NO}
+			, CEO=#{CEO}
+			, MANAGER=#{MANAGER}
+			, CELL_NO=#{CELL_NO}
+			, EMAIL=#{EMAIL}
+			, FAX_NO=#{FAX_NO}
+			, ADDRESS=#{ADDRESS}
+			, SORT_SEQ=#{SORT_SEQ}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+	</insert>
+
+	<update id="updateDoc" parameterType="model.system.customer.outsourcing.Outsourcing">
+        UPDATE DIM_CUST 
+        SET
+			CUST_NM=#{CUST_NM}
+			, REGI_NO=#{REGI_NO}
+			, CEO=#{CEO}
+			, MANAGER=#{MANAGER}
+			, CELL_NO=#{CELL_NO}
+			, EMAIL=#{EMAIL}
+			, FAX_NO=#{FAX_NO}
+			, ADDRESS=#{ADDRESS}
+			, SORT_SEQ=#{SORT_SEQ}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		WHERE 
+	        CUST_CD=#{CUST_CD}
+    </update>
+    
+    <delete id="deleteDoc" parameterType="model.system.customer.outsourcing.Outsourcing">
+        DELETE FROM DIM_CUST
+        WHERE
+	        CUST_CD=#{CUST_CD}
+    </delete>
+	
+	<select id="selectBankList" resultType="model.system.customer.customer.Bank" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			* 
+		FROM 
+			DIM_CUST_BANK
+		<where>
+			AND CUST_CD = #{sear}
+		</where>
+		ORDER BY 
+			BANK_SEQ DESC
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+    
+    <select id="selectBank" resultType="model.system.customer.customer.Bank" parameterType="model.system.customer.customer.Bank">
+		SELECT *
+		FROM 
+			DIM_CUST_BANK
+		WHERE
+			CUST_CD = #{CUST_CD}
+			AND BANK_SEQ = #{BANK_SEQ}
+	</select>
+	
+	<insert id="insertBank" parameterType="model.system.customer.customer.Bank">
+		<selectKey keyProperty="BANK_SEQ" order="BEFORE" resultType="String">
+			SELECT IF(MAX(B.BANK_SEQ) IS NULL, 1, MAX(B.BANK_SEQ) + 1)
+			FROM DIM_CUST_BANK B
+			WHERE CUST_CD = #{CUST_CD}
+		</selectKey>
+		INSERT INTO DIM_CUST_BANK
+		SET
+			CUST_CD=#{CUST_CD}
+			, BANK_SEQ=
+				(
+				SELECT IF(MAX(B.BANK_SEQ) IS NULL, 1, MAX(B.BANK_SEQ) + 1)
+				FROM DIM_CUST_BANK B
+				WHERE CUST_CD = #{CUST_CD}
+				)
+			, BANK_NM=#{BANK_NM}
+			, ACC_NO=#{ACC_NO}
+			, ACC_NM=#{ACC_NM}
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+	</insert>
+
+	<update id="updateBank" parameterType="model.system.customer.customer.Bank">
+        UPDATE DIM_CUST_BANK 
+        SET
+			BANK_NM=#{BANK_NM}
+			, ACC_NO=#{ACC_NO}
+			, ACC_NM=#{ACC_NM}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		WHERE 
+	        CUST_CD=#{CUST_CD}
+	        AND BANK_SEQ = #{BANK_SEQ}
+    </update>
+    
+    <delete id="deleteBank" parameterType="model.system.customer.customer.Bank">
+        DELETE FROM DIM_CUST_BANK
+        WHERE
+	        CUST_CD=#{CUST_CD}
+	        AND BANK_SEQ = #{BANK_SEQ}
+    </delete>
+    
+    <select id="selectManagerList" resultType="model.system.customer.customer.Manager" parameterType="common.Paging">
+		SELECT SQL_CALC_FOUND_ROWS 
+			* 
+		FROM 
+			DIM_CUST_MANAGER
+		<where>
+			CUST_CD = #{sear}
+			<if test="@common.MyUtil@notEmpty( sear2 )">
+				AND MANAGER_NM like CONCAT('%',#{sear2},'%')
+			</if>
+		</where>
+		ORDER BY 
+			CASE
+				WHEN DEFAULT_YN = 'Y' then 0 
+				ELSE 1 
+			END
+    		, MANAGER_SEQ <!-- DESC -->
+		<if test="@common.MyUtil@notEmpty( recordsPerPage ) and recordsPerPage > 0">
+			LIMIT 
+				#{offSet}
+				, #{recordsPerPage}
+		</if>
+	</select>
+    
+    <select id="selectManager" resultType="model.system.customer.customer.Manager" parameterType="model.system.customer.customer.Manager">
+		SELECT *
+		FROM 
+			DIM_CUST_MANAGER
+		WHERE
+			CUST_CD = #{CUST_CD}
+			AND MANAGER_SEQ = #{MANAGER_SEQ}
+	</select>
+	
+	<select id="selectDefaultManagerCount" resultType="int" parameterType="model.system.customer.customer.Manager">
+		SELECT 
+			COUNT(0)
+		FROM 
+			DIM_CUST_MANAGER
+		WHERE
+			CUST_CD = #{CUST_CD}
+			AND DEFAULT_YN = 'Y'
+			AND MANAGER_SEQ != #{MANAGER_SEQ}
+	</select>
+	
+	<insert id="insertManager" parameterType="model.system.customer.customer.Manager">
+		<selectKey keyProperty="MANAGER_SEQ" order="BEFORE" resultType="String">
+			SELECT IF(MAX(B.MANAGER_SEQ) IS NULL, 1, MAX(B.MANAGER_SEQ) + 1)
+			FROM DIM_CUST_MANAGER B
+			WHERE CUST_CD = #{CUST_CD}
+		</selectKey>
+		INSERT INTO DIM_CUST_MANAGER
+		SET
+			CUST_CD=#{CUST_CD}
+			, MANAGER_SEQ=#{MANAGER_SEQ}
+			, MANAGER_NM=#{MANAGER_NM}
+			, DEPT_NM=#{DEPT_NM}
+			, RANK_NM=#{RANK_NM}
+			, CELL_NO=#{CELL_NO}
+			, EMAIL=#{EMAIL}
+			, DEFAULT_YN=#{DEFAULT_YN}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, CREATE_ID=#{CREATE_ID}
+			, CREATE_DTM=now()
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+	</insert>
+
+	<update id="updateManager" parameterType="model.system.customer.customer.Manager">
+        UPDATE DIM_CUST_MANAGER 
+        SET
+			MANAGER_NM=#{MANAGER_NM}
+			, DEPT_NM=#{DEPT_NM}
+			, RANK_NM=#{RANK_NM}
+			, CELL_NO=#{CELL_NO}
+			, EMAIL=#{EMAIL}
+			, DEFAULT_YN=#{DEFAULT_YN}
+			, USE_YN=#{USE_YN}
+			, COMMENT=#{COMMENT}
+			, UPDATE_ID=#{UPDATE_ID}
+			, UPDATE_DTM=now()
+		WHERE 
+	        CUST_CD=#{CUST_CD}
+	        AND MANAGER_SEQ = #{MANAGER_SEQ}
+    </update>
+    
+    <delete id="deleteManager" parameterType="model.system.customer.customer.Manager">
+        DELETE FROM DIM_CUST_MANAGER
+        WHERE
+	        CUST_CD=#{CUST_CD}
+	        AND MANAGER_SEQ = #{MANAGER_SEQ}
+    </delete>
+</mapper>

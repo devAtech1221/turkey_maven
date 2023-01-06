@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="model.main.MainMapper">
+	<select id="selectTotalRecords" resultType="int">
+		SELECT FOUND_ROWS();
+	</select>
+	
+	<select id="selectSolutionList" resultType="model.main.Solution">
+		SELECT * FROM solution
+	</select>
+
+	<select id="selectDetailList" parameterType="Long" resultType="model.main.Detail">
+		SELECT * FROM detail
+		where solution_id = #{value}
+	</select>
+
+	<select id="selectLicenseList" parameterType="Long" resultType="model.main.LicenseInfo">
+		SELECT * FROM license_info
+		where solution_id = #{value}
+	</select>
+</mapper>
