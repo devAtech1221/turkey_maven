@@ -229,31 +229,31 @@ function getSolutionImage(solution_id) {
 
     if(solution_id === '1') {
         imageList = [
-            {path: `${contextPath}/SHT_1/1_수주관리.png`,tag: `수주관리`},
-            {path: `${contextPath}/SHT_1/2_생산계획.png`,tag: `생산계획`},
-            {path: `${contextPath}/SHT_1/3_자재소요량산출.png`,tag: `자재소요량산충`},
-            {path: `${contextPath}/SHT_1/4_작업지시.png`,tag: `작업지시`},
-            {path: `${contextPath}/SHT_1/5_작업실적.png`,tag: `작업실적`},
-            {path: `${contextPath}/SHT_1/6_계획대비실적.png`,tag: `계획대비실적`},
-            {path: `${contextPath}/SHT_1/7_BOM현황.png`,tag: `BOM현황`},
+            {path: `${contextPath}/SHT_1/1_Order.png`,tag: `수주관리`},
+            {path: `${contextPath}/SHT_1/2_Production-Planning.png`,tag: `생산계획`},
+            {path: `${contextPath}/SHT_1/3_Material-Requirement .png`,tag: `자재소요량산충`},
+            {path: `${contextPath}/SHT_1/4_Work-Order.png`,tag: `작업지시`},
+            {path: `${contextPath}/SHT_1/5_Work-Performance.png`,tag: `작업실적`},
+            {path: `${contextPath}/SHT_1/6_Performance-Against-Plan.png`,tag: `계획대비실적`},
+            {path: `${contextPath}/SHT_1/7_BOM.png`,tag: `BOM현황`},
         ]
 
     } else if(solution_id === '2') {
         imageList = [
-            {path: `${contextPath}/KPNC_2/1_BOM관리.png`,tag: `BOM관리`},
-            {path: `${contextPath}/KPNC_2/2_대시보드.png`,tag: `대시보드`},
-            {path: `${contextPath}/KPNC_2/3_자재현황.png`,tag: `자재현황`},
-            {path: `${contextPath}/KPNC_2/4_작업지시.png`,tag: `작업지시`},
-            {path: `${contextPath}/KPNC_2/5_프로젝트현황.png`,tag: `프로젝트현황`},
+            {path: `${contextPath}/KPNC_2/1_BOM.png`,tag: `BOM관리`},
+            {path: `${contextPath}/KPNC_2/2_Dashboard.png`,tag: `대시보드`},
+            {path: `${contextPath}/KPNC_2/3_Material-Status.png`,tag: `자재현황`},
+            {path: `${contextPath}/KPNC_2/4_Work-Order.png`,tag: `작업지시`},
+            {path: `${contextPath}/KPNC_2/5_Project-Status.png`,tag: `프로젝트현황`},
         ]
 
     } else if(solution_id === '3') {
         imageList = [
-            {path: `${contextPath}/HSG_3/1_작업지시.png`,tag: `작업지시`},
-            {path: `${contextPath}/HSG_3/2_생산정보.png`,tag: `생산정보`},
-            {path: `${contextPath}/HSG_3/3_생산완료정보.png`,tag: `생산완료정보`},
-            {path: `${contextPath}/HSG_3/4_설비유지보수.png`,tag: `설비유지보수`},
-            {path: `${contextPath}/HSG_3/5_모니터링.png`,tag: `모니터링`},
+            {path: `${contextPath}/HSG_3/1_Work-Order.png`,tag: `작업지시`},
+            {path: `${contextPath}/HSG_3/2_Production-Information.png`,tag: `생산정보`},
+            {path: `${contextPath}/HSG_3/3_ Production-Completion-Information.png`,tag: `생산완료정보`},
+            {path: `${contextPath}/HSG_3/4_Facility-Maintenance.png`,tag: `설비유지보수`},
+            {path: `${contextPath}/HSG_3/5_Monitoring.png`,tag: `모니터링`},
         ]
     }
 
