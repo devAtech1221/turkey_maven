@@ -68,7 +68,7 @@
 	</div>
 
 	<div class="input_group">
-		<label for="title" class="title">제목</label>
+		<label for="title" class="title required">제목</label>
 		<input
 			class="form_control"
 			id="title"
@@ -81,7 +81,7 @@
 	</div>
 
 	<div class="input_group">
-		<label for="contents" class="title">내용</label>
+		<label for="contents" class="title required">내용</label>
 		<textarea
 			class="form_control"
 			id="contents"
@@ -100,7 +100,7 @@
 			name="agree"
 			value="on"
 		/>
-		<label for="agree" class="title">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+		<label for="agree" class="title required-agree">개인정보 수집 및 이용에 동의합니다.</label>
 	</div>
 	<div class="error-box" data-key="agree">
 		<div class="error-msg"></div>

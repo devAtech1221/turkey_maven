@@ -69,60 +69,6 @@ public class LoginHandler  extends CommonHandler{
 			}
 		}
 
-//		if(task.equals("logout")){
-//			HttpSession session = request.getSession();
-//
-//			/* auto login session delete after logout */
-//			LogDao logDao = LogDao.getInstance();
-//			AutoAccess autoAccess = new AutoAccess();
-//			autoAccess.setACCESS_IP(request.getRemoteAddr());
-//			autoAccess.setACCESS_USER((String)session.getAttribute("U_ID"));
-//			autoAccess.setUSER_AGENT(u_agent);
-//			if(u_agent.toUpperCase().indexOf("MOBI") > -1){ autoAccess.setIS_MOBILE("Y"); }
-//			logDao.deleteAutoAccess(autoAccess);
-//
-//			session.invalidate();
-//
-//			resultMap.put("retCode","OK");
-//			resultMap.put("url", "/main/Main.do");
-//			request.setAttribute("resultMap", resultMap);
-//			return "/common/util/retAjax.jsp";
-//		}
-		
-//		if(task.equals("findPassword")){
-//			User user = new User(request, "data");
-//			String USER_ID = myUtil.null2Blank(user.getUSER_ID()).trim();
-//			String EMAIL = myUtil.null2Blank(user.getEMAIL()).trim();
-//
-//			// 1. 필요값이 없을 경우
-//			if(myUtil.isNullOrBlank(USER_ID) || myUtil.isNullOrBlank(EMAIL)) {
-//				resultMap.put("resultCode", Message.ERROR_FINDPW_BLANK.getCode());
-//				resultMap.put("resultMessage", Message.ERROR_FINDPW_BLANK.getMsg());
-//				return retResult(request, resultMap);
-//			}
-//
-//			// 2. USER_ID에 대한 EMAIL 값이 일치하지 않는 경우
-//			UserDao userDao = UserDao.getInstance();
-//			User selectedUser = userDao.selectDoc(USER_ID);
-//			if(!EMAIL.equals(myUtil.null2Blank(selectedUser.getEMAIL()))) {
-//				resultMap.put("resultCode", Message.ERROR_FINDPW_WORNG.getCode());
-//				resultMap.put("resultMessage", Message.ERROR_FINDPW_WORNG.getMsg());
-//				return retResult(request, resultMap);
-//			}
-//
-//			// 3. 임시비밀번호 설정 & 메일 전송
-//			boolean success = userDao.startFindPWProcess(selectedUser);
-//			if(!success) {
-//				resultMap.put("resultCode", Message.ERROR_FINDPW_MAKEPW.getCode());
-//				resultMap.put("resultMessage", Message.ERROR_FINDPW_MAKEPW.getMsg());
-//				return retResult(request, resultMap);
-//			}
-//
-//			resultMap.put("resultCode", Message.INFO_FINDPW.getCode());
-//			resultMap.put("resultMessage", Message.INFO_FINDPW.getMsg());
-//			return retResult(request, resultMap);
-//		}
-
 		resultMap.put("resultCode","taskError");
 		resultMap.put("retMsg", "잘못된 접근입니다.");
 		request.setAttribute("resultMap", resultMap);

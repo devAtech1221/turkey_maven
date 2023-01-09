@@ -565,14 +565,6 @@ body {
 .required {
   display: inline-block;
 }
-.required::before {
-  display: inline-block;
-  content: "*";
-  color: #ff3636;
-  line-height: 1;
-  vertical-align: top;
-  margin: 0.2em;
-}
 
 .btn_link {
   background: #545e7e;
@@ -703,9 +695,15 @@ input,textarea:focus {
   padding: 8px;
   /*border-radius: 12px;*/ border-radius: .25em;
 }
-.input-box .title:after {
+.required::after {
   content: "*";
-  color: var(--main-bg-color);
+  color: red;
+  padding-left: .125em;
+}
+
+.required-agree::after {
+  content: "(필수)";
+  color: red;
   padding-left: .125em;
 }
 

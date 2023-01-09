@@ -33,7 +33,7 @@ public class OutsourcingDao {
             this.noOfRecords = mapper.selectTotalRecords();
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[OutsourcingDao] : selectList : {}", e.toString());
+            logger.error ("Error[OutsourcingDao] : selectList : {}", e);
         } finally {
             session.close();
         }
@@ -67,7 +67,7 @@ public class OutsourcingDao {
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : insertDoc : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : insertDoc : {}", e);
             return false;
         }finally {
             session.close();
@@ -88,7 +88,7 @@ public class OutsourcingDao {
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : updateDoc : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : updateDoc : {}", e);
             return false;
         }finally {
             session.close();
@@ -106,7 +106,7 @@ public class OutsourcingDao {
             
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : deleteDoc : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : deleteDoc : {}", e);
             return false;
         }finally {
             session.close();
@@ -124,7 +124,7 @@ public class OutsourcingDao {
             this.noOfRecords = mapper.selectTotalRecords();
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[OutsourcingDao] : selectBankList : {}", e.toString());
+            logger.error ("Error[OutsourcingDao] : selectBankList : {}", e);
         } finally {
             session.close();
         }
@@ -158,7 +158,7 @@ public class OutsourcingDao {
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : insertBank : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : insertBank : {}", e);
             return false;
         }finally {
             session.close();
@@ -179,7 +179,7 @@ public class OutsourcingDao {
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : updateBank : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : updateBank : {}", e);
             return false;
         }finally {
             session.close();
@@ -197,7 +197,7 @@ public class OutsourcingDao {
             
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : deleteBank : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : deleteBank : {}", e);
             return false;
         }finally {
             session.close();
@@ -215,7 +215,7 @@ public class OutsourcingDao {
             this.noOfRecords = mapper.selectTotalRecords();
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[OutsourcingDao] : selectManagerList : {}", e.toString());
+            logger.error ("Error[OutsourcingDao] : selectManagerList : {}", e);
         } finally {
             session.close();
         }
@@ -233,7 +233,7 @@ public class OutsourcingDao {
             this.noOfRecords = mapper.selectTotalRecords();
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[OutsourcingDao] : selectDefaultManagerCount : {}", e.toString());
+            logger.error ("Error[OutsourcingDao] : selectDefaultManagerCount : {}", e);
         } finally {
             session.close();
         }
@@ -267,7 +267,7 @@ public class OutsourcingDao {
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : insertManager : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : insertManager : {}", e);
             return false;
         }finally {
             session.close();
@@ -288,7 +288,7 @@ public class OutsourcingDao {
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : updateManager : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : updateManager : {}", e);
             return false;
         }finally {
             session.close();
@@ -306,7 +306,7 @@ public class OutsourcingDao {
             
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[OutsourcingDao] : deleteManager : " + e.toString());
+            logger.error ("Error[OutsourcingDao] : deleteManager : {}", e);
             return false;
         }finally {
             session.close();

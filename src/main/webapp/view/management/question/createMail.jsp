@@ -21,7 +21,7 @@
 			/>
 		</div>
 		<div class="input">
-			<label>내용</label>
+			<label class="required">내용</label>
 			<textarea
 				class="form_control"
 				type="text"

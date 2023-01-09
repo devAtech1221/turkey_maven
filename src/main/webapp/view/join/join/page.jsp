@@ -9,7 +9,7 @@
 			<form class="form-box" onSubmit={handleSubmit(onSubmit,errorHandle)}>
 				<div class="input-box text">
 					<div class="input_group">
-						<label for="userId" class="title">아이디</label>
+						<label for="userId" class="title required">아이디</label>
 						<div style="display: flex;">
 							<input
 								style="flex: 5;margin-right: 8px;border-radius: 4px;"
@@ -34,7 +34,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="userPass" class="title">비밀번호</label>
+						<label for="userPass" class="title required">비밀번호</label>
 						<input
 							id="userPass"
 							class="form_control"
@@ -48,7 +48,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="userPass2" class="title">비밀번호 확인</label>
+						<label for="userPass2" class="title required">비밀번호 확인</label>
 						<input
 							class="form_control"
 							id="userPass2"
@@ -62,7 +62,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="belong" class="title">회사명</label>
+						<label for="belong" class="title required">회사명</label>
 						<input
 							class="form_control"
 							id="belong"
@@ -75,7 +75,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="name" class="title">이름</label>
+						<label for="name" class="title required">이름</label>
 						<input
 							class="form_control"
 							id="name"
@@ -88,7 +88,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="position" class="title">직책</label>
+						<label for="position" class="title required">직책</label>
 						<input
 							class="form_control"
 							id="position"
@@ -101,7 +101,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="tel" class="title">휴대폰</label>
+						<label for="tel" class="title required">휴대폰</label>
 						<input
 							class="form_control"
 							id="tel"
@@ -114,7 +114,7 @@
 					</div>
 
 					<div class="input_group">
-						<label for="email" class="title">이메일</label>
+						<label for="email" class="title required">이메일</label>
 						<div style="display: flex;">
 							<input
 								style="flex: 5;padding: 6px 22px;margin-right: 8px;border-radius: 4px;"
@@ -159,7 +159,7 @@
 
 					<div class="agree">
 						<input type="checkbox" id="agree" name="agree" style="font-size: .875em;"/>
-						<label for="agree">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+						<label for="agree" class="required-agree">개인정보 수집 및 이용에 동의합니다.</label>
 					</div>
 					<div class="error-box" data-key="agree">
 						<div class="error-msg"></div>

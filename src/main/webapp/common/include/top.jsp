@@ -44,9 +44,6 @@
 	<link href="/common/font.css" rel="stylesheet">
 	<link href="/common/modal.css" rel="stylesheet">
 
-
-
-
 	<!-- JS -->
 	<script src="https://kit.fontawesome.com/7ee6b8223a.js" crossorigin="anonymous"></script>
 	<script src="/common/js/jquery.min.js"></script>

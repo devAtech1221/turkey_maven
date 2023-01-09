@@ -11,7 +11,7 @@
 	</div>
 	<div class="form-main">
 		<div class="input">
-			<label class="essential">아이디</label>
+			<label class="essential required">아이디</label>
 			<input
 				class="form_control"
 				type="text"
@@ -20,7 +20,7 @@
 			/>
 		</div>
 		<div class="input">
-			<label class="essential">비밀번호</label>
+			<label class="essential required">비밀번호</label>
 			<input
 				class="form_control"
 				type="text"
@@ -29,7 +29,7 @@
 			/>
 		</div>
 		<div class="input">
-			<label class="essential">주소</label>
+			<label class="essential required">주소</label>
 			<input
 				class="form_control"
 				type="text"
@@ -50,6 +50,7 @@
 				type="text"
 				name="mail_title"
 				autoComplete="off"
+				placeholder="기본 : 안녕하세요 에이테크입니다."
 			/>
 		</div>
 		<div class="input">
@@ -58,6 +59,7 @@
 				class="form_control"
 				type="text"
 				name="message"
+				placeholder="기본 : 신청하신 라이선스 계정정보입니다."
 			/>
 		</div>
 		<div class="input file">

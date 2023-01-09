@@ -29,11 +29,10 @@ public class QuestionDao {
 		try {
 			QuestionMapper mapper = session.getMapper(QuestionMapper.class);
 			list = mapper.selectQuestionList(paging);
-			logger.info("selectQuestionList {} " , list);
 			this.noOfRecords = mapper.selectTotalRecords();
 		} catch ( Exception e ) {
 			e.printStackTrace();
-			logger.error ("Error[questionDAO] : {}", e.toString());
+			logger.error ("Error[QuestionDAO] : selectQuestionList {}", e);
 		} finally {
 			session.close();
 		}
@@ -54,7 +53,7 @@ public class QuestionDao {
 			session.commit();
 		}catch (Exception e) {
 			session.rollback();
-			System.out.println("Error[QuestionDAO] : insert : " + e.toString());
+			logger.error ("Error[QuestionDAO] : insert : {}", e);
 			return false;
 		}finally {
 			session.close();
@@ -78,7 +77,7 @@ public class QuestionDao {
 			session.commit();
 		}catch (Exception e) {
 			session.rollback();
-			System.out.println("Error[QuestionDAO] : insert : " + e.toString());
+			logger.error ("Error[QuestionDAO] : changeResYn : {}", e);
 			return false;
 		}finally {
 			session.close();

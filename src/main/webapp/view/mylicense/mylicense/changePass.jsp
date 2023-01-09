@@ -8,7 +8,7 @@
 <form class="form-box pass user-pass-form" style="display: none">
 	<div class="input-box text">
 		<div class="input_group">
-			<label for="userPass" class="title">비밀번호</label>
+			<label for="userPass" class="title required">비밀번호</label>
 			<input
 				class="form_control"
 				id="userPass"
@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="input_group">
-			<label for="userPass2" class="title">비밀번호 확인</label>
+			<label for="userPass2" class="title required">비밀번호 확인</label>
 			<input
 				class="form_control"
 				id="userPass2"

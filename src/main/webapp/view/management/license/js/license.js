@@ -153,6 +153,14 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
         const formData = $create_form.serializeObject();
 
         // 검증
+        if(!formData.mail_title) {
+            formData.mail_title = defaultMail.mail_title;
+        }
+
+        if(!formData.message) {
+            formData.message = defaultMail.message;
+        }
+
         if(!formData.site_id) {
             alert('아이디는 필수 입력입니다.');
             return;

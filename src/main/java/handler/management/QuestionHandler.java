@@ -64,7 +64,6 @@ public class QuestionHandler extends CommonHandler{
 		} else if (task.equals(Config.pTask)) {
 			if(mode.equals("insert")){
 				Question question = new Question(request, "data");
-				logger.info("question {} :",question);
 				boolean success = DAO.insert(question);
 				if(!success) {
 					resultMap.put("resultCode", Message.FAIL.getCode());

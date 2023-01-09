@@ -81,12 +81,10 @@ public class AuthCheck {
 		logAccess.setUSER_IP(request.getRemoteAddr());
 		logAccess.setUSER_AGENT(request.getHeader("User-Agent"));
 		logAccess.setUSER_STATUS("Y");
-		logDao.insertAccessLog(logAccess);
 
 		logLogin.setUSER_ID(user.getRole_id());
 		logLogin.setUSER_NM(user.getName());
 		logLogin.setUSER_IP(request.getRemoteAddr());
-		logDao.insertLoginLog(logLogin);
 	}
 
 }

@@ -68,10 +68,10 @@ public class SendMail {
 			// 전송
 			Transport.send(generateMailMessage,FROM_ADDRESS,FROM_PASS);
 		} catch (MessagingException e) {
-			log.info("SendMail error {}",e.getMessage());
+			log.info("SendMail error {}",e);
 			return false;
 		} catch (IOException e) {
-			log.info("SendMail error {}",e.getMessage());
+			log.info("SendMail error {}",e);
 			return false;
 		}
 
@@ -150,8 +150,6 @@ public class SendMail {
 	}
 
 	public boolean check(String code) {
-		log.info("인증코드 {}", authCode);
-		log.info("입력받은 코드 {}",code);
 		if(code.equals(authCode)) {
 			createKey();
 

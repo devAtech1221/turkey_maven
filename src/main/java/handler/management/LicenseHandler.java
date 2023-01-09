@@ -87,7 +87,6 @@ public class LicenseHandler extends CommonHandler{
 				}
 
 				License license = new License(request, "data");
-				logger.info("license {} :",license);
 				boolean success = DAO.insert(license);
 				if(!success) {
 					resultMap.put("resultCode", Message.FAIL.getCode());

@@ -36,11 +36,10 @@ public class LicenseDao {
 		try {
 			LicenseMapper mapper = session.getMapper(LicenseMapper.class);
 			list = mapper.selectLicenseList(paging);
-			logger.info("selectLicenseList {} " , list);
 			this.noOfRecords = mapper.selectTotalRecords();
 		} catch ( Exception e ) {
 			e.printStackTrace();
-			logger.error ("Error[MainDao] : selectLicenseList : {}", e.toString());
+			logger.error ("Error[MainDao] : selectLicenseList : {}", e);
 		} finally {
 			session.close();
 		}
@@ -61,7 +60,7 @@ public class LicenseDao {
 			session.commit();
 		}catch (Exception e) {
 			session.rollback();
-			System.out.println("Error[LicenseDAO] : insert : " + e.toString());
+			logger.error ("Error[LicenseDAO] : insert : {}" , e);
 			return false;
 		}finally {
 			session.close();
@@ -84,7 +83,7 @@ public class LicenseDao {
 			session.commit();
 		}catch (Exception e) {
 			session.rollback();
-			System.out.println("Error[LicenseDao] : insert : " + e.toString());
+			logger.error ("Error[LicenseDao] : changeResYn : {}" , e);
 			return false;
 		}finally {
 			session.close();

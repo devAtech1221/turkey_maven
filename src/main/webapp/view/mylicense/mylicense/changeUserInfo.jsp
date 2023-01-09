@@ -8,7 +8,7 @@
 <form class="form-box user-info-form">
 	<div class="input-box text">
 		<div class="input_group">
-			<label class="title">소속</label>
+			<label class="title required">소속</label>
 			<input
 				class="form_control"
 				id="belong"
@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="input_group">
-			<label class="title">성함</label>
+			<label class="title required">성함</label>
 			<input
 				class="form_control"
 				id="name"
@@ -34,7 +34,7 @@
 		</div>
 
 		<div class="input_group">
-			<label class="title">직책</label>
+			<label class="title required">직책</label>
 			<input
 				class="form_control"
 				id="position"
@@ -47,7 +47,7 @@
 		</div>
 
 		<div class="input_group">
-			<label class="title">연락처</label>
+			<label class="title required">연락처</label>
 			<input
 				class="form_control"
 				id="tel"

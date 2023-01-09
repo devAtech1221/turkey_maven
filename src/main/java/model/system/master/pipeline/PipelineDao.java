@@ -32,7 +32,7 @@ public class PipelineDao {
             this.noOfRecords = mapper.selectTotalRecords();
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[PipelineDao] : selectList : {}", e.toString());
+            logger.error ("Error[PipelineDao] : selectList : {}", e);
         } finally {
             session.close();
         }
@@ -49,7 +49,7 @@ public class PipelineDao {
         	obj = mapper.selectDoc(code);
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[PipelineDao] : selectDoc : {}", e.toString());
+            logger.error ("Error[PipelineDao] : selectDoc : {}", e);
         } finally {
             session.close();
         }
@@ -66,7 +66,7 @@ public class PipelineDao {
             this.noOfRecords = mapper.selectTotalRecords();
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[PipelineDao] : selectDetailList : {}", e.toString());
+            logger.error ("Error[PipelineDao] : selectDetailList : {}", e);
         } finally {
             session.close();
         }
@@ -83,7 +83,7 @@ public class PipelineDao {
         	list = mapper.selectProcessList(paging);
         } catch ( Exception e ) {
         	e.printStackTrace();
-            logger.error ("Error[PipelineDao] : selectProcessList : {}", e.toString());
+            logger.error ("Error[PipelineDao] : selectProcessList : {}", e);
         } finally {
             session.close();
         }
@@ -100,8 +100,7 @@ public class PipelineDao {
         	//doc
         	appliedCNT = mapper.insertDoc(obj);
         	if(appliedCNT == 0) throw new Exception();
-        	logger.info("[PipelineDao] INSERT => insertDoc SUCCESS");
-        	
+
         	//Detail
         	appliedCNT = 0;
         	if(detail != null && !detail.isEmpty()) {
@@ -110,12 +109,11 @@ public class PipelineDao {
         		}
             	appliedCNT = mapper.insertDetail(detail);
             	if(detail.size() != appliedCNT) throw new Exception();
-            	logger.info("[PipelineDao] INSERT => insertDocDtl SUCCESS");
         	}
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[PipelineDao] : insertDoc : " + e.toString());
+            logger.error ("Error[PipelineDao] : insertDoc {}: ", e);
             return false;
         }finally {
             session.close();
@@ -133,8 +131,7 @@ public class PipelineDao {
         	//doc
         	appliedCNT = mapper.updateDoc(obj);
         	if(appliedCNT == 0) throw new Exception();
-        	logger.info("[PipelineDao] INSERT => insertDoc SUCCESS");
-        	
+
         	//Detail
         	appliedCNT = 0;
         	if(detail != null && !detail.isEmpty()) {
@@ -142,15 +139,13 @@ public class PipelineDao {
         			dtl.setPIPELINE_CD(obj.getPIPELINE_CD());
         		}
         		mapper.deleteDetail(obj);
-        		logger.info("[PipelineDao] INSERT => deleteDocDtl SUCCESS");
             	appliedCNT = mapper.insertDetail(detail);
             	if(detail.size() != appliedCNT) throw new Exception();
-            	logger.info("[PipelineDao] INSERT => insertDocDtl SUCCESS");
         	}
             session.commit();
         }catch (Exception e) {
             session.rollback();
-            System.out.println("Error[PipelineDao] : updateDoc : " + e.toString());
+            logger.error ("Error[PipelineDao] : updateDoc : {}" ,e);
             return false;
         }finally {
             session.close();

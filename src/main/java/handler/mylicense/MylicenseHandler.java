@@ -46,7 +46,7 @@ public class MylicenseHandler extends CommonHandler{
 									mylicense.setStatus(true);
 								}
 							} catch (ParseException e) {
-								System.out.println(e.getMessage());
+								System.out.println("Error[MylicenseHandler] : select : list : " + e.toString());
 								mylicense.setStatus(true);
 							}
 

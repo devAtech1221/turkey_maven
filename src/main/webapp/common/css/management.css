@@ -83,11 +83,6 @@
     text-align: start;
 }
 .create-form .form-main label.essential {margin-top: .25em; }
-.create-form .form-main label.essential:after {
-    content: "*";
-    color: var(--main-bg-color);
-    font-size: 1.4em;
-}
 
 .status-option {
     margin: 24px;

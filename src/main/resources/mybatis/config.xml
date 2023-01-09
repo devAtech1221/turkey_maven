@@ -17,7 +17,6 @@
                 <property name="url" value="jdbc:mysql://172.30.1.108:3306/turkey_maven_jjlee?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
                 <property name="username" value="atech"/>
                 <property name="password" value="dpdlxpzm1221!@"/>
-
                 <property name="poolMaximumActiveConnections" value="30"/>
                 <property name="poolMaximumIdleConnections" value="20"/>
                 <property name="poolPingEnabled" value="true"/>
@@ -31,7 +30,6 @@
                 <property name="url" value="jdbc:mysql://172.30.1.108:3306/turkey_maven_jjlee?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
                 <property name="username" value="atech"/>
                 <property name="password" value="dpdlxpzm1221!@"/>
-
                 <property name="poolMaximumActiveConnections" value="30"/>
                 <property name="poolMaximumIdleConnections" value="20"/>
                 <property name="poolPingEnabled" value="true"/>
@@ -42,9 +40,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://172.30.1.108:3306/turkey_maven?characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
+                <property name="url" value="jdbc:mysql://172.30.1.108:3306/turkey_maven?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
                 <property name="username" value="atech"/>
-                <property name="password" value="Dpdlxpzm1221!@"/>
+                <property name="password" value="dpdlxpzm1221!@"/>
                 <property name="poolMaximumActiveConnections" value="30"/>
                 <property name="poolMaximumIdleConnections" value="20"/>
                 <property name="poolPingEnabled" value="true"/>
@@ -56,10 +54,9 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://172.30.1.108:3306/turkey_maven_jjlee?characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
-                <property name="username" value="root"/>
-                <property name="password" value="Dpdlxpzm1221!@"/>
-
+                <property name="url" value="jdbc:mysql://172.30.1.108:3306/turkey_maven_jjlee?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf8&amp;autoReconnect=true&amp;allowMultiQueries=true"/>
+                <property name="username" value="atech"/>
+                <property name="password" value="dpdlxpzm1221!@"/>
                 <property name="poolMaximumActiveConnections" value="30"/>
                 <property name="poolMaximumIdleConnections" value="20"/>
                 <property name="poolPingEnabled" value="true"/>
