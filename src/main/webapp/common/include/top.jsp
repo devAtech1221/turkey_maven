@@ -2,6 +2,9 @@
 <%@ page import="common.*, model.system.user.user.*, model.system.master.menu.*"%>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="com.google.gson.Gson" %>
+<%@ page import="common.message.MessageHandler" %>
+<%@ page import="org.springframework.context.MessageSource" %>
+
 <%
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
@@ -22,6 +25,18 @@
 
 	//3. menu
 	List<Menu> menuList = (List<Menu>) request.getAttribute("MENU");
+
+	//4 message
+	MessageHandler mh = MessageHandler.getInstance();
+	HashMap<String,String> messages = null;
+	String messagesJson = "";
+
+	if (mh != null) {
+		Gson objGson = new GsonBuilder().setPrettyPrinting().create();
+		messages = mh.getMessages(request.getLocale());
+		messagesJson = objGson.toJson(messages);
+	}
+
 %>
 
 <!DOCTYPE html>
@@ -101,6 +116,13 @@
 		LOGIN_USER = JSON.parse(`<%=userJson%>`);
 		LOGIN_USER.user_pass = null;
 	}
+
+	let MessageSource = null;
+	if(`<%=messagesJson%>`) {
+		MessageSource = JSON.parse(`<%=messagesJson%>`);
+	}
+
+	console.log(MessageSource)
 </script>
 
 	<!-- Top Bar -->
@@ -138,16 +160,16 @@
 						if(user == null) {
 					%>
 						<li>
-							<a href="/login/Login.do">로그인</a>
+							<a href="/login/Login.do"><%=mh.code("top.login")%></a>
 						</li>
 						<li>
-							<a href="/join/Join.do">회원가입</a>
+							<a href="/join/Join.do"><%=mh.code("top.join")%></a>
 						</li>
 					<%}
 						else {
 					%>
 						<li>
-							<a class="logout" style="cursor: pointer;">로그아웃</a>
+							<a class="logout" style="cursor: pointer;"><%=mh.code("top.logout")%></a>
 						</li>
 					<%}%>
 				</ul>

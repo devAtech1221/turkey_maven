@@ -1,9 +1,16 @@
+<%@ page import="common.message.MessageHandler" %>
+<%@ page import="java.util.Locale" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<%
+    MessageHandler mh = MessageHandler.getInstance();
+    Locale locale = request.getLocale();
+    mh.setLocale(locale);
+%>
 
 <div id="route-contents" style="background:#fff;">
     <div class="container">
-        <h2>문의하기</h2>
+        <h2><%=mh.code("btn.question")%></h2>
         <div class="form-area"></div>
     </div>
 </div>

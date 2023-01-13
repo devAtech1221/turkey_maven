@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuestionHandler extends CommonHandler{
 
@@ -40,8 +41,13 @@ public class QuestionHandler extends CommonHandler{
 				Paging paging = new Paging(request);
 				paging.setSear(myUtil.null2Blank(request.getParameter("res_yn")).trim());
 
-				List<Question> questionList = DAO.selectQuestionList(paging);
-
+				List<Question> questionList = DAO.selectQuestionList(paging).stream()
+						.map(question -> {
+							if (request.getLocale().toString().equals("ko")) {
+								question.setSolution_name(question.getSolution_name_ko());
+							}
+							return question;
+						}).collect(Collectors.toList());
 
 				paging.setNumberOfRecords(DAO.getNoOfRecords());
 				paging.makePaging();
@@ -84,7 +90,7 @@ public class QuestionHandler extends CommonHandler{
 				}
 
 				// 메일 전송
-				SendMail sendMail = SendMail.getInstance();
+				SendMail sendMail = SendMail.getInstance(request);
 				mailDto.setMessage(sendMail.createMailHTML(mailDto));
 				boolean success = sendMail.send(mailDto);
 

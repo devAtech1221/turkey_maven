@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CommonHandler implements CommandHandler {
     public MyUtil myUtil = new MyUtil();
@@ -156,6 +157,14 @@ public class CommonHandler implements CommandHandler {
         } else {
             menuList = DAO.selectAuthMenuList(user.getRole_id());
         }
+
+        menuList = menuList.stream().map(menu -> {
+            if (request.getLocale().toString().equals("ko")) {
+                menu.setMENU_NM(menu.getMENU_NM_KO());
+            }
+
+            return menu;
+        }).collect(Collectors.toList());
 
         Menu level1Menu = DAO.getMenu1ByURL(hdlrURI);
         Menu level2Menu = DAO.getMenu2ByURL(hdlrURI);

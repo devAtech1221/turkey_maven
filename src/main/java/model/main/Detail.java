@@ -10,6 +10,7 @@ import java.util.List;
 public @Getter @Setter class Detail extends BeanCommon{
 	private String detail_id;
 	private String contents;
+	private String contents_ko;
 
 	/* Common */
 	private String CREATE_ID;

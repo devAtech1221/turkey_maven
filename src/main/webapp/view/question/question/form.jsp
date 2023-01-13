@@ -1,18 +1,22 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page import="common.message.MessageHandler" %>
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
     response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
     response.setHeader("Expires", "0"); // Proxies.
+    MessageHandler mh = MessageHandler.getInstance();
+    Locale locale = request.getLocale();
+    mh.setLocale(locale);
 %>
 
 <div class="input-box category">
-    <div class="title required">관심 제품 선택</div>
+    <div class="title required"><%=mh.code("question.form.title")%></div>
     <div class="inner-input"></div>
 </div>
 
 <div class="input-box text">
     <div class="input_group">
-        <label for="belong" class="title required">회사명</label>
+        <label for="belong" class="title required"><%=mh.code("form.belong")%></label>
         <input
             class="form_control"
             id="belong"
@@ -25,7 +29,7 @@
     </div>
 
     <div class="input_group">
-        <label for="name" class="title required">이름</label>
+        <label for="name" class="title required"><%=mh.code("form.name")%></label>
         <input
             class="form_control"
             id="name"
@@ -38,7 +42,7 @@
     </div>
 
     <div class="input_group">
-        <label for="position" class="title required">직책</label>
+        <label for="position" class="title required"><%=mh.code("form.position")%></label>
         <input
             class="form_control"
             id="position"
@@ -51,7 +55,7 @@
     </div>
 
     <div class="input_group">
-        <label for="tel" class="title required">핸드폰</label>
+        <label for="tel" class="title required"><%=mh.code("form.tel")%></label>
         <input
             class="form_control"
             id="tel"
@@ -64,7 +68,7 @@
     </div>
 
     <div class="input_group">
-        <label for="email" class="title required">이메일</label>
+        <label for="email" class="title required"><%=mh.code("form.email")%></label>
         <input
             class="form_control"
             id="email"
@@ -77,7 +81,7 @@
     </div>
 
     <div class="input_group">
-        <label for="title" class="title required">제목</label>
+        <label for="title" class="title required"><%=mh.code("form.tel")%></label>
         <input
             class="form_control"
             id="title"
@@ -90,7 +94,7 @@
     </div>
 
     <div class="input_group">
-        <label for="contents" class="title required">내용</label>
+        <label for="contents" class="title required"><%=mh.code("form.contents")%></label>
         <textarea
             class="form_control"
             id="contents"
@@ -110,12 +114,12 @@
         name="agree"
         value="on"
     >
-    <label for="agree" class="title required-agree">개인정보 수집 및 이용에 동의합니다.</label>
+    <label for="agree"><%=mh.code("form.agree")%><sapn class="required-agree"><%=mh.code("form.agree.required")%></sapn></label>
 </div>
 <div class="error-box" data-key="agree">
     <div class="error-msg"></div>
 </div>
 
 <div class="btn-group" style="margin-top: 2em; display: flex; justify-content: center;">
-    <button class="common-btn" type="button" style="background-color: var(--main-bg-color); color: white;">문의하기</button>
+    <button class="common-btn" type="button" style="background-color: var(--main-bg-color); color: white;"><%=mh.code("btn.question")%></button>
 </div>

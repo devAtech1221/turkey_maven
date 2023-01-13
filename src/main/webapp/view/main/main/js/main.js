@@ -1,20 +1,20 @@
 const errors = [
-    {id: 'title', msg: "제목을 입력해주세요.", success:false },
-    {id: 'contents', msg: "내용을 입력해주세요.", success:false },
-    {id: 'agree', msg: "개인정보 수집 및 이용에 동의해주세요.", success:false },
+    {id: 'title', msg: MessageSource['error.title'], success:false },
+    {id: 'contents', msg: MessageSource['error.contents'], success:false },
+    {id: 'agree', msg: MessageSource['error.agree'], success:false },
 ]
 
 const licenseInfo = [
-    {id: "trial", name: "체험 상품", desc: "서비스를 체험해\n보고 싶은 고객", btn: "체험 신청", license: {}},
-    {id: "basic", name: "Basic", desc: "합리적인 비용으로\n사용하고 싶은 고객", btn: "도입 문의", license: {}},
-    {id: "premium", name: "Premium", desc: "프리미엄 서비스를\n사용하고 싶은 고객", btn: "도입 문의", license: {}},
-    {id: "custom", name: "맞춤형 상품", desc: "기업 맞춤형으로\n사용하고 싶은 고객", btn: "도입 문의", license: {}}
+    {id: "trial", name: MessageSource['main.trial.name'], desc: MessageSource['main.trial.desc'], btn: MessageSource['btn.main.license-info1'], license: {}},
+    {id: "basic", name: MessageSource['main.basic.name'], desc: MessageSource['main.basic.desc'], btn: MessageSource['btn.main.license-info2'], license: {}},
+    {id: "premium", name: MessageSource['main.premium.name'], desc: MessageSource['main.premium.desc'], btn: MessageSource['btn.main.license-info2'], license: {}},
+    {id: "custom", name: MessageSource['main.custom.name'], desc: MessageSource['main.custom.desc'], btn: MessageSource['btn.main.license-info2'], license: {}}
 ];
 
 const solutionInfo = {
-    1: `작업지시에서 완성품까지\n생산활동을 추적/최적화`,
-    2: "프로젝트별 관리체계 구축을 통해\n가시성 및 업무 생산성 강화",
-    3: "방사/제직 공정 데이터를\n수집·통합하여 생산관리 효율화"
+    1: MessageSource['main.solution1-info'],
+    2: MessageSource['main.solution2-info'],
+    3: MessageSource['main.solution3-info'],
 };
 
 // 라이선스 정보 포맷 함수
@@ -58,7 +58,7 @@ let modal = new CommonFrame({
     ],
     ready: function(props){
         // title
-        props.frame_position.find('header').prepend('솔루션 체험 신청');
+        props.frame_position.find('header').prepend(MessageSource['main.modal.header']);
     }
 });
 
@@ -88,7 +88,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
             }
         }).done(data => {
             if(data.resultCode === '00') {
-                alert('답변은 이메일로 보내드립니다.');
+                alert(MessageSource['alert.success.question']);
                 window.location.reload();
             }
         })
@@ -126,12 +126,12 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
                         <div class="card_body">
                             <dl>
                                 <dd>
-                                    <span class="cost">${m.license['연간 구독형'] == undefined ? '　' : m.license['연간 구독형']}</span>
-                                    ${m.license['연간 구독형'] == undefined ? '' : ' / 연간 구독형'}
+                                    <span class="cost">${m.license[MessageSource['main.license-info.year']] == undefined ? '　' : m.license[MessageSource['main.license-info.year']]}</span>
+                                    ${m.license[MessageSource['main.license-info.everlasting']] == undefined ? '' : ` / ${MessageSource['main.license-info.year']}`}
                                 </dd>
                                 <dd>
-                                    <span class="cost">${m.license['영구 라이선스'] == undefined ? '0$' : m.license['영구 라이선스']}</span>
-                                    ${m.license['연간 구독형'] == undefined ? ' / 15일' : ' / 영구 라이선스'}
+                                    <span class="cost">${m.license[MessageSource['main.license-info.everlasting']] == undefined ? '0$' : m.license[MessageSource['main.license-info.everlasting']]}</span>
+                                    ${m.license[MessageSource['main.license-info.year']] == undefined ? ' / 15day' : ` / ${MessageSource['main.license-info.everlasting']}`}
                                 </dd>
                             </dl>
                             <div class="question-wrap">
@@ -181,12 +181,12 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
             target.children().remove();
             target.append(
                 `<dd>
-                        <span class="cost">${selectedLicenseInfo.license['연간 구독형'] == undefined ? '　' :selectedLicenseInfo.license['연간 구독형']}</span>
-                        ${selectedLicenseInfo.license['연간 구독형'] == undefined ? '' : ' / 연간 구독형'}
+                        <span class="cost">${selectedLicenseInfo.license[MessageSource['main.license-info.year']] == undefined ? '　' :selectedLicenseInfo.license[MessageSource['main.license-info.year']]}</span>
+                        ${selectedLicenseInfo.license[MessageSource['main.license-info.year']] == undefined ? '' : ` / ${MessageSource['main.license-info.year']}`}
                     </dd>
                     <dd>
-                        <span class="cost">${selectedLicenseInfo.license['영구 라이선스'] == undefined ? '0$' : selectedLicenseInfo.license['영구 라이선스']}</span>
-                        ${selectedLicenseInfo.license['연간 구독형'] == undefined ? ' / 15일' : ' / 영구 라이선스'}
+                        <span class="cost">${selectedLicenseInfo.license[MessageSource['main.license-info.everlasting']] == undefined ? '0$' : selectedLicenseInfo.license[MessageSource['main.license-info.everlasting']]}</span>
+                        ${selectedLicenseInfo.license[MessageSource['main.license-info.year']] == undefined ? ' / 15day' : ` / ${MessageSource['main.license-info.everlasting']}`}
                     </dd>`
             )
         }
@@ -206,7 +206,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
         // 라이선스 모달 오픈 이벤트
        $license_info.find('.question-wrap button').on('click',({target}) => {
            if(!LOGIN_USER) {
-               alert('로그인이 필요합니다.');
+               alert(MessageSource['alert.request.login']);
                window.location = '/login/Login.do';
            } else {
                const $h5 = $modal.find('h5');
@@ -228,7 +228,9 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
 
                // 라이선스 변경 이벤트
                $type_list_input.on('click',({target}) => {
-                       const selectedLicenseInfo = licenseInfo.find(ele => ele.name === target.dataset.name);
+                       const selectedLicenseInfo = licenseInfo.find(ele => {
+                           return ele.name === target.dataset.name;
+                       });
                        changeLicenseInput($cost_info_dl,selectedLicenseInfo)
                });
 

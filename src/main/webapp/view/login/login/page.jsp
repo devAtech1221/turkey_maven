@@ -1,5 +1,12 @@
+<%@ page import="common.message.MessageHandler" %>
+<%@ page import="java.util.Locale" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<%
+	MessageHandler mh = MessageHandler.getInstance();
+	Locale locale = request.getLocale();
+	mh.setLocale(locale);
+%>
 <link href="/common/css/login.css" rel="stylesheet">
 
 <div class="login-contents">
@@ -10,7 +17,7 @@
 			</div>
 			<div class="login-input">
 				<div class="input_group">
-					<label for="idInput">아이디</label>
+					<label for="idInput"><%=mh.code("form.id")%></label>
 					<input
 						class="form_control"
 						id="idInput"
@@ -19,7 +26,7 @@
 					/>
 				</div>
 				<div class="input_group">
-					<label for="PassInput">비밀번호</label>
+					<label for="PassInput"><%=mh.code("form.pass")%></label>
 					<input
 						class="form_control"
 						id="PassInput"
@@ -28,25 +35,25 @@
 					/>
 				</div>
 				<div class="btn-submit">
-					<button class="btn" type="button">로그인</button>
+					<button class="btn" type="button"><%=mh.code("top.login")%></button>
 				</div>
 			</div>
 		</form>
 
 		<div class="snsLoginArea">
-			<p><span>SNS 로그인</span></p>
+			<p><span><%=mh.code("login.sns.title")%></span></p>
 			<ul>
 				<li><button class="btn" style="background:#00c73c; border: 1px solid #00c73c; color: #fff;">
 					<img class="ico" src="/common/images/ico_naver.png"/>
-					네이버로 로그인
+					<%=mh.code("login.sns.naver")%>
 					</button></li>
 				<li><button class="btn" style="background: #fff; border: 1px solid #dadce0;">
 					<img class="ico" src="/common/images/ico_google.png"/>
-					구글로 로그인
+					<%=mh.code("login.sns.google")%>
 					</button></li>
 				<li><button class="btn" style="background:#fef124; border: 1px solid #fef124; color: #3e2723;">
 					<img class="ico" src="/common/images/ico_kakao.png"/>
-					카카오로 로그인
+					<%=mh.code("login.sns.kakao")%>
 					</button></li>
 			</ul>
 

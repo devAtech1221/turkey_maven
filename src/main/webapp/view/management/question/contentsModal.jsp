@@ -1,14 +1,19 @@
+<%@ page import="common.message.MessageHandler" %>
+<%@ page import="java.util.Locale" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 	response.setHeader("Expires", "0"); // Proxies.
+	MessageHandler mh = MessageHandler.getInstance();
+	Locale locale = request.getLocale();
+	mh.setLocale(locale);
 %>
 
 <form class="form-box form-box2">
 	<div></div>
 	<div class="input-box category">
-		<div class="title">관심 제품</div>
+		<div class="title"><%=mh.code("form.question.solution")%></div>
 
 		<div class="inner-input">
 			<div class="selected-solution"></div>
@@ -17,7 +22,7 @@
 
 	<div class="input-box text input_flex">
 		<div class="input_group">
-			<label for="belong" class="title">회사명</label>
+			<label for="belong" class="title"><%=mh.code("form.belong")%></label>
 			<input
 					class="form_control"
 					id="belong"
@@ -31,7 +36,7 @@
 		</div>
 
 		<div class="input_group">
-			<label for="name" class="title">이름</label>
+			<label for="name" class="title"><%=mh.code("form.name")%></label>
 			<input
 					class="form_control"
 					id="name"
@@ -45,7 +50,7 @@
 		</div>
 
 		<div class="input_group">
-			<label for="position" class="title">직책</label>
+			<label for="position" class="title"><%=mh.code("form.position")%></label>
 			<input
 					class="form_control"
 					id="position"
@@ -59,7 +64,7 @@
 		</div>
 
 		<div class="input_group">
-			<label for="tel" class="title">핸드폰</label>
+			<label for="tel" class="title"><%=mh.code("form.tel")%></label>
 			<input
 					class="form_control"
 					id="tel"
@@ -73,7 +78,7 @@
 		</div>
 
 		<div class="input_group">
-			<label for="email" class="title">이메일</label>
+			<label for="email" class="title"><%=mh.code("form.belong")%></label>
 			<input
 					class="form_control"
 					id="email"
@@ -87,7 +92,7 @@
 		</div>
 
 		<div class="input_group" style="width: 100%;">
-			<label for="title" class="title">제목</label>
+			<label for="title" class="title"><%=mh.code("form.title")%></label>
 			<input
 					class="form_control"
 					id="title"
@@ -101,7 +106,7 @@
 		</div>
 
 		<div class="input_group" style="width: 100%;height: auto">
-			<label for="contents" class="title">내용</label>
+			<label for="contents" class="title"><%=mh.code("form.contents")%></label>
 			<textarea
 					class="form_control"
 					id="contents"

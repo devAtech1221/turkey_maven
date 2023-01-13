@@ -9,6 +9,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +24,7 @@ public class MainDao {
 	public void setNoOfRecords(int noOfRecords) {this.noOfRecords = noOfRecords;}
 	private final Logger logger = LoggerFactory.getLogger(MainDao.class);
 	
-	public List<Solution> selectSolutionList() {
+	public List<Solution> selectSolutionList(HttpServletRequest request) {
 		List<Solution> list = null;
         SqlSession session = sqlMapper.openSession();
 
@@ -31,10 +33,31 @@ public class MainDao {
             list = mapper.selectSolutionList()
 					.stream()
 					.map(solution -> {
-						List<Detail> details = mapper.selectDetailList(solution.getSolution_id());
-						List<LicenseInfo> licenseInfos = mapper.selectLicenseList(solution.getSolution_id());
+						if (request.getLocale().toString().equals("ko")) {
+							solution.setSolution_name(solution.getSolution_name_ko());
+						}
+
+						List<Detail> details = mapper.selectDetailList(solution.getSolution_id())
+								.stream()
+								.map(detail -> {
+									if (request.getLocale().toString().equals("ko")) {
+										detail.setContents(detail.getContents_ko());
+									}
+									return detail;
+								}).collect(Collectors.toList());
+
+						List<LicenseInfo> licenseInfoList = mapper.selectLicenseList(solution.getSolution_id())
+								.stream()
+								.map(licenseInfo -> {
+									if (request.getLocale().toString().equals("ko")) {
+										licenseInfo.setType(licenseInfo.getType_ko());
+										licenseInfo.setCustom(licenseInfo.getCustom_ko());
+									}
+									return licenseInfo;
+								}).collect(Collectors.toList());
+
 						solution.setDetail(details);
-						solution.setLicense(licenseInfos);
+						solution.setLicense(licenseInfoList);
 
 						return solution;
 					}).collect(Collectors.toList());

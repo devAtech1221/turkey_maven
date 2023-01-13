@@ -1,13 +1,13 @@
 const errors_info = [
-    {id: 'belong', msg: "회사명을 입력해주세요.", success:false },
-    {id: 'name', msg: "이름을 입력해주세요.", success:false },
-    {id: 'position', msg: "직책을 입력해주세요.", success:false },
-    {id: 'tel', msg: "전화번호를 입력해주세요.", success:false },
+    {id: 'belong', msg: MessageSource['error.belong'], success:false },
+    {id: 'name', msg: MessageSource['error.name'], success:false },
+    {id: 'position', msg: "MessageSource['error.position']", success:false },
+    {id: 'tel', msg: MessageSource['error.tel'], success:false },
 ]
 
 const errors_pass = [
-    {id: 'user_pass', msg: "비밀번호는 필수 입력입니다.", success:false },
-    {id: 'user_pass2', msg: "비밀번호가 일치하지 않습니다.", success:false },
+    {id: 'user_pass', msg: MessageSource['error.pass'], success:false },
+    {id: 'user_pass2', msg: MessageSource['error.pass2'], success:false },
 ]
 
 // DB에 내 라이선스 정보 조회
@@ -49,7 +49,7 @@ let modal = new CommonFrame({
     ],
     ready: function(props){
         // title
-        props.frame_position.find('header').prepend('내 정보 수정');
+        props.frame_position.find('header').prepend(MessageSource['mylicense.modal.header']);
     }
 });
 
@@ -69,7 +69,6 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
     const $btn_close = $modal.find('.btn-modal-submit .close');
 
     const editInfo = (formData) => {
-        console.log('정보 변경')
         $.ajax({
             type : "POST",
             url  : window.location.pathname,
@@ -81,14 +80,13 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
             }
         }).done(json => {
             if(json.resultCode == '00') {
-                alert('정보가 성공적으로 수정되었습니다.');
+                alert(MessageSource['alert.update.success.infoOrpass']);
                 window.location.reload();
             }
         }).error(error => console.log(error))
     }
 
     const editPass = (formData) => {
-        console.log('비번변경')
         $.ajax({
             type : "POST",
             url  : window.location.pathname,
@@ -100,7 +98,7 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
             }
         }).done(json => {
             if(json.resultCode == '00') {
-                alert('정보가 성공적으로 수정되었습니다.');
+                alert(MessageSource['alert.update.success.infoOrpass']);
                 window.location.reload();
             }
         }).error(error => console.log(error))
@@ -216,7 +214,8 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
                 <td>${ele.site_id} / ${ele.site_pass}</td>
                 <td>${ele.start_date}</td>
                 <td>${ele.end_date}</td>
-                <td>${ele.status ?`<button class="btn-solution-link" data-url=${ele.site_url}>바로가기</button>` : '<div>만료</div>'}</td>
+                <td>${ele.status ?`<button class="btn-solution-link" data-url=${ele.site_url}>
+                ${MessageSource["mylicense.link.on"]}</button>` : `<div>${MessageSource["mylicense.link.off"]}</div>`}</td>
             </tr>`
         )
     })

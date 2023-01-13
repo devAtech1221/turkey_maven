@@ -11,7 +11,9 @@ public @Getter @Setter class LicenseInfo extends BeanCommon{
 	private String basic;
 	private String premium;
 	private String custom;
+	private String custom_ko;
 	private String type;
+	private String type_ko;
 
 	/* Common */
 	private String CREATE_ID;

@@ -15,6 +15,7 @@ public class Menu extends BeanCommon implements BeanInterface{
 	private String MENU3_CD;
 	private String MENU_SEQ;
 	private String MENU_NM;
+	private String MENU_NM_KO;
 	private String MENU_URL;
 	private String MENU_ICON;
 	private String COMMENT;

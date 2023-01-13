@@ -701,8 +701,7 @@ input,textarea:focus {
   padding-left: .125em;
 }
 
-.required-agree::after {
-  content: "(필수)";
+.required-agree {
   color: red;
   padding-left: .125em;
 }

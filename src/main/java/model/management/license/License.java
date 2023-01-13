@@ -16,6 +16,7 @@ public @Getter @Setter class License extends BeanCommon{
 	private String license_question_id;
 	private String solution_id;
 	private String solution_name;
+	private String solution_name_ko;
 	private String user_id;
 	private User user;
 	private String title;

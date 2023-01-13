@@ -1,5 +1,6 @@
 package common.mail;
 
+import common.message.MessageHandler;
 import handler.management.QuestionHandler;
 import model.mylicense.Mylicense;
 import org.apache.commons.collections.CollectionUtils;
@@ -10,9 +11,11 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 
@@ -20,15 +23,23 @@ public class SendMail {
 	static Properties mailServerProperties;
 	static Session getMailSession;
 	static MimeMessage generateMailMessage;
+
+	private static MessageHandler mh;
 	private static final String FROM_ADDRESS = "dev@atech1221.com";
 	private static final String FROM_PASS = "Dpdlxpzm1221!@";
 	private String authCode;
 	Logger log = LoggerFactory.getLogger(SendMail.class);
 	private static SendMail instance = new SendMail();
-	public static SendMail getInstance() {
+
+	public static SendMail getInstance(HttpServletRequest request) {
+		mh = MessageHandler.getInstance();
+		mh.setLocale(request.getLocale());
+
 		return instance;
 	}
-	private SendMail() {createKey();}
+	private SendMail() {
+		createKey();
+	}
 
 	public boolean send(MailDto mailDto) {
 		// 프로퍼티 설정
@@ -79,23 +90,25 @@ public class SendMail {
 	}
 
 	public void sendCodeMail(String to) throws MessagingException, IOException {
+
 		createKey();
 		String html = createMailAuthHTML();
 		MailDto mailDto = new MailDto();
-		mailDto.setMail_title("인증코드입니다.");
+		mailDto.setMail_title(mh.code("mail.sendCode.title"));
 		mailDto.setTo(to);
 		mailDto.setMessage(html);
 		send(mailDto);
 	}
 
 	public String createLicenseHTML(Mylicense mylicense, MailDto mailDto) {
+
 		StringBuffer html = new StringBuffer();
 		html.append("   <div style=\"width: 100%; padding: 8px; font-size: 12px;\"> ");
 		html.append("       <div style=\"word-break: break-all;\">" + mailDto.getMessage() + "</div> ");
 		html.append("       <div style=\"margin: 12px auto; font-size: 12px; font-weight: bold;\"> ");
-		html.append("           <div>솔루션 계정 : <span>" + mylicense.getSite_id() + "</span></div> ");
-		html.append("           <div>솔루션 URL : <span>" + mylicense.getSite_pass() + "</span></div> ");
-		html.append("           <div>솔루션 비밀번호 : <a  href=\"" + mylicense.getSite_url() + "\" target=\"_blank\"> 바로가기 </a></div> ");
+		html.append("           <div>" + mh.code("mail.createLicense.id") + " : <span>" + mylicense.getSite_id() + "</span></div> ");
+		html.append("           <div>" + mh.code("mail.createLicense.pass") + " : <span>" + mylicense.getSite_pass() + "</span></div> ");
+		html.append("           <div>" + mh.code("mail.createLicense.url") + " : <a  href=\"" + mylicense.getSite_url() + "\" target=\"_blank\">" + mh.code("mylicense.link.on") + "</a></div> ");
 		html.append("       </div> ");
 		html.append("   </div> ");
 
@@ -115,7 +128,7 @@ public class SendMail {
 		StringBuffer html = new StringBuffer();
 
 		html.append("<div align='center' style='border:1px solid black; font-family:verdana';>");
-		html.append("<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>");
+		html.append("<h3 style='color:blue;'>" + mh.code("mail.sendCode.contests") + "</h3>");
 		html.append("<div style='font-size:130%'>");
 		html.append("CODE : <strong>");
 		html.append(authCode + "</strong><div><br/> ");

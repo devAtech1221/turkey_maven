@@ -1,5 +1,5 @@
 const defaultMail = {
-    mail_title: '안녕하세요 에이테크입니다.',
+    mail_title: MessageSource['mail.default.title'],
 }
 
 let areaListTable = new CommonFrame({
@@ -31,7 +31,7 @@ let modal = new CommonFrame({
     ],
     ready: function(props){
         // title
-        props.frame_position.find('header').prepend('상세 정보 (문의글)');
+        props.frame_position.find('header').prepend(MessageSource['management.question.modal.header']);
     }
 });
 
@@ -51,17 +51,17 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     // grit 테이블 설정
     const gridOptions = {
         columnDefs: [
-            { field: "belong", headerName: "소속", flex: 1, filter: false },
-            { field: "name", headerName: "성함", flex: 1, filter: false },
-            { field: "position", headerName: "직책", flex: 1, filter: false },
-            { field: "tel", headerName: "전화번호", flex: 1, filter: false },
-            { field: "solution_name", headerName: "신청 솔루션", flex: 1, filter: false },
-            { field: "res_yn", headerName: "상태", flex: 1, filter: false },
+            { field: "belong", headerName: MessageSource['grid.columnDefs.belong'], flex: 1, filter: false },
+            { field: "name", headerName: MessageSource['grid.columnDefs.name'], flex: 1, filter: false },
+            { field: "position", headerName: MessageSource['grid.columnDefs.position'], flex: 1, filter: false },
+            { field: "tel", headerName: MessageSource['grid.columnDefs.tel'], flex: 1, filter: false },
+            { field: "solution_name", headerName: MessageSource['grid.columnDefs.solution-name'], flex: 1, filter: false },
+            { field: "res_yn", headerName: MessageSource['grid.columnDefs.res-yn'], flex: 1, filter: false },
             // { field: "CREATE_DTM", headerName: "생성일", flex: 1, filter: false },
         ],
         pagination:true,
         paginationPageSize:25,
-        overlayNoRowsTemplate: "문의글이 없습니다.",
+        overlayNoRowsTemplate: MessageSource['grid.overlayNoRowsTemplate'],
         onCellClicked:(e) => {
             const row = e.data;
 
@@ -74,7 +74,7 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             to = row["email"];
             question_id = row["question_id"];
 
-            if(row['res_yn'] !== '신규') {
+            if(row['res_yn'] !== MessageSource['grid.NEW']) {
                 $create_form.css('display','none');
                 $submit_wrap.css('display','none');
             } else {
@@ -90,7 +90,6 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
 
     // 라이선스 신청글 조회
     const getLicense = (value) => {
-        console.log(window.location.pathname)
         $.ajax({
             type : "POST",
             url  : window.location.pathname,
@@ -103,7 +102,7 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
         }).done(json => {
             const dataFormat = json.data.map(ele => {
                 if(ele.solution_id === '-1') {
-                    ele.solution_name = '기타';
+                    ele.solution_name = MessageSource['grid.order'];
                 }
                 return ele;
             })
@@ -111,9 +110,9 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             const tmpMap = dataFormat.map(ele => {
                 return {
                     ...ele,
-                    res_yn  : ele.res_yn == 'SUCCESS' ? {txt:'완료', order: 2}
-                        : ele.res_yn == 'DELETE' ? {txt:'보류', order: 3}
-                            : {txt:'신규', order: 1}
+                    res_yn  : ele.res_yn == 'SUCCESS' ? {txt:MessageSource['grid.SUCCESS'], order: 2}
+                        : ele.res_yn == 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 3}
+                            : {txt:MessageSource['grid.NEW'], order: 1}
                 }
             });
 
@@ -157,7 +156,7 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
         }
 
         if(!formData.message) {
-            alert('메일 내용을 입력해주세요.');
+            alert(MessageSource['error.email.contents']);
             return;
         }
 
@@ -189,10 +188,10 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             data : submitData
         }).done(json => {
             if(json.resultCode == '00') {
-                alert('성공적으로 전송했습니다.');
+                alert(MessageSource['alert.send.success.mail']);
                 window.location.reload();
             } else if(json.resultCode == '08') {
-                alert('메일 주소를 찾을 수 없습니다.');
+                alert(MessageSource['alert.notfound.mail']);
             }
         }).error(error => console.log(error))
     })

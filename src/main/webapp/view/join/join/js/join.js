@@ -1,13 +1,13 @@
 const errors = [
-    {id: 'user_id', msg: "아이디는 필수 입력입니다.", success:false },
-    {id: 'user_pass', msg: "비밀번호는 필수 입력입니다.", success:false },
-    {id: 'user_pass2', msg: "비밀번호가 일치하지 않습니다.", success:false },
-    {id: 'belong', msg: "회사명을 입력해주세요.", success:false },
-    {id: 'name', msg: "이름을 입력해주세요.", success:false },
-    {id: 'position', msg: "직책을 입력해주세요.", success:false },
-    {id: 'tel', msg: "전화번호를 입력해주세요.", success:false },
-    {id: 'email', msg: "메일을 입력해주세요.", success:false },
-    {id: 'agree', msg: '개인정보 수집 및 이용에 동의해주세요.', success:false}
+    {id: 'user_id', msg: MessageSource['error.id'], success:false },
+    {id: 'user_pass', msg: MessageSource['error.pass'], success:false },
+    {id: 'user_pass2', msg: MessageSource['error.pass2'], success:false },
+    {id: 'belong', msg: MessageSource['error.belong'], success:false },
+    {id: 'name', msg: MessageSource['error.name'], success:false },
+    {id: 'position', msg: MessageSource['error.position'], success:false },
+    {id: 'tel', msg: MessageSource['error.tel'], success:false },
+    {id: 'email', msg: MessageSource['error.email'], success:false },
+    {id: 'agree', msg: MessageSource['error.agree'], success:false}
 ]
 
 const checkingColor = 'rgb(84, 180, 53)';
@@ -37,7 +37,7 @@ Promise.all([]).then(function(params) {
             }
         }).done(data => {
             if(data.resultCode === '00') {
-                alert('가입이 완료되었습니다.');
+                alert(MessageSource['alert.request.login']);
                 window.location.href = '/login/Login.do';
             }
         })
@@ -76,7 +76,7 @@ Promise.all([]).then(function(params) {
         const formData = $form.serializeObject();
         if(checkId) return;
         if(!formData.user_id) {
-            alert('아이디를 입력해주세요.');
+            alert(MessageSource['alert.request.id']);
             return;
         }
 
@@ -91,11 +91,11 @@ Promise.all([]).then(function(params) {
             }
         }).done(data => {
             if(data.resultCode === '00') {
-                alert('사용가능한 아이디입니다.');
+                alert(MessageSource['alert.check.success.id']);
                 checkId = true;
                 ele.target.style.backgroundColor = checkingColor;
             } else {
-                alert('이미 사용중인 아이디입니다.');
+                alert(MessageSource['alert.check.dupl.id']);
             }
         })
     })
@@ -105,7 +105,7 @@ Promise.all([]).then(function(params) {
         const formData = $form.serializeObject();
         if(checkEmail) return;
         if(!formData.email) {
-            alert('이메일을 입력해주세요.');
+            alert(MessageSource['alert.request.email']);
             return;
         }
 
@@ -120,10 +120,10 @@ Promise.all([]).then(function(params) {
             }
         }).done(data => {
             if(data.resultCode === '00') {
-                alert('인증코드를 메일로 전송했습니다.');
+                alert(MessageSource['alert.check.send.email']);
                 sendEmail = true;
             } else if(data.resultCode == '02') {
-                alert('이미 가입한 이메일입니다.');
+                alert(MessageSource['alert.check.dupl.email']);
             }
         })
     })
@@ -131,9 +131,6 @@ Promise.all([]).then(function(params) {
     // 인증코드 확인 이벤트
     $btn_code_chk.on('click',ele => {
         const formData = $form.serializeObject();
-        console.log(checkEmail)
-        console.log(sendEmail)
-        console.log(formData)
         if(checkEmail) return;
         if(!sendEmail) return;
 
@@ -148,11 +145,11 @@ Promise.all([]).then(function(params) {
             }
         }).done(data => {
             if(data.resultCode === '00') {
-                alert('인증을 성공했습니다.');
+                alert(MessageSource['alert.check.success.authcode']);
                 checkEmail = true;
                 ele.target.style.backgroundColor = checkingColor;
             } else {
-                alert('인증코드가 올바르지 않습니다.');
+                alert(MessageSource['alert.check.fail.authcode']);
             }
         })
     })
@@ -167,12 +164,12 @@ Promise.all([]).then(function(params) {
         }
 
         if(!checkId) {
-            alert('아이디 중복체크를 진행해주세요.');
+            alert(MessageSource['alert.request.check-dupl.email']);
             return;
         }
 
         if(!checkEmail) {
-            alert('메일을 인증해주세요.');
+            alert(MessageSource['alert.request.check-auth.email']);
             return;
         }
 

@@ -53,6 +53,10 @@ public class LicenseHandler extends CommonHandler{
 				List<License> licenseList = DAO.selectLicenseList(paging)
 						.stream()
 						.map(license -> {
+							if (request.getLocale().toString().equals("ko")) {
+								license.setSolution_name(license.getSolution_name_ko());
+							}
+
 							User user = userDao.selectDoc(license.getUser_id());
 							user.setUser_pass(null);
 							license.setUser(user);
@@ -108,7 +112,7 @@ public class LicenseHandler extends CommonHandler{
 
 
 				// 메일 전송
-				SendMail sendMail = SendMail.getInstance();
+				SendMail sendMail = SendMail.getInstance(request);
 				mailDto.setMessage(sendMail.createLicenseHTML(mailDto.getMylicense(),mailDto));
 				boolean success = sendMail.send(mailDto);
 

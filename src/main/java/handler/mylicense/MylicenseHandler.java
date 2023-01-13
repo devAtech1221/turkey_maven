@@ -4,6 +4,7 @@ import common.Config;
 import common.Message;
 import common.MyUtil;
 import control.CommonHandler;
+import model.main.Solution;
 import model.management.license.License;
 import model.mylicense.Mylicense;
 import model.mylicense.MylicenseDao;
@@ -36,6 +37,11 @@ public class MylicenseHandler extends CommonHandler{
 				List<Mylicense> mylicenseList = DAO.selectMylicenseList(user)
 						.stream()
 						.map(mylicense -> {
+							if (request.getLocale().toString().equals("ko")) {
+								Solution solution = mylicense.getSolution();
+								solution.setSolution_name(solution.getSolution_name_ko());
+							}
+
 							//TODO 임시로 모든 라이선스는 체험을 기준으로 state 설정
 							try {
 								Date e_date = MyUtil.stringToDateYHD(mylicense.getEnd_date());

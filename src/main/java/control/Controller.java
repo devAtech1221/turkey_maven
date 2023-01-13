@@ -1,9 +1,11 @@
 package control;
 
+import common.message.MessageHandler;
 import model.log.LogAccess;
 import model.log.LogDao;
 import model.system.master.menu.Menu;
 import model.system.master.menu.MenuDao;
+import org.springframework.context.MessageSource;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -66,7 +68,6 @@ public class Controller extends HttpServlet {
             logAccess.setREF_URL(request.getHeader("referer"));
             logAccess.setUSER_IP(request.getRemoteAddr());
             logAccess.setUSER_AGENT(request.getHeader("User-Agent"));
-            logDao.insertAccessLog(logAccess);
         }
         request.setAttribute("contextName", contextName);
         request.setAttribute("isAjax", isAjax);

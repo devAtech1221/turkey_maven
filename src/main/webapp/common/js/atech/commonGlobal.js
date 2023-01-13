@@ -229,31 +229,31 @@ function getSolutionImage(solution_id) {
 
     if(solution_id === '1') {
         imageList = [
-            {path: `${contextPath}/SHT_1/1_Order.png`,tag: `수주관리`},
-            {path: `${contextPath}/SHT_1/2_Production-Planning.png`,tag: `생산계획`},
-            {path: `${contextPath}/SHT_1/3_Material-Requirement .png`,tag: `자재소요량산충`},
-            {path: `${contextPath}/SHT_1/4_Work-Order.png`,tag: `작업지시`},
-            {path: `${contextPath}/SHT_1/5_Work-Performance.png`,tag: `작업실적`},
-            {path: `${contextPath}/SHT_1/6_Performance-Against-Plan.png`,tag: `계획대비실적`},
-            {path: `${contextPath}/SHT_1/7_BOM.png`,tag: `BOM현황`},
+            {path: `${contextPath}/SHT_1/1_Order.png`,tag: MessageSource['main.image.order']},
+            {path: `${contextPath}/SHT_1/2_Production-Planning.png`,tag: MessageSource['main.image.production-planning']},
+            {path: `${contextPath}/SHT_1/3_Material-Requirement .png`,tag: MessageSource['main.image.material-requirement']},
+            {path: `${contextPath}/SHT_1/4_Work-Order.png`,tag: MessageSource['main.image.work-order']},
+            {path: `${contextPath}/SHT_1/5_Work-Performance.png`,tag: MessageSource['main.image.work-performance']},
+            {path: `${contextPath}/SHT_1/6_Performance-Against-Plan.png`,tag: MessageSource['main.image.performance-against-Plan']},
+            {path: `${contextPath}/SHT_1/7_BOM.png`,tag: MessageSource['main.image.bom1']},
         ]
 
     } else if(solution_id === '2') {
         imageList = [
-            {path: `${contextPath}/KPNC_2/1_BOM.png`,tag: `BOM관리`},
-            {path: `${contextPath}/KPNC_2/2_Dashboard.png`,tag: `대시보드`},
-            {path: `${contextPath}/KPNC_2/3_Material-Status.png`,tag: `자재현황`},
-            {path: `${contextPath}/KPNC_2/4_Work-Order.png`,tag: `작업지시`},
-            {path: `${contextPath}/KPNC_2/5_Project-Status.png`,tag: `프로젝트현황`},
+            {path: `${contextPath}/KPNC_2/1_BOM.png`,tag: MessageSource['main.image.bom2']},
+            {path: `${contextPath}/KPNC_2/2_Dashboard.png`,tag: MessageSource['main.image.dashboard']},
+            {path: `${contextPath}/KPNC_2/3_Material-Status.png`,tag: MessageSource['main.image.material-status']},
+            {path: `${contextPath}/KPNC_2/4_Work-Order.png`,tag: MessageSource['main.image.work-order']},
+            {path: `${contextPath}/KPNC_2/5_Project-Status.png`,tag: MessageSource['main.image.project-status']},
         ]
 
     } else if(solution_id === '3') {
         imageList = [
-            {path: `${contextPath}/HSG_3/1_Work-Order.png`,tag: `작업지시`},
-            {path: `${contextPath}/HSG_3/2_Production-Information.png`,tag: `생산정보`},
-            {path: `${contextPath}/HSG_3/3_ Production-Completion-Information.png`,tag: `생산완료정보`},
-            {path: `${contextPath}/HSG_3/4_Facility-Maintenance.png`,tag: `설비유지보수`},
-            {path: `${contextPath}/HSG_3/5_Monitoring.png`,tag: `모니터링`},
+            {path: `${contextPath}/HSG_3/1_Work-Order.png`,tag: MessageSource['main.image.work-order']},
+            {path: `${contextPath}/HSG_3/2_Production-Information.png`,tag: MessageSource['main.image.production-information']},
+            {path: `${contextPath}/HSG_3/3_Production-Completion-Information.png`,tag: MessageSource['main.image.production-completion-information']},
+            {path: `${contextPath}/HSG_3/4_Facility-Maintenance.png`,tag: MessageSource['main.image.facility-maintenance']},
+            {path: `${contextPath}/HSG_3/5_Monitoring.png`,tag: MessageSource['main.image.monitoring']},
         ]
     }
 

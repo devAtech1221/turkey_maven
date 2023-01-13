@@ -10,7 +10,7 @@
 		SELECT t1.my_license_id,t1.site_id,t1.site_pass,t1.site_url,
 		       DATE_FORMAT(t1.start_date,'%Y/%m/%d') as start_date,
 			   DATE_FORMAT(t1.end_date,'%Y/%m/%d') as end_date,
-		       t2.name, t2.belong, t2.`position`, t3.solution_name
+		       t2.name, t2.belong, t2.`position`, t3.solution_name, t3.solution_name_ko
 		FROM my_license t1
 		INNER JOIN user t2 on (t1.user_id = t2.user_id)
 		INNER JOIN solution t3 on (t1.solution_id = t3.solution_id)
@@ -33,6 +33,7 @@
 		<association property="solution"  javaType="model.main.Solution" >
 			<result column="solution_id" property="solution_id"/>
 			<result column="solution_name" property="solution_name"/>
+			<result column="solution_name_ko" property="solution_name_ko"/>
 		</association>
 	</resultMap>
 

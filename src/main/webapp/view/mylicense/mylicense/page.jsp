@@ -1,11 +1,18 @@
+<%@ page import="common.message.MessageHandler" %>
+<%@ page import="java.util.Locale" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
+<%
+    MessageHandler mh = MessageHandler.getInstance();
+    Locale locale = request.getLocale();
+    mh.setLocale(locale);
+%>
 <link href="/common/css/my-license.css" rel="stylesheet">
 
 <!-- Content Row -->
 <div id="route-contents">
     <div class="container">
-        <h2>마이페이지</h2>
+        <h2><%=mh.code("mylicense.page.header")%></h2>
 
         <div class="my-license-contents">
             <div class="user">
@@ -18,12 +25,12 @@
             <table class="my-license-table">
                 <thead>
                 <tr>
-                    <th>번호</th>
-                    <th>제품정보</th>
-                    <th>계정정보</th>
-                    <th>신청일</th>
-                    <th>만료일</th>
-                    <th>상태</th>
+                    <th><%=mh.code("mylicense.page.tr1")%></th>
+                    <th><%=mh.code("mylicense.page.tr2")%></th>
+                    <th><%=mh.code("mylicense.page.tr3")%></th>
+                    <th><%=mh.code("mylicense.page.tr4")%></th>
+                    <th><%=mh.code("mylicense.page.tr5")%></th>
+                    <th><%=mh.code("mylicense.page.tr6")%></th>
                 </tr>
                 </thead>
                 <tbody></tbody>

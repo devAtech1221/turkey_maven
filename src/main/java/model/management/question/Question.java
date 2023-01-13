@@ -20,6 +20,7 @@ public @Getter @Setter class Question extends BeanCommon{
 	private String question_id;
 	private String solution_id;
 	private String solution_name;
+	private String solution_name_ko;
 	private String belong;
 	private String name;
 	private String position;

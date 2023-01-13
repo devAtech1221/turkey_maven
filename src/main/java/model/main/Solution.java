@@ -12,6 +12,7 @@ import java.util.List;
 public @Getter @Setter class Solution extends BeanCommon{
 	private String solution_id;
 	private String solution_name;
+	private String solution_name_ko;
 	private List<Detail> detail;
 	private List<LicenseInfo> license;
 
