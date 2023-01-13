@@ -117,7 +117,8 @@
 }
 .form-box.pass .title {
     flex: none;
-    width: 20%;
+    min-width: 20%;
+    width: auto;
 }
 .form-box.pass .input {
     flex: none;

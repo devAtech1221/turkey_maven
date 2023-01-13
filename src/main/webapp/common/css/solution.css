@@ -86,7 +86,7 @@
     flex: 3 1;
 }
 
-.sec_title {font-size: 2.25em; text-align: left; margin-bottom: .75em; white-space: pre-wrap; }
+.sec_title {font-size: 2em; text-align: left; margin-bottom: .75em; white-space: pre-wrap; }
 
 /* 솔루션 정보 */
 .solution-detail {
@@ -160,7 +160,7 @@ license-info-table thead th {width: 25%; }
 .license-info .card {background: #fff; border-radius: 1em; padding: 3em 2em; text-align: left; border: 0; box-shadow: 0px 4px 16px rgb(0 0 0 / 6%); }
 .license-info .card .card_header {border-bottom: 0; padding: 0; }
 .license-info .card .card_header h6 {font-size: 1.5em; }
-.license-info .card .card_header p {margin-top: .5em; font-size: 1.125em; color: #888; white-space: pre-wrap; }
+.license-info .card .card_header p {margin-top: .5em; font-size: 1.125em; color: #888; white-space: pre-wrap; min-height: 4em; }
 .license-info .card .card_body {padding-top: 1.5em; }
 .license-info .card .card_body dl {color: #888; }
 .license-info .card .card_body dl dd {}

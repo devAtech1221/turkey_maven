@@ -70,6 +70,8 @@ html {
   display: none !important;
 }
 
+button {white-space: nowrap; }
+
 /* color */
 :root {
   --main-bg-color: #4c7edc;
@@ -655,19 +657,18 @@ body {
   /*width: 80px;*/
 }
 .input-box.category .inner-input {
-  display: flex;
-  /*flex-wrap: wrap;*/
+  display: flex; flex-wrap: wrap;
   /*justify-content: center;*/
   /*justify-items: center;*/
   /*align-items: center;*/
-  width: 100%;
+  margin: 0 -1em;
 }
 .input-box.category .inner-input .input {
   /*width: 120px;*/
   /*margin: 0 12px;*/
-  display: flex; align-items: center; margin-left: 1.5em;
+  display: flex; align-items: center; /* margin-left: 1.5em; */ margin: .25em 1em;
 }
-.input-box.category .inner-input .input:first-child {margin-left: 0; }
+/*.input-box.category .inner-input .input:first-child {margin-left: 0; }*/
 .input-box.category .inner-input .input input[type="radio"] {width: 1.5em; height: 1.5em; margin-right: .25em; }
 
 .input-box.category .inner-input .input input {
@@ -759,7 +760,7 @@ input,textarea:focus {
 .selected-solution {
   width: 100%;
   text-align: start;
-  padding: .5em .75em; border: 1px solid #ddd; border-radius: .25em; background: #efefef;
+  padding: .5em .75em; border: 1px solid #ddd; border-radius: .25em; background: #efefef; margin: 0 1em;
 }
 
 /* 문의글 관리 라이선스 정보 */
@@ -774,9 +775,9 @@ input,textarea:focus {
   text-align: start;
 }
 
-.type_list {display: flex; margin-top: .5em; }
-.type_list dd {margin-left: 1em; display: flex; align-items: center; }
-.type_list dd:first-child {margin-left: 0; }
+.type_list {display: flex; flex-wrap: wrap; /* margin-top: .5em; */ margin: .5em -1em; }
+.type_list dd {margin-left: 1em; display: flex; align-items: center; margin: .25em 1em; }
+/*.type_list dd:first-child {margin-left: 0; }*/
 .type_list dd input {margin-right: .25em; width: 20px; height: 20px; }
 
 .cost_info dl dd {font-size: .875em; color: #888; }

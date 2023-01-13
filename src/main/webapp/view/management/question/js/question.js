@@ -79,7 +79,7 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
                 $submit_wrap.css('display','none');
             } else {
                 $create_form.css('display','block');
-                $submit_wrap.css('display','block');
+                $submit_wrap.css('display','flex');
             }
 
             openModal($modal);
