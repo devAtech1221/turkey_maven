@@ -1,15 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-<%@ page import="common.message.MessageHandler" %>
-<%@ page import="java.util.Locale" %>
-<%--<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>--%>
 <%
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 	response.setHeader("Expires", "0"); // Proxies.
-	MessageHandler mh = MessageHandler.getInstance();
-	Locale locale = request.getLocale();
-	mh.setLocale(locale);
 %>
 
 <form class="form-box form-box2">
@@ -19,37 +13,37 @@
 				<h5 style="font-size: 1.25em;margin-bottom: 1em;"></h5>
 
 				<div>
-					<h6 style="font-size: 1em;"><%=mh.code("main.contentsModal.type.title")%></h6>
+					<h6 data-msg_src="main.contentsModal.type.title" style="font-size: 1em;"></h6>
 
 					<dl class="type_list">
-						<dd>
+						<dd data-msg_src="main.trial.name">
 							<input
 								type="radio"
 								name="license_type"
-								data-name="<%=mh.code("main.trial.name")%>"
+								data-name="main.trial.name"
 								value='trial'
-							/> <%=mh.code("main.trial.name")%></dd>
-						<dd>
+							/></dd>
+						<dd data-msg_src="main.basic.name">
 							<input
 								type="radio"
 								name="license_type"
-								data-name="<%=mh.code("main.basic.name")%>"
+								data-name="main.basic.name"
 								value="basic"
-							/> <%=mh.code("main.basic.name")%></dd>
-						<dd>
+							/></dd>
+						<dd data-msg_src="main.premium.name">
 							<input
 								type="radio"
 								name="license_type"
-								data-name="<%=mh.code("main.premium.name")%>"
+								data-name="main.premium.name"
 								value="premium"
-							/> <%=mh.code("main.premium.name")%></dd>
-						<dd>
+							/></dd>
+						<dd data-msg_src="main.custom.name">
 							<input
 								type="radio"
 								name="license_type"
-								data-name="<%=mh.code("main.custom.name")%>"
+								data-name="main.custom.name"
 								value="custom"
-							/> <%=mh.code("main.custom.name")%></dd>
+							/></dd>
 					</dl>
 				</div>
 			</li>
@@ -57,17 +51,17 @@
 			<li style="padding-left: 1em;">
 				<div class="cost_info" style="background: #f5f7f9; padding: 1em; border: 0; border-radius: .5em;">
 					<div style="display:flex; justify-content: space-between;">
-						<span style="margin-top: .25em;"><%=mh.code("main.contentsModal.cost.title")%></span>
+						<span data-msg_src="main.contentsModal.cost.title" style="margin-top: .25em;"></span>
 						<dl></dl>
 					</div>
 				</div>
-				<span style="margin-top: .25em; font-size: .875em; color: #888; font-weightt: 400; text-align: right; display: block;"><%=mh.code("main.contentsModal.cost.warning")%></span>
+				<span data-msg_src="main.contentsModal.cost.warning" style="margin-top: .25em; font-size: .875em; color: #888; font-weightt: 400; text-align: right; display: block;"></span>
 			</li>
 		</ol>
 	</div>
 
 	<div class="input_group">
-		<label for="title" class="title required"><%=mh.code("form.title")%></label>
+		<label data-msg_src="form.title" for="title" class="title required"></label>
 		<input
 			class="form_control"
 			id="title"
@@ -80,7 +74,7 @@
 	</div>
 
 	<div class="input_group">
-		<label for="contents" class="title required"><%=mh.code("form.contents")%></label>
+		<label data-msg_src="form.contents" for="contents" class="title required"></label>
 		<textarea
 			class="form_control"
 			id="contents"
@@ -99,7 +93,7 @@
 			name="agree"
 			value="on"
 		/>
-		<label for="agree"><%=mh.code("form.agree")%><sapn class="required-agree"><%=mh.code("form.agree.required")%></sapn></label>
+		<label data-msg_src="form.agree" for="agree"><sapn data-msg_src="form.agree.required" class="required-agree"></sapn></label>
 	</div>
 	<div class="error-box" data-key="agree">
 		<div class="error-msg"></div>

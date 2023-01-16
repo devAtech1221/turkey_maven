@@ -60,7 +60,7 @@ public class JoinHandler extends CommonHandler{
 				}
 
 				// 인증메일 전송
-				SendMail sendMail = SendMail.getInstance(request);
+				SendMail sendMail = SendMail.getInstance();
 				sendMail.sendCodeMail(user.getEmail());
 
 				resultMap.put("resultCode", Message.SUCCESS.getCode());
@@ -68,7 +68,7 @@ public class JoinHandler extends CommonHandler{
 				return retResult(request, resultMap);
 
 			} else if(mode.equals("ChkAuthCode")) {
-				SendMail sendMail = SendMail.getInstance(request);
+				SendMail sendMail = SendMail.getInstance();
 				String code = request.getParameter("code");
 				boolean success = sendMail.check(code);
 

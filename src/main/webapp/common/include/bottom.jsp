@@ -1,4 +1,4 @@
-<%@ page import="common.message.MessageHandler" %>
+<%@ page import="common.MessageHandler" %>
 <%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" errorPage="" %>
 <%
@@ -6,8 +6,6 @@
 	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 	response.setHeader("Expires", "0"); // Proxies.
 	MessageHandler mh = MessageHandler.getInstance();
-	Locale locale = request.getLocale();
-	mh.setLocale(locale);
 %>
         </div>
     </section>
@@ -51,5 +49,40 @@
 			}
 		})
 	})
+
+	//언어변경 이벤트
+	$('.change_lang').on('click','li', (e) => {
+		e.preventDefault();
+
+		$.ajax({
+			type : "POST",
+			url  : '/main/Main.do',
+			dataType: "json",
+			data : {
+				task: "proc",
+				mode: "changeLang",
+				lang: e.target.dataset.lang
+			}
+		}).done(data => {
+			if(data.resultCode === '00') {
+				localStorage.setItem("lang",data.lang);
+				window.location.reload();
+
+			} else if (data.resultCode === '09') {
+				return;
+			}
+		})
+	})
+
+	if (!localStorage.getItem("lang")) {
+		$('.change_lang li[data-lang="tr"]').attr('class', 'selected_lang');
+	} else {
+		$('.change_lang li').each((idx,ele) => {
+			if (ele.dataset.lang === localStorage.getItem("lang")) {
+				ele.className = 'selected_lang';
+			}
+		})
+	}
+
 </script>
 </html>

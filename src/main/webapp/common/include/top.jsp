@@ -2,8 +2,7 @@
 <%@ page import="common.*, model.system.user.user.*, model.system.master.menu.*"%>
 <%@ page import="com.google.gson.GsonBuilder" %>
 <%@ page import="com.google.gson.Gson" %>
-<%@ page import="common.message.MessageHandler" %>
-<%@ page import="org.springframework.context.MessageSource" %>
+<%@ page import="common.MessageHandler" %>
 
 <%
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
@@ -33,7 +32,7 @@
 
 	if (mh != null) {
 		Gson objGson = new GsonBuilder().setPrettyPrinting().create();
-		messages = mh.getMessages(request.getLocale());
+		messages = mh.getMessages();
 		messagesJson = objGson.toJson(messages);
 	}
 
@@ -122,7 +121,6 @@
 		MessageSource = JSON.parse(`<%=messagesJson%>`);
 	}
 
-	console.log(MessageSource)
 </script>
 
 	<!-- Top Bar -->
@@ -174,6 +172,11 @@
 					<%}%>
 				</ul>
 			</div>
+
+			<ul class="change_lang">
+				<li data-lang="tr">TUR</li>
+				<li data-lang="ko">KOR</li>
+			</ul>
 		</nav>
 	</div>
 </div>

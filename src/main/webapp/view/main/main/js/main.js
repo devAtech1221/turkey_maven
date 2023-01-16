@@ -76,6 +76,15 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
     const $solution_detail = $('.solution-detail');
     const $license_info = $('.license-info');
 
+    // jsp MessageSource init
+    $("[data-msg_src]").each((idx,ele) => {
+        if (ele.closest('.type_list')) {
+            ele.append(MessageSource[ele.dataset.msg_src]);
+        } else {
+            ele.prepend(MessageSource[ele.dataset.msg_src]);
+        }
+    })
+
     const submit = (formData) => {
         $.ajax({
             type : "POST",
@@ -205,6 +214,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
 
         // 라이선스 모달 오픈 이벤트
        $license_info.find('.question-wrap button').on('click',({target}) => {
+
            if(!LOGIN_USER) {
                alert(MessageSource['alert.request.login']);
                window.location = '/login/Login.do';
@@ -219,7 +229,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
 
                // 라이선스 radio
                $type_list_input.each((idx,ele) => {
-                   if(ele.dataset.name === target.dataset.name) {
+                   if(MessageSource[ele.dataset.name] === target.dataset.name) {
                        ele.checked = true;
                    } else {
                        ele.checked = null;
@@ -229,7 +239,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
                // 라이선스 변경 이벤트
                $type_list_input.on('click',({target}) => {
                        const selectedLicenseInfo = licenseInfo.find(ele => {
-                           return ele.name === target.dataset.name;
+                           return MessageSource[target.dataset.name] === ele.name;
                        });
                        changeLicenseInput($cost_info_dl,selectedLicenseInfo)
                });

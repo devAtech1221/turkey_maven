@@ -18,6 +18,7 @@ public enum Message {
 	LOGOUT_SUCCESS("07","로그아웃에 성공했습니다."),
 	MAIL_TO_NOTFOUND("08", "메일주소를 찾을 수 없습니다."),
 	SERVER_ERROR("99","서버에 문제가 생겼습니다."),
+	CHANGED_LANG("09", "이미 변경되었습니다."),
 
 	// URL
 	INFO_URL_CHECK("I0001","성공"),

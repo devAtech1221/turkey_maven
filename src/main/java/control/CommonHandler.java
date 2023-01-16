@@ -151,6 +151,8 @@ public class CommonHandler implements CommandHandler {
         MenuDao DAO = Controller.menuDao;
         User user = (User) request.getAttribute("USER");
         List<Menu> menuList = null;
+        MessageHandler mh = MessageHandler.getInstance();
+
         if(user == null) {
             // 익명
             menuList = DAO.selectAuthMenuList("3");
@@ -159,7 +161,7 @@ public class CommonHandler implements CommandHandler {
         }
 
         menuList = menuList.stream().map(menu -> {
-            if (request.getLocale().toString().equals("ko")) {
+            if (mh.equals("ko")) {
                 menu.setMENU_NM(menu.getMENU_NM_KO());
             }
 

@@ -801,3 +801,25 @@ input,textarea:focus {
   display: flex;
   justify-content: space-between;
 }
+
+.change_lang {
+  font-size: 6px;
+  position: absolute;
+  right: -100px;
+  display: flex;
+  padding: 4px;
+  border: 1px solid rgba(138, 135, 135, 0.52);
+  border-radius: 8px;
+}
+
+.change_lang li {
+  color: rgba(101, 100, 100, 0.76);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.change_lang .selected_lang {
+  color: black;
+  background-color: #c6d1da;
+}

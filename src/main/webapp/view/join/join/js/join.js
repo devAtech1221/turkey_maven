@@ -37,7 +37,7 @@ Promise.all([]).then(function(params) {
             }
         }).done(data => {
             if(data.resultCode === '00') {
-                alert(MessageSource['alert.request.login']);
+                alert(MessageSource['alert.success.join']);
                 window.location.href = '/login/Login.do';
             }
         })

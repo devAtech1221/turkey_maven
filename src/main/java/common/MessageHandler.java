@@ -1,4 +1,4 @@
-package common.message;
+package common;
 
 import lombok.Setter;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -26,6 +26,7 @@ public class MessageHandler extends ReloadableResourceBundleMessageSource{
 
         Locale defaultLang= new Locale("tr");
         setDefaultLocale(defaultLang);
+        this.locale = defaultLang;
     }
 
     public String code(String code) {
@@ -52,4 +53,21 @@ public class MessageHandler extends ReloadableResourceBundleMessageSource{
         return list;
     }
 
+    public HashMap<String,String> getMessages() {
+        HashMap<String,String> list = new HashMap<>();
+        System.out.println(this.locale);
+        PropertiesHolder mergedProperties = getMergedProperties(this.locale);
+        Set<Object> objects = mergedProperties.getProperties().keySet();
+
+        for (Object object : objects) {
+            list.put((String)object,code((String)object));
+        }
+
+        return list;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return locale.toString().equals((String) obj);
+    }
 }

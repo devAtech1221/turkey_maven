@@ -2,6 +2,7 @@ package model.main;
 
 import common.AES256Util;
 import common.Config;
+import common.MessageHandler;
 import model.management.license.License;
 import model.system.user.user.UserMapper;
 import mybatis.SqlSessionManager;
@@ -30,17 +31,18 @@ public class MainDao {
 
         try {
         	MainMapper mapper = session.getMapper(MainMapper.class);
-            list = mapper.selectSolutionList()
+			MessageHandler mh = MessageHandler.getInstance();
+			list = mapper.selectSolutionList()
 					.stream()
 					.map(solution -> {
-						if (request.getLocale().toString().equals("ko")) {
+						if (mh.equals("ko")) {
 							solution.setSolution_name(solution.getSolution_name_ko());
 						}
 
 						List<Detail> details = mapper.selectDetailList(solution.getSolution_id())
 								.stream()
 								.map(detail -> {
-									if (request.getLocale().toString().equals("ko")) {
+									if (mh.equals("ko")) {
 										detail.setContents(detail.getContents_ko());
 									}
 									return detail;
@@ -49,7 +51,7 @@ public class MainDao {
 						List<LicenseInfo> licenseInfoList = mapper.selectLicenseList(solution.getSolution_id())
 								.stream()
 								.map(licenseInfo -> {
-									if (request.getLocale().toString().equals("ko")) {
+									if (mh.equals("ko")) {
 										licenseInfo.setType(licenseInfo.getType_ko());
 										licenseInfo.setCustom(licenseInfo.getCustom_ko());
 									}

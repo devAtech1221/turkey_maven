@@ -1,9 +1,6 @@
 package handler.management;
 
-import common.Config;
-import common.Message;
-import common.MyUtil;
-import common.Paging;
+import common.*;
 import common.mail.SendMail;
 import control.CommonHandler;
 import model.main.MainDao;
@@ -49,11 +46,12 @@ public class LicenseHandler extends CommonHandler{
 
 				Paging paging = new Paging(request);
 				paging.setSear(myUtil.null2Blank(request.getParameter("res_yn")).trim());
+				MessageHandler mh = MessageHandler.getInstance();
 
 				List<License> licenseList = DAO.selectLicenseList(paging)
 						.stream()
 						.map(license -> {
-							if (request.getLocale().toString().equals("ko")) {
+							if (mh.equals("ko")) {
 								license.setSolution_name(license.getSolution_name_ko());
 							}
 
@@ -112,7 +110,7 @@ public class LicenseHandler extends CommonHandler{
 
 
 				// 메일 전송
-				SendMail sendMail = SendMail.getInstance(request);
+				SendMail sendMail = SendMail.getInstance();
 				mailDto.setMessage(sendMail.createLicenseHTML(mailDto.getMylicense(),mailDto));
 				boolean success = sendMail.send(mailDto);
 

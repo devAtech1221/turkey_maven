@@ -1,9 +1,7 @@
 package common.mail;
 
-import common.message.MessageHandler;
-import handler.management.QuestionHandler;
+import common.MessageHandler;
 import model.mylicense.Mylicense;
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,8 +12,6 @@ import javax.mail.internet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 
@@ -31,9 +27,8 @@ public class SendMail {
 	Logger log = LoggerFactory.getLogger(SendMail.class);
 	private static SendMail instance = new SendMail();
 
-	public static SendMail getInstance(HttpServletRequest request) {
+	public static SendMail getInstance() {
 		mh = MessageHandler.getInstance();
-		mh.setLocale(request.getLocale());
 
 		return instance;
 	}

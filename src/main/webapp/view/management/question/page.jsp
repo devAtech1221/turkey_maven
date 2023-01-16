@@ -1,11 +1,9 @@
-<%@ page import="common.message.MessageHandler" %>
+<%@ page import="common.MessageHandler" %>
 <%@ page import="java.util.Locale" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <jsp:include page="/common/include/top.jsp" />
 <%
     MessageHandler mh = MessageHandler.getInstance();
-    Locale locale = request.getLocale();
-    mh.setLocale(locale);
 %>
 
 <link href="/common/css/management.css" rel="stylesheet">

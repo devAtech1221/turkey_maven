@@ -1,19 +1,15 @@
-<%@ page import="common.message.MessageHandler" %>
-<%@ page import="java.util.Locale" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1.
 	response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
 	response.setHeader("Expires", "0"); // Proxies.
-	MessageHandler mh = MessageHandler.getInstance();
-	Locale locale = request.getLocale();
-	mh.setLocale(locale);
+
 %>
 
 <form class="form-box user-info-form">
 	<div class="input-box text">
 		<div class="input_group">
-			<label class="title required"><%=mh.code("form.belong")%></label>
+			<label data-msg_src="form.belong" class="title required"></label>
 			<input
 				class="form_control"
 				id="belong"
@@ -26,7 +22,7 @@
 		</div>
 
 		<div class="input_group">
-			<label class="title required"><%=mh.code("form.name")%></label>
+			<label data-msg_src="form.name" class="title required"></label>
 			<input
 				class="form_control"
 				id="name"
@@ -39,7 +35,7 @@
 		</div>
 
 		<div class="input_group">
-			<label class="title required"><%=mh.code("form.position")%></label>
+			<label data-msg_src="form.position" class="title required"></label>
 			<input
 				class="form_control"
 				id="position"
@@ -52,7 +48,7 @@
 		</div>
 
 		<div class="input_group">
-			<label class="title required"><%=mh.code("form.tel")%></label>
+			<label data-msg_src="form.tel" class="title required"></label>
 			<input
 				class="form_control"
 				id="tel"

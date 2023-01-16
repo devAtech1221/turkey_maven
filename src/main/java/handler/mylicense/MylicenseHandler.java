@@ -2,6 +2,7 @@ package handler.mylicense;
 
 import common.Config;
 import common.Message;
+import common.MessageHandler;
 import common.MyUtil;
 import control.CommonHandler;
 import model.main.Solution;
@@ -34,10 +35,12 @@ public class MylicenseHandler extends CommonHandler{
 				}
 
 				User user = new User(request,"data");
+				MessageHandler mh = MessageHandler.getInstance();
+
 				List<Mylicense> mylicenseList = DAO.selectMylicenseList(user)
 						.stream()
 						.map(mylicense -> {
-							if (request.getLocale().toString().equals("ko")) {
+							if (mh.equals("ko")) {
 								Solution solution = mylicense.getSolution();
 								solution.setSolution_name(solution.getSolution_name_ko());
 							}

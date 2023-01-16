@@ -48,6 +48,15 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     const $btn_submit = $modal.find('.btn-modal-submit .mail-submit');
     const $btn_close = $modal.find('.btn-modal-submit .close');
 
+    // jsp MessageSource init
+    $("[data-msg_src]").each((idx,ele) => {
+        ele.prepend(MessageSource[ele.dataset.msg_src]);
+    })
+
+    $("[data-placeholder]").each((idx,ele) => {
+        ele.placeholder = MessageSource[ele.dataset.placeholder];
+    })
+
     // grit 테이블 설정
     const gridOptions = {
         columnDefs: [

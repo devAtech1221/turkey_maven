@@ -1,9 +1,6 @@
 package handler.management;
 
-import common.Config;
-import common.Message;
-import common.MyUtil;
-import common.Paging;
+import common.*;
 import common.mail.CustomFile;
 import common.mail.MailDto;
 import common.mail.SendMail;
@@ -40,10 +37,11 @@ public class QuestionHandler extends CommonHandler{
 
 				Paging paging = new Paging(request);
 				paging.setSear(myUtil.null2Blank(request.getParameter("res_yn")).trim());
+				MessageHandler mh = MessageHandler.getInstance();
 
 				List<Question> questionList = DAO.selectQuestionList(paging).stream()
 						.map(question -> {
-							if (request.getLocale().toString().equals("ko")) {
+							if (mh.equals("ko")) {
 								question.setSolution_name(question.getSolution_name_ko());
 							}
 							return question;
@@ -90,7 +88,7 @@ public class QuestionHandler extends CommonHandler{
 				}
 
 				// 메일 전송
-				SendMail sendMail = SendMail.getInstance(request);
+				SendMail sendMail = SendMail.getInstance();
 				mailDto.setMessage(sendMail.createMailHTML(mailDto));
 				boolean success = sendMail.send(mailDto);
 

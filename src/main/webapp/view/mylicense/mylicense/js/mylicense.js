@@ -68,6 +68,11 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
     const $btn_submit = $modal.find('.btn-modal-submit .info-submit');
     const $btn_close = $modal.find('.btn-modal-submit .close');
 
+    // jsp MessageSource init
+    $("[data-msg_src]").each((idx,ele) => {
+        ele.prepend(MessageSource[ele.dataset.msg_src]);
+    })
+
     const editInfo = (formData) => {
         $.ajax({
             type : "POST",

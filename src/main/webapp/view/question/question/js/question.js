@@ -42,6 +42,11 @@ Promise.all([solutionInit(),areaform.init()]).then(function(params) {
     const $form = $('form');
     const $input = $form.find('input,textarea');
 
+    // jsp MessageSource init
+    $("[data-msg_src]").each((idx,ele) => {
+        ele.prepend(MessageSource[ele.dataset.msg_src]);
+    })
+
     const submit = (formData) => {
         $.ajax({
             type : "POST",
