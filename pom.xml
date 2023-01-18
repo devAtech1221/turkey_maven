@@ -375,7 +375,7 @@
               <jsSourceDir>/</jsSourceDir>
               <!--<jsTargetDir>/viewMin</jsTargetDir>-->
               <jsSourceIncludes>
-                <jsSourceInclude>view/**/*.js</jsSourceInclude>
+                <!-- <jsSourceInclude>view/**/*.js</jsSourceInclude> -->
                 <jsSourceInclude>common/js/atech/**/*.js</jsSourceInclude>
                 <!--<packagingExcludes>**/*.js</packagingExcludes>-->
               </jsSourceIncludes>
