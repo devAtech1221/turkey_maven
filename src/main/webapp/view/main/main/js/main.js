@@ -86,6 +86,9 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
     })
 
     const submit = (formData) => {
+        formData.user_id = LOGIN_USER.user_id;
+        formData.solution_id = selectedSolution.solution_id;
+
         $.ajax({
             type : "POST",
             url  : "/management/License.do",
@@ -93,7 +96,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
             data : {
                 task: "proc",
                 mode: "insert",
-                data: {...formData, user_id: LOGIN_USER.user_id, solution_id:selectedSolution.solution_id}
+                data: formData
             }
         }).done(data => {
             if(data.resultCode === '00') {

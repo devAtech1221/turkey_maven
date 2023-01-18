@@ -113,18 +113,24 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             }
         }).done(json => {
             const dataFormat = json.data.map(ele => {
-                let tmpData = {...ele,...ele.user}
+                let tmpData = ele;
+                let userData = ele.user;
+                for (const userDataKey in userData) {
+                    tmpData[userDataKey] = userData[userDataKey];
+                }
                 delete tmpData.user;
+
                 return tmpData;
             })
 
             const tmpMap = dataFormat.map(ele => {
-                return {
-                    ...ele,
-                    res_yn  : ele.res_yn == 'SUCCESS' ? {txt:MessageSource['grid.SUCCESS'], order: 2}
-                            : ele.res_yn == 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 3}
-                            : {txt:MessageSource['grid.NEW'], order: 1}
-                }
+                const result = ele;
+                const res_yn =  ele.res_yn === 'SUCCESS' ? {txt:MessageSource['grid.SUCCESS'], order: 2}
+                                : ele.res_yn === 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 3}
+                                : {txt:MessageSource['grid.NEW'], order: 1};
+                result.res_yn = res_yn;
+
+                return result;
             });
 
             tmpMap.sort((a,b) => {
@@ -143,7 +149,10 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             });
 
             const sortedMap = tmpMap.map(ele => {
-                return {...ele, res_yn: ele.res_yn.txt};
+                const result = ele;
+                result.res_yn = ele.res_yn.txt;
+
+                return result;
             })
 
             gridOptions.api.setRowData(sortedMap);
@@ -189,7 +198,7 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
         const files = $create_form.find('.input.file input')[0].files;
         const submitData = new FormData();
 
-        [...files].forEach(file => {
+        Array.from(files).forEach(file => {
             submitData.append('attach_file_list', file);
         })
 

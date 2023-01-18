@@ -117,12 +117,12 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             })
 
             const tmpMap = dataFormat.map(ele => {
-                return {
-                    ...ele,
-                    res_yn  : ele.res_yn == 'SUCCESS' ? {txt:MessageSource['grid.SUCCESS'], order: 2}
-                        : ele.res_yn == 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 3}
-                            : {txt:MessageSource['grid.NEW'], order: 1}
-                }
+                const result = ele;
+                result.res_yn = ele.res_yn == 'SUCCESS' ? {txt:MessageSource['grid.SUCCESS'], order: 2}
+                             : ele.res_yn == 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 3}
+                             : {txt:MessageSource['grid.NEW'], order: 1}
+
+                return result;
             });
 
             tmpMap.sort((a,b) => {
@@ -141,7 +141,8 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             });
 
             const sortedMap = tmpMap.map(ele => {
-                return {...ele, res_yn: ele.res_yn.txt};
+                ele.res_yn = ele.res_yn.txt;
+                return ele;
             })
 
             gridOptions.api.setRowData(sortedMap);
@@ -177,7 +178,7 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             submitData.append(name, formData[name]);
         }
 
-        [...files].forEach(file => {
+        Array.from(files).forEach(file => {
             submitData.append('attach_file_list', file);
         })
 

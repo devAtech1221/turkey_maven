@@ -74,6 +74,8 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
     })
 
     const editInfo = (formData) => {
+        formData.user_id = LOGIN_USER.user_id;
+
         $.ajax({
             type : "POST",
             url  : window.location.pathname,
@@ -81,7 +83,7 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
             data : {
                 task: "proc",
                 mode: "editInfo",
-                data : {...formData, user_id: LOGIN_USER.user_id}
+                data : formData
             }
         }).done(json => {
             if(json.resultCode == '00') {
@@ -92,6 +94,8 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
     }
 
     const editPass = (formData) => {
+        formData.user_id = LOGIN_USER.user_id;
+
         $.ajax({
             type : "POST",
             url  : window.location.pathname,
@@ -99,7 +103,7 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
             data : {
                 task: "proc",
                 mode: "editPass",
-                data : {...formData, user_id: LOGIN_USER.user_id}
+                data : formData
             }
         }).done(json => {
             if(json.resultCode == '00') {

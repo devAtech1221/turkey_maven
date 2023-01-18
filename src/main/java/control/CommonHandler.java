@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FilenameUtils;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -253,26 +254,28 @@ public class CommonHandler implements CommandHandler {
         return "/common/util/retArrayJson.jsp";
     }
 
-    private void settingMailDto(HttpServletRequest request) throws FileUploadException, IOException {
+    private void settingMailDto(HttpServletRequest request) throws FileUploadException, IOException, ServletException {
         ServletFileUpload servletFileUpload = new ServletFileUpload(new DiskFileItemFactory());
-        servletFileUpload.setHeaderEncoding("UTF-8");
+        servletFileUpload.setHeaderEncoding("utf-8");
         List<FileItem> items = servletFileUpload.parseRequest(request);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
         for (FileItem item : items) {
+            String encString = new String(item.getString().getBytes("8859_1"), "utf-8");
             if (item.isFormField()) {
-                if(item.getFieldName().equals("task")) task = myUtil.null2Blank(item.getString());
-                else if(item.getFieldName().equals("mode")) mode = myUtil.null2Blank(item.getString());
-                else if(item.getFieldName().equals("mail_title")) mailDto.setMail_title(item.getString());
-                else if (item.getFieldName().equals("message")) mailDto.setMessage(item.getString());
-                else if (item.getFieldName().equals("to")) mailDto.setTo(item.getString());
-                else if (item.getFieldName().equals("question_id")) mailDto.setQuestion_id(item.getString());
-                else if (item.getFieldName().equals("license_question_id")) mailDto.setLicense_question_id(item.getString());
+                if(item.getFieldName().equals("task")) task = myUtil.null2Blank(encString);
+                else if(item.getFieldName().equals("mode")) mode = myUtil.null2Blank(encString);
+                else if(item.getFieldName().equals("mail_title")) mailDto.setMail_title(encString);
+                else if (item.getFieldName().equals("message")) mailDto.setMessage(encString);
+                else if (item.getFieldName().equals("to")) mailDto.setTo(encString);
+                else if (item.getFieldName().equals("question_id")) mailDto.setQuestion_id(encString);
+                else if (item.getFieldName().equals("license_question_id")) mailDto.setLicense_question_id(encString);
                 else if (item.getFieldName().equals("mylicense_json")) {
-                    Mylicense mylicense = mapper.readValue(item.getString(), Mylicense.class);
+                    Mylicense mylicense = mapper.readValue(encString, Mylicense.class);
                     mailDto.setMylicense(mylicense);
                 }
+
             } else {
                 CustomFile customFile = new CustomFile();
                 customFile.setFileName(FilenameUtils.getName(item.getName()));

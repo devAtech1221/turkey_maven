@@ -6,12 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 import java.util.Random;
 
@@ -61,12 +62,16 @@ public class SendMail {
 
 			// 파일 설정
 			for (CustomFile file : mailDto.getFiles()) {
-				MimeBodyPart filePart = new MimeBodyPart();
-				File tempFile = File.createTempFile(String.valueOf(file.getInputStream().hashCode()), ".tmp");
+				File tempFile = File.createTempFile(String.valueOf(file.hashCode()), ".tmp");
 				tempFile.deleteOnExit();
-				FileDataSource fileDataSource = new FileDataSource(tempFile.getAbsolutePath());
+				copyInputStreamToFile(file.getInputStream(), tempFile);
+				FileDataSource fileDataSource = new FileDataSource(tempFile);
+
+				MimeBodyPart filePart = new MimeBodyPart();
+				filePart.setFileName(file.getFileName());
 				filePart.setDataHandler(new DataHandler(fileDataSource));
 				multipart.addBodyPart(filePart);
+
 			}
 
 			generateMailMessage.setContent(multipart);
@@ -165,5 +170,17 @@ public class SendMail {
 		}
 
 		return false;
+	}
+
+	private static void copyInputStreamToFile(InputStream inputStream, File file) throws IOException {
+
+		try (FileOutputStream outputStream = new FileOutputStream(file)) {
+			int read;
+			byte[] bytes = new byte[1024];
+
+			while ((read = inputStream.read(bytes)) != -1) {
+				outputStream.write(bytes, 0, read);
+			}
+		}
 	}
 }
