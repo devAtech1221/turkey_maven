@@ -10,16 +10,6 @@
 >
   <display-name>Archetype Created Web Application</display-name>
 
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>SSL Forward</web-resource-name>
-      <url-pattern>/*</url-pattern>
-    </web-resource-collection>
-    <user-data-constraint>
-      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    </user-data-constraint>
-  </security-constraint>
-
   <welcome-file-list>
     <welcome-file>Index.do</welcome-file>
     <welcome-file>index.jsp</welcome-file>
