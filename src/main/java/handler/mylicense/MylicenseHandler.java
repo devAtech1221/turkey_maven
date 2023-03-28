@@ -46,18 +46,18 @@ public class MylicenseHandler extends CommonHandler{
 							}
 
 							//TODO 임시로 모든 라이선스는 체험을 기준으로 state 설정
-							try {
-								Date e_date = MyUtil.stringToDateYHD(mylicense.getEnd_date());
-								Date now = MyUtil.stringToDateYHD(MyUtil.getTodayYMD());
-								if(now.after(e_date)) {
-									mylicense.setStatus(false);
-								} else {
-									mylicense.setStatus(true);
-								}
-							} catch (ParseException e) {
-								System.out.println("Error[MylicenseHandler] : select : list : " + e.toString());
-								mylicense.setStatus(true);
-							}
+//							try {
+//								Date e_date = MyUtil.stringToDateYHD(mylicense.getEnd_date());
+//								Date now = MyUtil.stringToDateYHD(MyUtil.getTodayYMD());
+//								if(now.after(e_date)) {
+//									mylicense.setStatus(false);
+//								} else {
+//									mylicense.setStatus(true);
+//								}
+//							} catch (ParseException e) {
+//								System.out.println("Error[MylicenseHandler] : select : list : " + e.toString());
+//								mylicense.setStatus(true);
+//							}
 
 							return mylicense;
 						}).collect(Collectors.toList());

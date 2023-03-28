@@ -78,7 +78,7 @@
     </div>
 
     <div class="input_group">
-        <label data-msg_src="form.tel" for="title" class="title required"></label>
+        <label data-msg_src="form.title" for="title" class="title required"></label>
         <input
             class="form_control"
             id="title"

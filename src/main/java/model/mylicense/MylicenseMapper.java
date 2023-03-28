@@ -11,6 +11,8 @@ public interface MylicenseMapper {
 	int selectTotalRecords();
 	List<Mylicense> selectMylicenseList(User user);
 	int insert(Mylicense obj);
+
+	Mylicense selectDoc(String id);
 	int editInfo(User user);
 	int editPass(User user);
 }

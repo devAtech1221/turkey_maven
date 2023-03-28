@@ -6,6 +6,7 @@ import lombok.ToString;
 import model.BeanCommon;
 import model.main.Detail;
 import model.main.LicenseInfo;
+import model.mylicense.Mylicense;
 import model.system.user.user.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,11 @@ public @Getter @Setter class License extends BeanCommon{
 	private User user;
 	private String title;
 	private String contents;
+	private String site_id;
+	private String site_pass;
+	private String site_url;
+	private String start_date;
+	private String end_date;
 	private String res_yn;
 	private String license_type;
 

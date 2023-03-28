@@ -87,16 +87,16 @@ public class QuestionHandler extends CommonHandler{
 					return retResult(request, resultMap);
 				}
 
-				// 메일 전송
-				SendMail sendMail = SendMail.getInstance();
-				mailDto.setMessage(sendMail.createMailHTML(mailDto));
-				boolean success = sendMail.send(mailDto);
-
-				if(!success) {
-					resultMap.put("resultCode", Message.MAIL_TO_NOTFOUND.getCode());
-					resultMap.put("resultMessage", Message.MAIL_TO_NOTFOUND.getMsg());
-					return retResult(request, resultMap);
-				}
+//				// 메일 전송
+//				SendMail sendMail = SendMail.getInstance();
+//				mailDto.setMessage(sendMail.createMailHTML(mailDto));
+//				boolean success = sendMail.send(mailDto);
+//
+//				if(!success) {
+//					resultMap.put("resultCode", Message.MAIL_TO_NOTFOUND.getCode());
+//					resultMap.put("resultMessage", Message.MAIL_TO_NOTFOUND.getMsg());
+//					return retResult(request, resultMap);
+//				}
 
 				// 문의글 상태 변경
 				boolean success2 = DAO.changeResYn(Question.STATUS_SUCCESS, mailDto.getQuestion_id());

@@ -14,11 +14,11 @@ const errors_pass = [
 const mylicenseListInit = () => {
     const promise = $.ajax({
         type : "POST",
-        url  : window.location.pathname,
+        url  : '/management/License.do',
         dataType: "json",
         data : {
             task: "select",
-            mode: "list",
+            mode: "mylist",
             data: {user_id: LOGIN_USER.user_id}
         }
     });
@@ -216,15 +216,17 @@ Promise.all([mylicenseListInit(),modal.init()]).then(function(params) {
 
     // 테이블 init
     mylicenseList.forEach((ele,idx) => {
+        console.log(ele)
+
         $table_body.append(
             `<tr>
                 <td>${idx + 1}</td>
-                <td>${ele.solution.solution_name}</td>
-                <td>${ele.site_id} / ${ele.site_pass}</td>
-                <td>${ele.start_date}</td>
-                <td>${ele.end_date}</td>
-                <td>${ele.status ?`<button class="btn-solution-link" data-url=${ele.site_url}>
-                ${MessageSource["mylicense.link.on"]}</button>` : `<div>${MessageSource["mylicense.link.off"]}</div>`}</td>
+                <td>${ele.solution_name}</td>
+                <td>${ele.site_id && ele.site_pass ? ele.site_id + '/' + ele.site_pass : ''}</td>
+                <td>${ele.start_date || ''}</td>
+                <td>${ele.end_date || ''}</td>
+                <td>${ele.res_yn === 'APPROVAL' ?`<button class="btn-solution-link" data-url=${ele.site_url}>
+                ${MessageSource["mylicense.link.on"]}</button>` : `<div>${MessageSource[`grid.${ele.res_yn}`]}</div>`}</td>
             </tr>`
         )
     })

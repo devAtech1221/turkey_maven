@@ -26,6 +26,10 @@ let modal = new CommonFrame({
             url: '/view/management/license/createLicense.jsp',
         },
         {
+            target_position: '[data-content-inner2]',
+            url: '/view/management/license/LicenseInfo.jsp',
+        },
+        {
             target_position: '[data-content-footer]',
             url: '/view/management/license/contentsModalFooter.jsp',
         }
@@ -44,9 +48,12 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     const $form = $modal.find('form.form-box.form-box2');
     const $status_option = $('.status-option');
     const $create_form = $modal.find('form.create-form');
+    const $info_form = $modal.find('form.info-form');
     const $submit_wrap = $modal.find('.btn-modal-submit')
     const $btn_submit = $modal.find('.btn-modal-submit .license-submit');
     const $btn_close = $modal.find('.btn-modal-submit .close');
+    const $btn_delete = $modal.find('.btn-modal-submit .delete');
+    const $btn_expiration = $modal.find('.btn-modal-submit .expiration');
 
     // jsp MessageSource init
     $("[data-msg_src]").each((idx,ele) => {
@@ -66,12 +73,15 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
             { field: "tel", headerName: MessageSource['grid.columnDefs.tel'], flex: 1, filter: false },
             { field: "solution_name", headerName: MessageSource['grid.columnDefs.solution-name'], flex: 1, filter: false },
             { field: "license_type", headerName: MessageSource['grid.columnDefs.license-type'], flex: 1, filter: false },
+            { field: "start_date", headerName: MessageSource['grid.columnDefs.start-date'],width:220, filter: false },
+            { field: "end_date", headerName: MessageSource['grid.columnDefs.end-date'], width:220, filter: false },
             { field: "res_yn", headerName: MessageSource['grid.columnDefs.res-yn'], flex: 1, filter: false },
             // { field: "CREATE_DTM", headerName: "생성일", flex: 1, filter: false },
         ],
         pagination:true,
         paginationPageSize:25,
         overlayNoRowsTemplate: MessageSource['grid.overlayNoRowsTemplate'],
+
         onCellClicked:(e) => {
             const row = e.data;
 
@@ -81,19 +91,41 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
                 ele.value = row[ele.name];
             })
 
+            $info_form.find('input').each((idx,ele) => {
+                ele.value = row[ele.name];
+            })
+
             submitInfo.to = row["email"];
             submitInfo.license_question_id = row["license_question_id"];
             submitInfo.solution_id = row["solution_id"];
             submitInfo.user_id = row["user_id"];
             submitInfo.license_type = row["license_type"];
 
-            if(row['res_yn'] !== MessageSource['grid.NEW']) {
-                $create_form.css('display','none');
-                $submit_wrap.css('display','none');
-            } else {
+            $modal.find('.button-wrap button').each((idx,ele) => {
+                ele.style.display = 'none';
+            })
+
+            $create_form.css('display','none');
+            $info_form.css('display','none');
+
+            if (row['res_yn'] === MessageSource['grid.NEW']) {
                 $create_form.css('display','block');
-                $submit_wrap.css('display','flex');
+                $modal.find('.button-wrap .license-submit').css('display','block');
+                $modal.find('.button-wrap .btn.close').css('display','block');
+                $modal.find('.button-wrap .btn.delete').css('display','block');
             }
+
+            if (row['res_yn'] === MessageSource['grid.APPROVAL']) {
+                $info_form.css('display','block');
+                $modal.find('.button-wrap .btn.close').css('display','block');
+                $modal.find('.button-wrap .btn.expiration').css('display','block');
+            }
+
+            if (row['res_yn'] === MessageSource['grid.EXPIRATION']) {
+                $info_form.css('display','block');
+                $modal.find('.button-wrap .btn.close').css('display','block');
+            }
+
             openModal($modal);
         },
     };
@@ -125,8 +157,9 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
 
             const tmpMap = dataFormat.map(ele => {
                 const result = ele;
-                const res_yn =  ele.res_yn === 'SUCCESS' ? {txt:MessageSource['grid.SUCCESS'], order: 2}
-                                : ele.res_yn === 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 3}
+                const res_yn =  ele.res_yn === 'APPROVAL' ? {txt:MessageSource['grid.APPROVAL'], order: 2}
+                                : ele.res_yn === 'EXPIRATION' ? {txt:MessageSource['grid.EXPIRATION'], order: 3}
+                                : ele.res_yn === 'DELETE' ? {txt:MessageSource['grid.DELETE'], order: 4}
                                 : {txt:MessageSource['grid.NEW'], order: 1};
                 result.res_yn = res_yn;
 
@@ -241,6 +274,44 @@ Promise.all([areaListTable.init(),modal.init()]).then(function(params) {
     // 닫기 버튼 이벤트
     $btn_close.on('click',() => {
         closeModal($modal);
+    })
+
+    // 삭제 버튼 이벤트
+    $btn_delete.on('click',() => {
+        $.ajax({
+            type : "POST",
+            url  : window.location.pathname,
+            dataType: "json",
+            data : {
+                task: "proc",
+                mode: "changeResYn",
+                data: {license_question_id:submitInfo.license_question_id, res_yn:'DELETE'}
+            }
+        }).done(json => {
+            if(json.resultCode === '00') {
+                window.location.reload();
+            }
+
+        }).error(error => console.log(error))
+    })
+
+    // 만료 버튼 이벤트
+    $btn_expiration.on('click',() => {
+        $.ajax({
+            type : "POST",
+            url  : window.location.pathname,
+            dataType: "json",
+            data : {
+                task: "proc",
+                mode: "changeResYn",
+                data: {license_question_id:submitInfo.license_question_id, res_yn:'EXPIRATION'}
+            }
+        }).done(json => {
+            if(json.resultCode === '00') {
+                window.location.reload();
+            }
+
+        }).error(error => console.log(error))
     })
 
     // init

@@ -21,11 +21,30 @@
 		ORDER BY t1.create_dtm
 	</select>
 
+	<select id="selectLicenseListById" parameterType="model.system.user.user.User" resultType="model.management.license.License">
+		SELECT * FROM license_question t1
+		INNER JOIN solution t2 on t1.solution_id = t2.solution_id
+		INNER JOIN user t3 on t1.user_id = t3.user_id
+		WHERE t3.user_id = #{user_id}
+		ORDER BY t1.create_dtm
+	</select>
+
 	<insert id="insert" parameterType="model.management.license.License">
 		INSERT INTO license_question
 		(solution_id,user_id,title,`contents`,create_dtm,license_type)
 		VALUES(#{solution_id},#{user_id},#{title},#{contents},NOW(),#{license_type})
 	</insert>
+
+	<update id="update" parameterType="model.management.license.License">
+		UPDATE license_question
+		SET
+			site_id = #{site_id},
+			site_pass = #{site_pass},
+			site_url = #{site_url},
+			start_date = #{start_date},
+			end_date = #{end_date}
+		where license_question_id = #{license_question_id}
+	</update>
 
 	<update id="changeResYn" parameterType="java.util.HashMap">
 		UPDATE license_question

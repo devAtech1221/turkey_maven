@@ -8,6 +8,7 @@ import model.main.LicenseInfo;
 import model.main.MainMapper;
 import model.main.Solution;
 import model.management.question.QuestionMapper;
+import model.system.user.user.User;
 import model.system.user.user.UserMapper;
 import mybatis.SqlSessionManager;
 import org.apache.ibatis.session.SqlSession;
@@ -47,6 +48,24 @@ public class LicenseDao {
 		return list;
 	}
 
+	public List<License> selectLicenseListById(User user) {
+		List<License> list = null;
+		SqlSession session = sqlMapper.openSession();
+
+		try {
+			LicenseMapper mapper = session.getMapper(LicenseMapper.class);
+			list = mapper.selectLicenseListById(user);
+			this.noOfRecords = mapper.selectTotalRecords();
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			logger.error ("Error[MainDao] : selectLicenseList : {}", e);
+		} finally {
+			session.close();
+		}
+
+		return list;
+	}
+
 	public boolean insert(License obj) {
 		SqlSession session = sqlMapper.openSession();
 		int appliedCNT = 0;
@@ -55,6 +74,27 @@ public class LicenseDao {
 			LicenseMapper mapper = session.getMapper(LicenseMapper.class);
 
 			appliedCNT = mapper.insert(obj);
+			if(appliedCNT == 0) throw new Exception();
+
+			session.commit();
+		}catch (Exception e) {
+			session.rollback();
+			logger.error ("Error[LicenseDAO] : insert : {}" , e);
+			return false;
+		}finally {
+			session.close();
+		}
+		return true;
+	}
+
+	public boolean update(License obj) {
+		SqlSession session = sqlMapper.openSession();
+		int appliedCNT = 0;
+
+		try{
+			LicenseMapper mapper = session.getMapper(LicenseMapper.class);
+
+			appliedCNT = mapper.update(obj);
 			if(appliedCNT == 0) throw new Exception();
 
 			session.commit();

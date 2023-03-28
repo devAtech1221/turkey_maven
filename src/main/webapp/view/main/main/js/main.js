@@ -143,7 +143,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
                                 </dd>
                                 <dd>
                                     <span class="cost">${m.license[MessageSource['main.license-info.everlasting']] == undefined ? '0$' : m.license[MessageSource['main.license-info.everlasting']]}</span>
-                                    ${m.license[MessageSource['main.license-info.year']] == undefined ? ' / 15day' : ` / ${MessageSource['main.license-info.everlasting']}`}
+                                    ${m.license[MessageSource['main.license-info.year']] == undefined ? ' / 30day' : ` / ${MessageSource['main.license-info.everlasting']}`}
                                 </dd>
                             </dl>
                             <div class="question-wrap">
@@ -198,7 +198,7 @@ Promise.all([solutionInit(),modal.init()]).then(function(params) {
                     </dd>
                     <dd>
                         <span class="cost">${selectedLicenseInfo.license[MessageSource['main.license-info.everlasting']] == undefined ? '0$' : selectedLicenseInfo.license[MessageSource['main.license-info.everlasting']]}</span>
-                        ${selectedLicenseInfo.license[MessageSource['main.license-info.year']] == undefined ? ' / 15day' : ` / ${MessageSource['main.license-info.everlasting']}`}
+                        ${selectedLicenseInfo.license[MessageSource['main.license-info.year']] == undefined ? ' / 30day' : ` / ${MessageSource['main.license-info.everlasting']}`}
                     </dd>`
             )
         }

@@ -12,10 +12,12 @@ import java.time.LocalDateTime;
 
 @ToString
 public @Getter @Setter class Question extends BeanCommon{
-	public final static String STATUS_SUCCESS = "SUCCESS";
-	public final static String STATUS_DELETE = "DELETE";
-	public final static String STATUS_NEW = "NEW";
 	public final static String STATUS_ALL = "ALL";
+	public final static String STATUS_NEW = "NEW";
+	public final static String STATUS_SUCCESS = "SUCCESS";
+	public final static String STATUS_APPROVAL = "APPROVAL";
+	public final static String STATUS_EXPIRATION  = "EXPIRATION";
+	public final static String STATUS_DELETE = "DELETE";
 
 	private String question_id;
 	private String solution_id;

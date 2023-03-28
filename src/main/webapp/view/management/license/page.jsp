@@ -14,7 +14,8 @@
             <ul class="status-option">
                 <li data-value='ALL'><%=mh.code("grid.ALL")%></li>
                 <li data-value='NEW'><%=mh.code("grid.NEW")%></li>
-                <li data-value='SUCCESS'><%=mh.code("grid.SUCCESS")%></li>
+                <li data-value='APPROVAL'><%=mh.code("grid.APPROVAL")%></li>
+                <li data-value='EXPIRATION'><%=mh.code("grid.EXPIRATION")%></li>
             </ul>
 
             <div class="table_area"></div>

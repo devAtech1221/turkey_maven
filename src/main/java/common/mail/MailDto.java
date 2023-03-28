@@ -3,6 +3,7 @@ package common.mail;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import model.management.license.License;
 import model.management.question.Question;
 import model.mylicense.Mylicense;
 
@@ -20,7 +21,7 @@ public class MailDto {
     private String question_id;
     private String license_question_id;
 
-    private Mylicense mylicense;
+    private License license;
     private List<CustomFile> files = new ArrayList<>();
 
     public void setFiles(CustomFile file) {

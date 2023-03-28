@@ -6,6 +6,7 @@ import common.Paging;
 import model.management.license.License;
 import model.management.license.LicenseMapper;
 import model.system.user.user.User;
+import model.system.user.user.UserMapper;
 import mybatis.SqlSessionManager;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -48,6 +49,19 @@ public class MylicenseDao {
 		}
 
 		return list;
+	}
+
+	public Mylicense selectDoc(String id){
+		SqlSession session = sqlMapper.openSession();
+		Mylicense obj = null;
+
+		try{
+			MylicenseMapper mapper = session.getMapper(MylicenseMapper.class);
+			obj = mapper.selectDoc(id);
+		}finally {
+			session.close();
+		}
+		return obj;
 	}
 
 	public boolean insert(Mylicense obj) {

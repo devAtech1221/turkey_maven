@@ -47,4 +47,11 @@
 			user_id = #{value}
 	</select>
 
+	<select id="selectList" resultType="model.system.user.user.User" parameterType="common.Paging">
+		SELECT
+			*
+		FROM
+			user
+	</select>
+
 </mapper>

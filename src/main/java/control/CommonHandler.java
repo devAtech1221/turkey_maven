@@ -7,6 +7,7 @@ import common.mail.CustomFile;
 import common.mail.MailDto;
 import model.log.AuthCheck;
 import model.main.MainDao;
+import model.management.license.License;
 import model.mylicense.Mylicense;
 import model.system.master.menu.Menu;
 import model.system.master.menu.MenuDao;
@@ -272,8 +273,8 @@ public class CommonHandler implements CommandHandler {
                 else if (item.getFieldName().equals("question_id")) mailDto.setQuestion_id(encString);
                 else if (item.getFieldName().equals("license_question_id")) mailDto.setLicense_question_id(encString);
                 else if (item.getFieldName().equals("mylicense_json")) {
-                    Mylicense mylicense = mapper.readValue(encString, Mylicense.class);
-                    mailDto.setMylicense(mylicense);
+                    License license = mapper.readValue(encString, License.class);
+                    mailDto.setLicense(license);
                 }
 
             } else {

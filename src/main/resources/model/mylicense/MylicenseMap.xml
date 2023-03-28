@@ -17,6 +17,15 @@
 		WHERE t1.user_id = #{user_id}
 	</select>
 
+	<select id="selectDoc" resultType="model.mylicense.Mylicense" parameterType="String">
+		SELECT
+			*
+		FROM
+			my_license
+		WHERE
+			my_license_id = #{value}
+	</select>
+
 	<resultMap id="selectResultMap" type="model.mylicense.Mylicense">
 		<id column="my_license_id" property="my_license_id"/>
 		<result column="site_id" property="site_id"/>
@@ -41,6 +50,9 @@
 		INSERT INTO my_license
 		(user_id,solution_id,site_id,site_pass,site_url,start_date,end_date,license_type)
 		VALUES(#{user_id},#{solution_id},#{site_id},#{site_pass},#{site_url},#{start_date},#{end_date},#{license_type})
+		<selectKey keyProperty="my_license_id" resultType="String">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 
 	<update id="editInfo" parameterType="model.system.user.user.User">
