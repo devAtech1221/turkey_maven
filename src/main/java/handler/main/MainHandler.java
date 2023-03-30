@@ -31,7 +31,18 @@ public class MainHandler extends CommonHandler{
 	        	resultMap.put("resultMessage", Message.INFO_SELECTLIST.getMsg());
 
 				return retResult(request, resultMap);
+
+			} else if (mode.equals("currentLang")) {
+				MessageHandler messageHandler = MessageHandler.getInstance();
+
+				resultMap.put("resultCode",Message.SUCCESS.getCode());
+				resultMap.put("resultMessage", Message.SUCCESS.getMsg());
+				resultMap.put("lang", messageHandler.getLocale().toString());
+				request.setAttribute("resultMap", resultMap);
+
+				return retResult(request, resultMap);
 			}
+
 		} else if (task.equals(Config.pTask)) {
 
 			if (mode.equals("changeLang")) {

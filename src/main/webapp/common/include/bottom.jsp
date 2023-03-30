@@ -65,7 +65,6 @@
 			}
 		}).done(data => {
 			if(data.resultCode === '00') {
-				localStorage.setItem("lang",data.lang);
 				window.location.reload();
 
 			} else if (data.resultCode === '09') {
@@ -74,15 +73,32 @@
 		})
 	})
 
-	if (!localStorage.getItem("lang")) {
-		$('.change_lang li[data-lang="tr"]').attr('class', 'selected_lang');
-	} else {
-		$('.change_lang li').each((idx,ele) => {
-			if (ele.dataset.lang === localStorage.getItem("lang")) {
-				ele.className = 'selected_lang';
+	//선택언어 확인
+	$.ajax({
+		type : "POST",
+		url  : '/main/Main.do',
+		dataType: "json",
+		data : {
+			task: "select",
+			mode: "currentLang",
+		}
+	}).done(data => {
+		if(data.resultCode === '00') {
+
+			if (!data.lang) {
+				$('.change_lang li[data-lang="tr"]').attr('class', 'selected_lang');
+			} else {
+				$('.change_lang li').each((idx,ele) => {
+					if (ele.dataset.lang === data.lang) {
+						ele.className = 'selected_lang';
+					}
+				})
 			}
-		})
-	}
+
+		} else if (data.resultCode === '09') {
+			return;
+		}
+	})
 
 </script>
 </html>

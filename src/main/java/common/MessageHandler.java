@@ -17,6 +17,10 @@ public class MessageHandler extends ReloadableResourceBundleMessageSource{
         return instance;
     }
 
+    public Locale getLocale() {
+        return locale;
+    }
+
     public MessageHandler() {
         setBasename("message");
         setDefaultEncoding("UTF-8");
